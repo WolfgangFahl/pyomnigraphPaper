@@ -1,5 +1,7 @@
 pyomnigraphPaper — CEUR-WS Paper (skeleton)
 
+**Status:** Preprint — intended for submission to the 6th Wikidata Workshop 2026 (CEUR-WS, Novel track). Not yet peer-reviewed.
+
 Follow-up to "Getting and hosting your own copy of Wikidata"
 (CEUR-WS Vol-3262, 2022). Loads subgraphs of Wikidata, FactGrid and GOV into
 multiple triple stores via [pyomnigraph](https://github.com/WolfgangFahl/pyomnigraph)
