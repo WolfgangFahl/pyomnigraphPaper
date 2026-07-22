@@ -1,0 +1,141 @@
+% PyOmniGraph Paper — CEUR-WS submission (skeleton)
+% Open source at https://github.com/WolfgangFahl/pyomnigraphPaper
+%
+% Target venue: 6th Wikidata Workshop 2026 (co-located with ISWC 2026, Bari),
+% Novel Work track, published in CEUR-WS. In EasyChair, prefix the submission
+% title field with "[Novel]".
+%
+% CEUR-WS 1-column style (ceurart). Do NOT use the twocolumn / hf options
+% for papers submitted to CEUR-WS.
+%
+% CONTENT POLICY (see AGENTS.md):
+%   This is a scientific paper targeting CEUR-WS. AI assistance is limited
+%   to spelling/grammar and formatting/build tooling. AI must NOT generate,
+%   rewrite or contribute scientific content, arguments or prose.
+%   All sections below are intentionally left EMPTY for the authors to write.
+
+\documentclass[
+% twocolumn, % NOT allowed for CEUR-WS
+% hf,        % NOT allowed for CEUR-WS
+]{ceurart}
+
+\sloppy
+
+% Minted/listings support (optional)
+\usepackage{listings}
+\lstset{breaklines=true}
+
+\begin{document}
+
+%% Rights management information (CC-BY is the CEUR-WS default)
+\copyrightyear{2026}
+\copyrightclause{Copyright for this paper by its authors.
+  Use permitted under Creative Commons License Attribution 4.0
+  International (CC BY 4.0).}
+
+%% Conference information
+\conference{6th Wikidata Workshop 2026, co-located with ISWC 2026,
+  October 25--26, 2026, Bari, Italy}
+
+%% Title
+% TODO(authors): finalize the paper title.
+\title{PyOmniGraph}
+
+%% Authors and affiliations
+% Same author set as the 2022 predecessor paper (CEUR-WS Vol-3262, paper9).
+% TODO(authors): fill in the missing ORCIDs, emails and affiliations.
+\author[1]{Wolfgang Fahl}[%
+orcid=0000-0002-0821-6995,
+email=wf@bitplan.com,
+]
+\cormark[1]
+\author[1]{Tim Holzheim}[%
+orcid=TODO,
+email=TODO,
+]
+\author[2]{Christoph Lange}[%
+orcid=TODO,
+email=TODO,
+]
+% TODO(authors): Andrea Westerinen — participation pending (invitation 2026-07-22).
+\author[3]{Andrea Westerinen}[%
+orcid=TODO,
+email=TODO,
+]
+\author[1]{Stefan Decker}[%
+orcid=TODO,
+email=TODO,
+]
+
+\address[1]{RWTH Aachen University, Computer Science i5, Aachen, Germany}
+\address[2]{TODO: affiliation}
+\address[3]{TODO: affiliation}
+
+\cortext[1]{Corresponding author.}
+
+%% Abstract (author-provided text).
+\begin{abstract}
+% TODO(authors): write the abstract. Intentionally empty per content policy.
+\end{abstract}
+
+%% Keywords
+\begin{keywords}
+  Wikidata \sep
+  FactGrid \sep
+  GOV \sep
+  RDF triple store \sep
+  federated SPARQL \sep
+  benchmark \sep
+  PyOmniGraph
+\end{keywords}
+
+\maketitle
+
+\section{Introduction}\label{sec:introduction}
+% From a single Wikidata copy to your own copies of many RDF sources.
+% Intentionally empty — to be written by the authors.
+
+\section{Related Work}\label{sec:relatedwork}
+% Predecessor 2022 paper, RDF triple stores, SPARQL 1.1 federation, benchmarking.
+% Intentionally empty — to be written by the authors.
+
+\section{The PyOmniGraph Resource}\label{sec:resource}
+% Unified Python API, Docker deployment, YAML configuration.
+% Intentionally empty — to be written by the authors.
+
+\subsection{Supported Backends}\label{sec:backends}
+% Jena, Blazegraph, Oxigraph, QLever (working); GraphDB, MillenniumDB,
+% Virtuoso, Stardog (planned). Intentionally empty.
+
+\subsection{Command-Line Interface}\label{sec:cli}
+% omnigraph (server management), rdfdump (data operations). Intentionally empty.
+
+\section{Data Sources}\label{sec:datasources}
+% Subgraphs of Wikidata, FactGrid, GOV, and potentially further RDF sources.
+% Intentionally empty — to be written by the authors.
+
+\section{Federated Query Benchmark}\label{sec:benchmark}
+% Combinations of endpoints; query set; metrics (load time, query latency and
+% throughput); reproducibility. Intentionally empty — to be written by the authors.
+
+\section{Evaluation}\label{sec:evaluation}
+% Results across store and endpoint combinations. Intentionally empty.
+
+\section{Availability}\label{sec:availability}
+% Apache-2.0, PyPI, GitHub; resource metadata. Intentionally empty.
+
+\section{Conclusion and Future Work}\label{sec:conclusion}
+% Intentionally empty — to be written by the authors.
+
+%% Declaration on Generative AI (required by CEUR-WS, see
+%% https://ceur-ws.org/GenAI/Policy.html). Finalize per the AGENTS.md
+%% governance in this repository before submission.
+\section*{Declaration on Generative AI}
+% TODO(authors): finalize. Per AGENTS.md, AI assistance in this project is
+% limited to spelling/grammar and formatting/build tooling; AI is NOT used to
+% generate scientific content, arguments or prose.
+
+%% Bibliography
+\bibliography{references}
+
+\end{document}
