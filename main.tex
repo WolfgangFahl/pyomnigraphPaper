@@ -39,7 +39,7 @@
 
 %% Title
 % TODO(authors): finalize the paper title.
-\title{PyOmniGraph}
+\title{PyOmniGraph - Getting and hosting your own federated copies of subgraphs of Wikidata and other knowledge graphs}
 
 %% Authors and affiliations
 % Same author set as the 2022 predecessor paper (CEUR-WS Vol-3262, paper9).
@@ -75,13 +75,19 @@ email=TODO,
 
 %% Abstract (author-provided text).
 \begin{abstract}
-% TODO(authors): write the abstract. Intentionally empty per content policy.
+Wikidata is an example for a very large, crowd sourced general knowledge graph backed by a world wide community since 2012. Factgrid is using the same Wikibase infrastructure as Wikidata since 2017 for historical research projects. GOV (Geschichtliches/Genealogisches Ortsverzeichnis) is an online gazetteer for searching ancient places. Wikidata grew so large that the Blazegraph endpoint powering it was pushed to the 4 Terrabyte limit and the Wikimedia Foundation therefore decided to split the knowledge graph to host two instances. The challenges of federated queries that came up in the above use cases led to the need of being able to work with subgraphs of the RDF graphs and try out different alternative Endpoints such as QLever and Virtuoso and others. 
+While typical research projects that do such subgraphing and benchmarks roll their own environments we decided to provide a python based  Open Source library pyOmnigraph to provide a unified infrastructure with a standard set of REST APIs and CLI commands to improve the handling and potentially get a bigger matrix of subgraphs versus endpoints to work with. 
+In this work we report on pyOmnigraph usage on a matrix of three RDF graphs: Wikidata, Factgrid and GOV and endpoints blazegraph, jena, Qlever on a selection of subgraph combinations.
+
 \end{abstract}
 
 %% Keywords
 \begin{keywords}
   Wikidata \sep
   FactGrid \sep
+  QLever \sep
+  Blazegraph \sep
+  Apache Jena \sep
   GOV \sep
   RDF triple store \sep
   federated SPARQL \sep
@@ -131,9 +137,8 @@ email=TODO,
 %% https://ceur-ws.org/GenAI/Policy.html). Finalize per the AGENTS.md
 %% governance in this repository before submission.
 \section*{Declaration on Generative AI}
-% TODO(authors): finalize. Per AGENTS.md, AI assistance in this project is
-% limited to spelling/grammar and formatting/build tooling; AI is NOT used to
-% generate scientific content, arguments or prose.
+AI assistance in this project is limited to spelling/grammar and formatting/build tooling; AI is NOT used to
+generate scientific content, arguments or prose.
 
 %% Bibliography
 % \nocite{*} ensures the seeded references render before any \cite exists,
