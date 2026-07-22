@@ -136,6 +136,9 @@ email=TODO,
 % generate scientific content, arguments or prose.
 
 %% Bibliography
+% \nocite{*} ensures the seeded references render before any \cite exists,
+% so the first (Overleaf) build is clean. Remove once sections cite properly.
+\nocite{*}
 \bibliography{references}
 
 \end{document}
