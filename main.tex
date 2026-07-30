@@ -93,7 +93,7 @@ In this work we report on pyOmnigraph usage on a matrix of three RDF graphs: Wik
 \maketitle
 
 \section{Introduction}\label{sec:introduction}
-Wikidata~\cite{Vrandecic2014} started in 2012 as an effort to back the different international Wikipedia sites with a common set of facts. Initially, about 2 million entities were harvested from existing Wikipedia content. As of 2016, over 100 million entities have been curated by a growing worldwide community of contributors. In 2022, we reported on How to get and host your own copy of Wikidata~\cite{fahl2022wikidata}. For quite a few use case the need for federated queries based on subgraphs of diverse public and internal knowledge-graphs has been our motivation to try out different combinations of endpoints and subgraphs. In the case of wikidata we even have been forced to do so by the 2025 graphsplit \cite{}.
+Wikidata~\cite{Vrandecic2014} started in 2012 as an effort to back the different international Wikipedia sites with a common set of facts. Initially, about 2 million entities were harvested from existing Wikipedia content. As of 2016, over 100 million entities have been curated by a growing worldwide community of contributors. In 2022, we reported on How to get and host your own copy of Wikidata~\cite{fahl2022wikidata}. For quite a few use case the need for federated queries based on subgraphs of diverse public and internal knowledge-graphs has been our motivation to try out different combinations of endpoints and subgraphs. In the case of wikidata we even have been forced to do so by the 2025 graphsplit \cite{willighagen2026scholia}.
 
 
 % From a single Wikidata copy to your own copies of many RDF sources.
@@ -102,6 +102,7 @@ Wikidata~\cite{Vrandecic2014} started in 2012 as an effort to back the different
 \section{Related Work}\label{sec:relatedwork}
 % Predecessor 2022 paper, RDF triple stores, SPARQL 1.1 federation, benchmarking.
 % Intentionally empty — to be written by the authors.
+CONSTRUCT queries in SPARQL have been studied by Kostylev et al.~\cite{kostylev2015construct}.
 
 \section{The pyomnigraph Resource}\label{sec:resource}
 pyomnigraph provides a unified python interface for multiple graph databases. The software is open source under Apache 2.0 license and hosted on github. 
