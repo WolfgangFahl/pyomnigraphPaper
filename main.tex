@@ -184,6 +184,12 @@ Two rather different mechanisms are commonly subsumed under the term, and they d
 Performance is assessed with benchmarks: FedBench has long been the reference~\cite{hutchison_benchmarking_2012}, LargeRDFBench scales it to a billion triples with complex and large-data queries~\cite{saleem_largerdfbench_2018}, FedShop scales the number of participating endpoints from 20 to 200~\cite{payne_fedshop_2023}, QFed generates query sets dynamically for specialized systems~\cite{rakhmawati_qfed_2014}, FQCEB targets cardinality estimation~\cite{xu_evaluation_2023}, and FKGQA extends the setting to federated question answering~\cite{dobriy_agentic_2026}.
  FedBench alone, however, cannot expose the problem at issue: all of its queries decompose into at most three subqueries, so every engine behaves alike on it~\cite{hameurlain_selection_2016}, and with a mean of 4.3 triple patterns and runtimes of roughly two seconds its results do not extrapolate to the Data Web~\cite{saleem_largerdfbench_2018}.
 
+\paragraph{Alternative tooling}
+The obvious alternative to pyomnigraph is the hand-rolled setup: benchmark and evaluation projects routinely build their own Docker compose files, store-specific loaders and engine control scripts, and the prevailing answer to the question of the best tooling tends to be ``my own''. Even the triple store authors themselves maintain per-engine control tooling rather than a cross-engine toolchain. pyomnigraph replaces this per-project fragmentation with one declarative subgraphs-versus-backends matrix; the direct feedback we received from triple store authors on this approach is tracked in our repositories.
+% original sources for these observations are collected in
+% https://github.com/WolfgangFahl/pyomnigraphPaper/issues/26 - cite them
+% here once verified
+
 \section{The pyomnigraph Resource}\label{sec:resource}
 pyomnigraph~\cite{pyomnigraph} provides a unified Python interface for multiple graph databases. The software is open source under Apache 2.0 license and hosted on GitHub.
 Figure~\ref{fig:architecture} shows the architecture in one panel: the \texttt{omnigraph} and \texttt{rdfdump} command line interfaces and the planned REST API (future work, see Section~\ref{sec:conclusion}) share the unified Python API, which manages the triple store backends as Docker containers; \texttt{rdfdump} pulls subgraph dumps from public SPARQL endpoints.
