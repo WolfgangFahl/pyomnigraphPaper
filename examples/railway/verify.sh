@@ -10,6 +10,6 @@ do
   do
     echo "== $query_name on $endpoint_name =="
     sparqlquery -ep "$script_dir/local_endpoints.yaml" -qp "$script_dir/queries.yaml" \
-      -qn $query_name -en $endpoint_name -f github
+      -qn $query_name -en $endpoint_name -f github --no-default
   done
 done
