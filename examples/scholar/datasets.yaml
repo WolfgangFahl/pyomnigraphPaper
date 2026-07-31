@@ -58,3 +58,53 @@ datasets:
     construct_template: "?s ?p ?o"
     description: "Paper node, its authors and all papers of these authors given by the dblp record seed, dblp graph via qlever.dev"
     active: true
+  event_author_papers_wikidata:
+    # subgraph of a scientific event: the event node, its proceedings,
+    # the event papers, their authors and all papers of these authors
+    # derived from the EventAuthorPapers query of
+    # https://github.com/WolfgangFahl/pyomnigraphPaper/issues/7
+    name: "Event author papers (wikidata)"
+    base_url: "https://qlever.dev/wikidata"
+    endpoint_url: "https://qlever.dev/api/wikidata"
+    database: "qlever"
+    expected_solutions: 19107
+    params:
+      events: "<http://www.wikidata.org/entity/Q133307039>"
+    select_pattern: |
+      {
+        VALUES ?s { {{ events }} }
+        ?s ?p ?o .
+      }
+      UNION
+      {
+        VALUES ?event { {{ events }} }
+        ?s <http://www.wikidata.org/prop/direct/P4745> ?event .
+        ?s ?p ?o .
+      }
+      UNION
+      {
+        VALUES ?event { {{ events }} }
+        ?proceedings <http://www.wikidata.org/prop/direct/P4745> ?event .
+        ?s <http://www.wikidata.org/prop/direct/P1433> ?proceedings .
+        ?s ?p ?o .
+      }
+      UNION
+      {
+        VALUES ?event { {{ events }} }
+        ?proceedings <http://www.wikidata.org/prop/direct/P4745> ?event .
+        ?event_paper <http://www.wikidata.org/prop/direct/P1433> ?proceedings .
+        ?event_paper <http://www.wikidata.org/prop/direct/P50> ?s .
+        ?s ?p ?o .
+      }
+      UNION
+      {
+        VALUES ?event { {{ events }} }
+        ?proceedings <http://www.wikidata.org/prop/direct/P4745> ?event .
+        ?event_paper <http://www.wikidata.org/prop/direct/P1433> ?proceedings .
+        ?event_paper <http://www.wikidata.org/prop/direct/P50> ?author .
+        ?s <http://www.wikidata.org/prop/direct/P50> ?author .
+        ?s ?p ?o .
+      }
+    construct_template: "?s ?p ?o"
+    description: "Event node, proceedings, event papers, their authors and all papers of these authors given by the event seed, Wikidata graph via qlever.dev"
+    active: true
