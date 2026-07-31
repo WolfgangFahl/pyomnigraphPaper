@@ -51,6 +51,8 @@
       type: int
       default_value: 10
   sparql: |
+    # label handling per scholia author_list-of-publications.sparql:
+    # authors without an english label fall back to their QID instead of being dropped
     PREFIX wdt: <http://www.wikidata.org/prop/direct/>
     PREFIX wd: <http://www.wikidata.org/entity/>
     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -58,8 +60,11 @@
       ?proceedings wdt:P4745 wd:{{ event_qid }} .
       ?event_paper wdt:P1433 ?proceedings ;
                    wdt:P50 ?author .
-      ?author rdfs:label ?author_name .
-      FILTER(LANG(?author_name) = "en")
+      OPTIONAL {
+        ?author rdfs:label ?author_label .
+        FILTER(LANG(?author_label) = "en")
+      }
+      BIND(COALESCE(?author_label, SUBSTR(STR(?author), 32)) AS ?author_name)
       ?pub wdt:P50 ?author ;
            wdt:P1476 ?title .
       OPTIONAL { ?pub wdt:P577 ?date . }
