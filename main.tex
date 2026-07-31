@@ -91,7 +91,7 @@ In this work we report on pyomnigraph usage on a matrix of three RDF graphs: Wik
 \maketitle
 
 \section{Introduction}\label{sec:introduction}
-Wikidata~\cite{Vrandecic2014} started in 2012 as an effort to back the different multilingual Wikipedia sites with a common set of facts. Initially, about 2 million entities were harvested from existing Wikipedia content. As of 2016, over 100 million entities have been curated by a growing worldwide community of contributors. In 2022, we reported on How to get and host your own copy of Wikidata~\cite{fahl2022wikidata}. For quite a few use cases, the need for federated queries based on subgraphs of diverse public and internal knowledge graphs has been our motivation to try out different combinations of endpoints and subgraphs. In the case of Wikidata we have even been forced to do so by the 2025 graph split~\cite{willighagen2026scholia}.
+Wikidata~\cite{Vrandecic2014} started in 2012 as an effort to back the different multilingual Wikipedia sites with a common set of facts. Initially, about 2 million entities were harvested from existing Wikipedia content. As of 2026, over 100 million entities have been curated by a growing worldwide community of contributors. In 2022, we reported on How to get and host your own copy of Wikidata~\cite{fahl2022wikidata}. For quite a few use cases, the need for federated queries based on subgraphs of diverse public and internal knowledge graphs has been our motivation to try out different combinations of endpoints and subgraphs. In the case of Wikidata we have even been forced to do so by the 2025 graph split~\cite{willighagen2026scholia}.
 
 Public alternatives to the official Wikidata Query Service WDQS are still rare. Our attempts to convince the Wikimedia Foundation to support a public Mirror infrastructure have so far been in vain.
 Table~\ref{tab:PublicEndpoints}
@@ -140,7 +140,7 @@ The contributions of this work are:
 \end{itemize}
 
 \section{Related Work}\label{sec:relatedwork}
-Willighagen et al.~\cite{willighagen2026scholia} report on the three options that have been considered for surviving the 2025 Wikidata graph split: Federated queries between the main and the scholar graph, using QLever~\cite{bast2017qlever} with modified queries on a full graph that does not suffer from the 4 TB limit of the Blazegraph endpoint or using snapquery with named parameterized queries as a middle ware to separate the endpoints concerns from the domain needs.
+Willighagen et al.~\cite{willighagen2026scholia} report on the three options that have been considered for surviving the 2025 Wikidata graph split: federated queries between the main and the scholar graph, using QLever~\cite{bast2017qlever} with modified queries on a full graph that does not suffer from the 4 TB limit of the Blazegraph endpoint or using snapquery with named parameterized queries as a middle ware to separate the endpoints concerns from the domain needs.
 
 Linked Data Sets
 
@@ -222,7 +222,7 @@ in \texttt{examples/<usecase>/queries.yaml} with its parameter list and default 
 
 The examples are reproducible from the \footnotelink{https://github.com/WolfgangFahl/pyomnigraphPaper}{pyomnigraphPaper github repository}; the result sets that do not fit the paper are available in the query issues of the repository.
 
-As typical for real world use cases the ideal persistent identifiers for linking have limited availability. ORCID and ROR would be such identifiers for the scholarly case, according to Jesper Zedlitz  wäre für GOV ein Abgleich über die aktuellen Gemeinden in Deutschland. Das sollte über den Amtlichen Gemeindeschlüssel (P439) gut funktionieren. 
+As typical for real world use cases the ideal persistent identifiers for linking have limited availability. ORCID and ROR would be such identifiers for the scholarly case, according to Jesper Zedlitz, the counterpart for GOV would be a reconciliation via the current municipalities in Germany. This should work well via the Amtlicher Gemeindeschlüssel (official municipality key, P439).
 
 % Subgraphs of Wikidata, FactGrid, GOV, and potentially further RDF sources.
 \begin{table}
