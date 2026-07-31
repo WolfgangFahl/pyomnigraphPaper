@@ -1,0 +1,41 @@
+# accuracy test queries per issue #27 - the Condition 1/2/3 counts of
+# Table 5 of the subsetting survey 10.3233/SW-233491, run identically
+# against the live endpoint and the local backend holding the dump
+'ClassItems':
+  # Condition 1 item count: distinct direct P31 instances of the class
+  param_list:
+    - name: class_qid
+      type: str
+      default_value: Q12136 # disease
+  sparql: |
+    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+    PREFIX wd: <http://www.wikidata.org/entity/>
+    SELECT (COUNT(DISTINCT ?s) AS ?count) WHERE {
+      ?s wdt:P31 wd:{{ class_qid }} .
+    }
+'ClassStatements':
+  # Condition 2 statement count: all statements about the matched items
+  param_list:
+    - name: class_qid
+      type: str
+      default_value: Q12136 # disease
+  sparql: |
+    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+    PREFIX wd: <http://www.wikidata.org/entity/>
+    SELECT (COUNT(*) AS ?count) WHERE {
+      ?s wdt:P31 wd:{{ class_qid }} .
+      ?s ?p ?o .
+    }
+'SubclassItems':
+  # Condition 3: instances of a subclass must NOT be in the subset - the
+  # survey checks operon (Q139677) against gene and acid against compound
+  param_list:
+    - name: class_qid
+      type: str
+      default_value: Q139677 # operon, a subclass of gene
+  sparql: |
+    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+    PREFIX wd: <http://www.wikidata.org/entity/>
+    SELECT (COUNT(DISTINCT ?s) AS ?count) WHERE {
+      ?s wdt:P31 wd:{{ class_qid }} .
+    }

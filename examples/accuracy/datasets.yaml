@@ -1,0 +1,57 @@
+# npq subgraph datasets for the subsetting accuracy replication
+# see https://github.com/WolfgangFahl/pyomnigraphPaper/issues/27
+# conditions per Hosseini Beghaeiraveri et al. 10.3233/SW-233491 section 4.1.2:
+# direct instance of (P31) only - no subclass instances - and all statements
+# about the matched items, qualifiers and references not required
+datasets:
+  disease_wikidata:
+    name: "Disease instances (wikidata)"
+    base_url: "https://qlever.dev/wikidata"
+    endpoint_url: "https://qlever.dev/api/wikidata"
+    database: "qlever"
+    expected_solutions: 100000
+    params:
+      class_qid: "<http://www.wikidata.org/entity/Q12136>"
+    select_pattern: &class_closure |
+      VALUES ?class { {{ class_qid }} }
+      ?s <http://www.wikidata.org/prop/direct/P31> ?class .
+      ?s ?p ?o .
+    construct_template: "?s ?p ?o"
+    description: "All statements of the direct P31 instances of disease (Q12136), Wikidata graph via qlever.dev"
+    active: true
+  gene_wikidata:
+    name: "Gene instances (wikidata)"
+    base_url: "https://qlever.dev/wikidata"
+    endpoint_url: "https://qlever.dev/api/wikidata"
+    database: "qlever"
+    expected_solutions: 20000000
+    params:
+      class_qid: "<http://www.wikidata.org/entity/Q7187>"
+    select_pattern: *class_closure
+    construct_template: "?s ?p ?o"
+    description: "All statements of the direct P31 instances of gene (Q7187), Wikidata graph via qlever.dev"
+    active: true
+  protein_wikidata:
+    name: "Protein instances (wikidata)"
+    base_url: "https://qlever.dev/wikidata"
+    endpoint_url: "https://qlever.dev/api/wikidata"
+    database: "qlever"
+    expected_solutions: 15000000
+    params:
+      class_qid: "<http://www.wikidata.org/entity/Q8054>"
+    select_pattern: *class_closure
+    construct_template: "?s ?p ?o"
+    description: "All statements of the direct P31 instances of protein (Q8054), Wikidata graph via qlever.dev"
+    active: true
+  compound_wikidata:
+    name: "Chemical compound instances (wikidata)"
+    base_url: "https://qlever.dev/wikidata"
+    endpoint_url: "https://qlever.dev/api/wikidata"
+    database: "qlever"
+    expected_solutions: 15000000
+    params:
+      class_qid: "<http://www.wikidata.org/entity/Q11173>"
+    select_pattern: *class_closure
+    construct_template: "?s ?p ?o"
+    description: "All statements of the direct P31 instances of chemical compound (Q11173), Wikidata graph via qlever.dev"
+    active: true

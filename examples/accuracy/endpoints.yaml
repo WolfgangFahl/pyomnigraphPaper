@@ -1,0 +1,9 @@
+# SPARQL endpoints for the accuracy replication per issue #27
+# see https://github.com/WolfgangFahl/pyLoDStorage
+endpoints:
+    'accuracy-wikidata':
+      endpoint: https://qlever.dev/api/wikidata
+      website: https://www.wikidata.org/
+      database: qlever
+      method: POST
+      lang: sparql
