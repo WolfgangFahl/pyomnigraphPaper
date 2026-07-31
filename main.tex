@@ -291,6 +291,60 @@ railway   & StationLocality & OpenStreetMap & Q3095803 (Irun) & 5  \\
 \end{tabular}
 \end{table}
 
+Per the histogram section of the
+\footnotelink{https://github.com/WolfgangFahl/pyomnigraphPaper/issues/2}{query workflow issue}
+every named parameterized query gets a Histogram companion that unbinds the
+main seed parameter and shows the distribution of record counts over all seed
+values --- so the realistic count range behind the Records column of
+Table~\ref{tab:usecasequeries} is visible and the example binding can be
+judged as typical or outlier. Listing~\ref{lst:histogram-shape} shows the
+shape; other parameters stay at their defaults. For each of the 12 queries:
+does the histogram run on the primary endpoint, and what is the distribution
+(min/median/max, position of the example binding)?
+Table~\ref{tab:histograms} answers with the verified runs of the
+\footnotelink{https://github.com/WolfgangFahl/pyomnigraphPaper/issues/12}{histogram verification issue}.
+Timeouts/aggregation limits on the full graphs are expected for the big
+datasets and are a result too --- documented, not hidden.
+
+\begin{lstlisting}[caption={Histogram companion shape},label={lst:histogram-shape}]
+SELECT ?count (COUNT(?seed) AS ?freq) WHERE {
+  { SELECT ?seed (COUNT(*) AS ?count) WHERE {
+      # same WHERE body as the named query, seed unbound
+    } GROUP BY ?seed }
+}
+GROUP BY ?count
+ORDER BY ?count
+\end{lstlisting}
+
+\begin{table}
+\caption{Histogram companions of the named queries of
+Table~\ref{tab:usecasequeries}: distribution of the record counts over all
+seed values on the primary endpoint, verified 2026-07-31 with
+\texttt{sparqlquery}. median: weighted median over seeds; \%ile: share of
+seeds with a record count at or below the example binding. CoauthorPapers
+fails with the memory limit of the public dblp endpoint (HTTP 500 after
+trying to allocate 2.5\,GB).}
+\label{tab:histograms}
+\begin{tabular}{lrrrrrrr}
+\hline
+Query & seeds & min & median & max & example & \%ile & runtime \\
+\hline
+AuthorPapers & 4,157,438 authors & 1 & 2 & 3,342 & 6 & 81.4 & 3.6\,s \\
+CoauthorPapers & -- & -- & -- & -- & 600 & -- & fails \\
+EventAuthorPapers & 842 events & 1 & 183 & 1,614,216 & 235 & 53.6 & 2.8\,s \\
+InstitutionAuthorPapers & 6,292 institutions & 1 & 1 & 2,546 & 27 & 95.9 & 1.6\,s \\
+PlaceIdentity & 1,331,489 places & 1 & 1 & 30 & 6 & 99.9 & 3\,m\,11\,s \\
+PlaceHierarchy & 1,311,092 places & 1 & 1 & 18 & 2 & 89.5 & 26.9\,s \\
+PlaceNames & 2,069 places & 1 & 1 & 42 & 11 & 98.7 & 4.8\,s \\
+PersonsOfPlace & 21,960 places & 1 & 2 & 165,624 & 5,543 & 99.8 & 8.8\,s \\
+RelationStops & 3,158 relations & 1 & 11 & 208 & 18 & 69.7 & 6.6\,s \\
+LineIdentity & 19,156 lines & 1 & 1 & 9 & 1 & 98.0 & 4.5\,s \\
+StationsOfLine & 8,927 lines & 1 & 5 & 1,024 & 92 & 99.1 & 6.2\,s \\
+StationLocality & 45,283 stations & 1 & 1 & 24 & 5 & 99.4 & 4.3\,s \\
+\hline
+\end{tabular}
+\end{table}
+
 \subsection{scholarly - authors and papers}
 Queries: the papers of an author, the papers of all coauthors of a given paper, the papers of all authors of a given scientific event, the papers of all authors of a given institution
 \subsection{historical locations}
