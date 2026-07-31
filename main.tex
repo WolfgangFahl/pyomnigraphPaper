@@ -202,6 +202,31 @@ GOV           & gov-wiki.genealogy.net/sparql       & --         & blocked \\
 \end{tabular}
 \end{table}
 
+Table~\ref{tab:slotmatrix} shows which subgraphs each use case needs.
+
+\begin{table}
+\caption{Subgraph slots per use case. Each use case is one named parameterized
+query; a slot binds one subgraph to one endpoint. $n$ slots over $e$ local
+endpoints give $e^n$ placements.}
+\label{tab:slotmatrix}
+\begin{tabular}{llll}
+\hline
+Dataset        & Scholarly       & Historical locations & Railway \\
+\hline
+dblp           & papers, authors & --                   & -- \\
+GND            & author details  & --                   & -- \\
+Wikidata       & event details   & persons              & locations \\
+FactGrid       & --              & persons              & -- \\
+GOV            & --              & places               & -- \\
+OpenStreetMap  & --              & --                   & geo details, relations \\
+ERA RINF       & --              & --                   & railway infrastructure \\
+\hline
+slots $n$          & 3   & 3  & 3 \\
+placements $3^n$   & 27  & 27 & 27 \\
+\hline
+\end{tabular}
+\end{table}
+
 
 \subsection{scholarly - authors and papers}
 Queries: the papers of an author, the papers of all coauthors of a given paper, the papers of all authors of a given scientific event, the papers of all authors of a given institution
