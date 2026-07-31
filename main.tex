@@ -153,14 +153,18 @@ The contributions of this work are:
 \end{itemize}
 
 \section{Related Work}\label{sec:relatedwork}
+\paragraph{Wikidata graph split}
 Willighagen et al.~\cite{willighagen2026scholia} report on the three options that have been considered for surviving the 2025 Wikidata graph split: federated queries between the main and the scholar graph, using QLever~\cite{bast2017qlever} with modified queries on a full graph that does not suffer from the 4 TB limit of the Blazegraph endpoint, or using snapquery~\cite{snapquery} with named parameterized queries as a middleware to separate the endpoints' concerns from the domain needs.
 
+\paragraph{Linked Data Fragments}
 The Linked Data Fragments line of work addresses the same pain point --- public SPARQL endpoints can not sustain highly concurrent live query workloads --- with a different infrastructure approach: smart-KG~\cite{azzam_smartkg_2024} ships pre-materialized, compressed graph partitions from the server to the client for client-side evaluation, and Heling and Acosta~\cite{heling_framework_2021} provide a framework for federated SPARQL query processing over heterogeneous Linked Data Fragments.
 % Predecessor 2022 paper, RDF triple stores, SPARQL 1.1 federation, benchmarking.
 
+\paragraph{CONSTRUCT queries}
 CONSTRUCT queries in SPARQL have been studied by Kostylev et al.~\cite{kostylev2015construct}.
 
 % federated queries
+\paragraph{Federated SPARQL query processing}
 Federated SPARQL query processing evaluates a single query over data that is distributed across several \emph{remote SPARQL endpoints}~\cite{prudhommeaux2013federated}.
 What counts as a correct answer is defined by comparison with the centralised case.
 A federated query must return exactly the result that the same query would return over a single RDF graph holding the data of all participating endpoints~\cite{aimonier-davat_fedup_2024,heling_federated_2022}.
@@ -173,7 +177,8 @@ Two rather different mechanisms are commonly subsumed under the term, and they d
  Throughout, the decisive optimization is the detection of \emph{exclusive groups}, subqueries answerable by a single endpoint, which collapse many requests into one.
  The sources of a federation need not even be full SPARQL endpoints: interfaces of more restricted expressivity, such as triple pattern fragments, give rise to \emph{heterogeneous} federations~\cite{heling_federated_2022}.
  It is the automatic derivation of the distribution, rather than the delegation mechanism itself, that the results discussed below call into question.
- Performance is assessed with benchmarks: FedBench has long been the reference~\cite{hutchison_benchmarking_2012}, LargeRDFBench scales it to a billion triples with complex and large-data queries~\cite{saleem_largerdfbench_2018}, FedShop scales the number of participating endpoints from 20 to 200~\cite{payne_fedshop_2023}, QFed generates query sets dynamically for specialized systems~\cite{rakhmawati_qfed_2014}, FQCEB targets cardinality estimation~\cite{xu_evaluation_2023}, and FKGQA extends the setting to federated question answering~\cite{dobriy_agentic_2026}.
+\paragraph{Benchmarks}
+Performance is assessed with benchmarks: FedBench has long been the reference~\cite{hutchison_benchmarking_2012}, LargeRDFBench scales it to a billion triples with complex and large-data queries~\cite{saleem_largerdfbench_2018}, FedShop scales the number of participating endpoints from 20 to 200~\cite{payne_fedshop_2023}, QFed generates query sets dynamically for specialized systems~\cite{rakhmawati_qfed_2014}, FQCEB targets cardinality estimation~\cite{xu_evaluation_2023}, and FKGQA extends the setting to federated question answering~\cite{dobriy_agentic_2026}.
  FedBench alone, however, cannot expose the problem at issue: all of its queries decompose into at most three subqueries, so every engine behaves alike on it~\cite{hameurlain_selection_2016}, and with a mean of 4.3 triple patterns and runtimes of roughly two seconds its results do not extrapolate to the Data Web~\cite{saleem_largerdfbench_2018}.
 
 \section{The pyomnigraph Resource}\label{sec:resource}
