@@ -83,7 +83,7 @@ orcid=0000-0001-6324-7164,
 \begin{abstract}
 Wikidata is an example of a very large, crowd-sourced general knowledge graph backed by a worldwide community since 2012. FactGrid has been using the same Wikibase infrastructure as Wikidata since 2017 for historical research projects. GOV (Geschichtliches/Genealogisches Ortsverzeichnis) is an online gazetteer for searching ancient places. Wikidata grew so large that the Blazegraph endpoint powering it was pushed to the 4 terabyte limit and the Wikimedia Foundation therefore decided to split the knowledge graph to host two instances. The challenges of federated queries that came up in the above use cases led to the need to be able to work with subgraphs of the RDF graphs and try out different alternative endpoints such as QLever, Virtuoso and others.
 While typical research projects that do such subgraphing and benchmarks roll their own environments, our pyomnigraph, a Python-based open source library, provides a unified infrastructure with a standard set of REST APIs and CLI commands to improve the handling and potentially grow the matrix of subgraphs versus endpoints to work with.
-In this work we report on pyomnigraph usage on seven graphs, four endpoints and three use cases with four example queries each, spanning three different graphs per use case. This spans a multidimensional space for exploring different combinations of federated queries, starting from a natural remote-remote-remote federated query to the possible combinations of local federated queries backed by all endpoints supported by pyomnigraph. We show that typical frustrations of scaling multi-hop federated queries can be avoided if the subgraphs are locally loaded and federation is applied locally.
+In this work we report on pyomnigraph usage on seven graphs, four endpoints and three use cases with four example queries each, spanning three different graphs per use case. This opens a multidimensional space for exploring different combinations of federated queries, starting from a natural remote-remote-remote federated query to the possible combinations of local federated queries backed by all endpoints supported by pyomnigraph. We show that typical frustrations of scaling multi-hop federated queries can be avoided if the subgraphs are locally loaded and federation is applied locally.
 
 \end{abstract}
 
@@ -105,7 +105,7 @@ In this work we report on pyomnigraph usage on seven graphs, four endpoints and 
 \maketitle
 
 \section{Introduction}\label{sec:introduction}
-Wikidata~\cite{Vrandecic2014} started in 2012 as an effort to back the different multilingual Wikipedia sites with a common set of facts. Initially, about 2 million entities were harvested from existing Wikipedia content. As of 2026, over 100 million entities have been curated by a growing worldwide community of contributors. In 2022, we reported on How to get and host your own copy of Wikidata~\cite{fahl2022wikidata}. For quite a few use cases, the need for federated queries based on subgraphs of diverse public and internal knowledge graphs has been our motivation to try out different combinations of endpoints and subgraphs. In the case of Wikidata we have even been forced to do so by the 2025 graph split~\cite{willighagen2026scholia}.
+Wikidata~\cite{Vrandecic2014} started in 2012 as an effort to back the different multilingual Wikipedia sites with a common set of facts. Initially, about 2 million entities were harvested from existing Wikipedia content. As of 2026, over 100 million entities have been curated by a growing worldwide community of contributors. In 2022, we reported on \emph{Getting and Hosting Your Own Copy of Wikidata}~\cite{fahl2022wikidata}. For quite a few use cases, the need for federated queries based on subgraphs of diverse public and internal knowledge graphs has been our motivation to try out different combinations of endpoints and subgraphs. In the case of Wikidata we have even been forced to do so by the 2025 graph split~\cite{willighagen2026scholia}.
 
 Public alternatives to the official Wikidata Query Service WDQS are still rare. Our attempts to convince the Wikimedia Foundation to support a public mirror infrastructure have so far been in vain.
 Table~\ref{tab:PublicEndpoints}
@@ -229,7 +229,7 @@ Stardog      & planned  & license required \\
 \subsection{Command-Line Interfaces}\label{sec:cli}
 There are two command line interfaces available for pyomnigraph: \texttt{omnigraph} for server management and \texttt{rdfdump} for data operations.
 
-\section{Use cases and Data Sources}\label{sec:datasources}
+\section{Use Cases and Data Sources}\label{sec:datasources}
 %The use cases for our experiments are motivated by the eat your own dog food approach.
 Three use cases are the basis for our demonstration and evaluation: papers and authors (scholarly), historical locations for genealogy research and railway journey planning. 
 For each use case we specify a list of information needs, from which we derive concrete example queries. The abstraction is then done by applying named parameterized queries.
