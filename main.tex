@@ -163,9 +163,9 @@ CONSTRUCT queries in SPARQL have been studied by Kostylev et al.~\cite{kostylev2
 pyomnigraph provides a unified python interface for multiple graph databases. The software is open source under Apache 2.0 license and hosted on github. 
 
 % Unified Python API, Docker deployment, YAML configuration.
-pyomnigraph leverages the named parameterized query approach from the snapquery~\cite{snapquery}, framework which handles such parameterized SPARQL queries. It supports semantic annotation of queries and monitoring of their execution. By abstracting away the underlying endpoint, it can call multiple endpoints at once to compare results, or swap endpoints transparently, without users noticing or having to change anything.
+pyomnigraph leverages the named parameterized query approach from the snapquery~\cite{snapquery} framework, which handles such parameterized SPARQL queries. It supports semantic annotation of queries and monitoring of their execution. By abstracting away the underlying endpoint, it can call multiple endpoints at once to compare results, or swap endpoints transparently, without users noticing or having to change anything.
 
-The same separation of concerns— hiding details of endpoints and queries—is used by pyomnigraph. For human readability you will find YAML versions of these details in our paper repository.
+The same separation of concerns---hiding details of endpoints and queries---is used by pyomnigraph. For human readability you will find YAML versions of these details in the \texttt{examples/<usecase>/} folders of our paper repository.
 
 \subsection{Supported Backends}\label{sec:backends}
 % Jena, Blazegraph, Oxigraph, QLever (working); GraphDB, MillenniumDB,
@@ -182,9 +182,9 @@ For each use case we specify a list of information needs from which we derive co
 Table~\ref{tab:subgraphs} shows the subgraph sources for the usescases.
 
 Table~\ref{tab:usecasequeries} tracks the named parameterized queries that we use to demo and benchmark, one row per query and example binding. Each query is defined
-in \texttt{queries.yaml} with its parameter list and default values, each endpoint in \texttt{endpoints.yaml}, so a row is reproduced by a single \texttt{sparqlquery} call. 
+in \texttt{examples/<usecase>/queries.yaml} with its parameter list and default values, each endpoint in \texttt{examples/<usecase>/endpoints.yaml}, so a row is reproduced by a single \texttt{sparqlquery} call; the \texttt{query.sh} script of each use case reruns all its queries and writes a \texttt{<QueryName>.md} result file per query.
 
-The examples are reproducible from \footnotelink{https://github.com/WolfgangFahl/pyomnigraphPaper}{pyomnigraphPaper github repository}
+The examples are reproducible from the \footnotelink{https://github.com/WolfgangFahl/pyomnigraphPaper}{pyomnigraphPaper github repository}; the result sets that do not fit the paper are available in the query issues of the repository.
 
 % Subgraphs of Wikidata, FactGrid, GOV, and potentially further RDF sources.
 \begin{table}
@@ -213,13 +213,13 @@ binding used for the reproduction run and the resulting number of records.
 Run with \texttt{sparqlquery} against the endpoint declared in
 \texttt{examples/<usecase>/endpoints.yaml} }
 \label{tab:usecasequeries}
-\begin{tabular}{lllr}
+\begin{tabular}{llllr}
 \hline
-Use case  & Query        & Example              & Records \\
+Use case  & Query        & Dataset & Example              & Records \\
 \hline
-scholarly & AuthorPapers & 27/6858 (Fahl)       & 6   \\
-scholarly & CoauthorPapers & FahlHW0D22a (limit 10 of 600) & 10  \\
-railway   & RelationStops & 10492086 (MD 18061) & 18  \\
+scholarly & AuthorPapers & dblp    & 27/6858 (Fahl)       & 6   \\
+scholarly & CoauthorPapers & dblp  & FahlHW0D22a (limit 10 of 600) & 10  \\
+railway   & RelationStops & OpenStreetMap & 10492086 (MD 18061) & 18  \\
 \hline
 \end{tabular}
 \end{table}
