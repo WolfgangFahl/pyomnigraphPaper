@@ -222,7 +222,7 @@ in \texttt{examples/<usecase>/queries.yaml} with its parameter list and default 
 
 The examples are reproducible from the \footnotelink{https://github.com/WolfgangFahl/pyomnigraphPaper}{pyomnigraphPaper github repository}; the result sets that do not fit the paper are available in the query issues of the repository.
 
-As typical for real world use cases the ideal persistent identifiers for linking have limited availability. ORCID and ROR would be such identifiers for the scholarly case, according to Jesper Zedlitz  wäre für GOV ein Abgleich über die aktuellen Gemeinden in Deutschland. Das sollte über den Amtlichen Gemeindeschlüssel (P439) gut funktionieren. 
+As typical for real world use cases the ideal persistent identifiers for linking have limited availability. ORCID and ROR would be such identifiers for the scholarly case; according to Jesper Zedlitz (personal communication, 2026), the counterpart for GOV would be a reconciliation via the current municipalities in Germany, which should work well via the Amtlicher Gemeindeschlüssel (official municipality key, Wikidata property P439).
 
 % Subgraphs of Wikidata, FactGrid, GOV, and potentially further RDF sources.
 \begin{table}
@@ -264,6 +264,9 @@ locations & PlaceHierarchy & GOV & AACHENJO30BS (Aachen) & 2  \\
 locations & PlaceNames & GOV & AACHENJO30BS (Aachen) & 3  \\
 locations & PersonsOfPlace & Wikidata & AACHENJO30BS (Aachen) & 5543  \\
 railway   & RelationStops & OpenStreetMap & 10492086 (MD 18061) & 18  \\
+railway   & LineIdentity & Wikidata & Q801991 (Bordeaux--Irun) & 1  \\
+railway   & StationsOfLine & ERA RINF & 655000-1 (Bordeaux--Irun) & 92  \\
+railway   & StationLocality & OpenStreetMap & Q3095803 (Irun) & 5  \\
 \hline
 \end{tabular}
 \end{table}
