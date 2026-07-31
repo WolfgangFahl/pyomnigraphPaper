@@ -206,6 +206,8 @@ in \texttt{examples/<usecase>/queries.yaml} with its parameter list and default 
 
 The examples are reproducible from the \footnotelink{https://github.com/WolfgangFahl/pyomnigraphPaper}{pyomnigraphPaper github repository}; the result sets that do not fit the paper are available in the query issues of the repository.
 
+As typical for real world use cases the ideal persistent identifiers for linking have limited availability. ORCID and ROR would be such identifiers for the scholarly case, according to Jesper Zedlitz  wäre für GOV ein Abgleich über die aktuellen Gemeinden in Deutschland. Das sollte über den Amtlichen Gemeindeschlüssel (P439) gut funktionieren. 
+
 % Subgraphs of Wikidata, FactGrid, GOV, and potentially further RDF sources.
 \begin{table}
 \caption{Public SPARQL endpoints serving the subgraph sources, probed
@@ -250,6 +252,7 @@ Queries: the papers of an author, the papers of all coauthors of a given paper, 
 For the the historical location gazetteer GOV~\cite{zedlitz2014modelling} a \footnotelink{https://gov-wiki.genealogy.net/index.php?title=List\_of\_Queries}{List of Queries}
 has been curated which need to be extended by references to FactGrid and Wikidata.
 \subsection{railway journey planning}
+This usecase is inspired by our \footnotelink{https://github.com/WolfgangFahl/velorail}{velorail} work as presented 
 \section{Federated Query Benchmark}\label{sec:benchmark}
 % Combinations of endpoints; query set; metrics (load time, query latency and
 % throughput); reproducibility. 
