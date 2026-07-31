@@ -39,3 +39,31 @@
     }
     ORDER BY ?author_name DESC(?year)
     LIMIT {{ limit }}
+'EventAuthorPapers':
+  # the papers of all authors of a given scientific event identified by Wikidata QID
+  # runs on the full Wikidata graph at qlever.dev - the WDQS graph split separates
+  # event/proceedings (main) from papers/authors (scholarly)
+  param_list:
+    - name: event_qid
+      type: str
+      default_value: Q116982157 # TEXT2KG 2023
+    - name: limit
+      type: int
+      default_value: 10
+  sparql: |
+    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+    PREFIX wd: <http://www.wikidata.org/entity/>
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    SELECT ?author ?author_name ?pub ?title ?year WHERE {
+      ?proceedings wdt:P4745 wd:{{ event_qid }} .
+      ?event_paper wdt:P1433 ?proceedings ;
+                   wdt:P50 ?author .
+      ?author rdfs:label ?author_name .
+      FILTER(LANG(?author_name) = "en")
+      ?pub wdt:P50 ?author ;
+           wdt:P1476 ?title .
+      OPTIONAL { ?pub wdt:P577 ?date . }
+      BIND(YEAR(?date) AS ?year)
+    }
+    ORDER BY ?author_name DESC(?year)
+    LIMIT {{ limit }}
