@@ -19,3 +19,23 @@
     }
     ORDER BY DESC(?year)
     LIMIT {{ limit }}
+'CoauthorPapers':
+  # the papers of all coauthors of a given paper identified by dblp record id
+  param_list:
+    - name: paper_dblpid
+      type: str
+      default_value: conf/semweb/FahlHW0D22a # Getting and hosting your own copy of Wikidata
+    - name: limit
+      type: int
+      default_value: 10
+  sparql: |
+    PREFIX dblp: <https://dblp.org/rdf/schema#>
+    SELECT ?author ?author_name ?pub ?title ?year WHERE {
+      <https://dblp.org/rec/{{ paper_dblpid }}> dblp:authoredBy ?author .
+      ?author dblp:primaryCreatorName ?author_name .
+      ?pub dblp:authoredBy ?author ;
+           dblp:title ?title ;
+           dblp:yearOfPublication ?year .
+    }
+    ORDER BY ?author_name DESC(?year)
+    LIMIT {{ limit }}
