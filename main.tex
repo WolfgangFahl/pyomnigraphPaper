@@ -159,6 +159,13 @@ The contributions of this work are:
 \paragraph{Wikidata graph split}
 Willighagen et al.~\cite{willighagen2026scholia} report on the three options that have been considered for surviving the 2025 Wikidata graph split: federated queries between the main and the scholarly graph, using QLever~\cite{bast2017qlever} with modified queries on a full graph that does not suffer from the 4 TB limit of the Blazegraph endpoint, or using snapquery~\cite{snapquery} with named parameterized queries as a middleware to separate the endpoints' concerns from the domain needs.
 
+\paragraph{Wikidata subsetting}
+Hosseini Beghaeiraveri et al.~\cite{hosseini2023subsetting} survey approaches,
+tools and evaluation of Wikidata subsetting. Table~1 of the survey lists
+SPARQL CONSTRUCT queries as a separate tool category stating ``Requires full
+dump'' --- a statement we do not agree with: access to a live SPARQL server
+is sufficient.
+
 \paragraph{Linked Data Fragments}
 The Linked Data Fragments line of work addresses the same pain point --- public SPARQL endpoints cannot sustain highly concurrent live query workloads --- with a different infrastructure approach: smart-KG~\cite{azzam_smartkg_2024} ships pre-materialized, compressed graph partitions from the server to the client for client-side evaluation, and Heling and Acosta~\cite{heling_framework_2021} provide a framework for federated SPARQL query processing over heterogeneous Linked Data Fragments.
 % Predecessor 2022 paper, RDF triple stores, SPARQL 1.1 federation, benchmarking.
