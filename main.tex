@@ -67,7 +67,7 @@ orcid=0000-0001-6324-7164,
 
 %% Abstract (author-provided text).
 \begin{abstract}
-Wikidata is an example for a very large, crowd sourced general knowledge graph backed by a world wide community since 2012. Factgrid is using the same Wikibase infrastructure as Wikidata since 2017 for historical research projects. GOV (Geschichtliches/Genealogisches Ortsverzeichnis) is an online gazetteer for searching ancient places. Wikidata grew so large that the Blazegraph endpoint powering it was pushed to the 4 Terrabyte limit and the Wikimedia Foundation therefore decided to split the knowledge graph to host two instances. The challenges of federated queries that came up in the above use cases led to the need of being able to work with subgraphs of the RDF graphs and try out different alternative Endpoints such as QLever and Virtuoso and others. 
+Wikidata is an example for a very large, crowd sourced general knowledge graph backed by a world wide community since 2012. Factgrid has been using the same Wikibase infrastructure as Wikidata since 2017 for historical research projects. GOV (Geschichtliches/Genealogisches Ortsverzeichnis) is an online gazetteer for searching ancient places. Wikidata grew so large that the Blazegraph endpoint powering it was pushed to the 4 Terrabyte limit and the Wikimedia Foundation therefore decided to split the knowledge graph to host two instances. The challenges of federated queries that came up in the above use cases led to the need of being able to work with subgraphs of the RDF graphs and try out different alternative Endpoints such as QLever and Virtuoso and others. 
 While typical research projects that do such subgraphing and benchmarks roll their own environments we decided to provide a python based  Open Source library pyomnigraph to provide a unified infrastructure with a standard set of REST APIs and CLI commands to improve the handling and potentially get a bigger matrix of subgraphs versus endpoints to work with. 
 In this work we report on pyomnigraph usage on a matrix of three RDF graphs: Wikidata, Factgrid and GOV and endpoints blazegraph, jena, Qlever on a selection of subgraph combinations. We show that typical frustrations of scaling multi-hop federated queries can be avoided if the subgraphs are locally loaded and federation is applied locally. 
 
@@ -140,6 +140,8 @@ The contributions of this work are:
 Willighagen et. al. ~\cite{willighagen2026scholia} report on the three options that have been considered for surviving the 2025 Wikidata graph split: Federated queries between the main and the scholar graph, using qlever with modified queries on a full graph that does not suffer from the 4 TB limit of the blazegraph endpoint or using snapquery with named parameterized queries as a middle ware to separate the endpoints concerns from the domain needs.
 
 Linked Data Sets
+
+~\cite{azzam_smartkg_2024,heling_framework_2021}
 % Predecessor 2022 paper, RDF triple stores, SPARQL 1.1 federation, benchmarking.
 
 CONSTRUCT queries in SPARQL have been studied by Kostylev et al.~\cite{kostylev2015construct}.
