@@ -39,6 +39,27 @@
     }
     ORDER BY ?author_name DESC(?year)
     LIMIT {{ limit }}
+'InstitutionAuthorPapers':
+  # the works of all authors affiliated with a given institution identified by GND id
+  # GND is an authority file - works are the curated gndo:Work records, not a full bibliography
+  # affiliation chain per scholia organization_recent-literature.sparql translated to gndo
+  param_list:
+    - name: institution_gndid
+      type: str
+      default_value: 36225-6 # RWTH Aachen
+    - name: limit
+      type: int
+      default_value: 10
+  sparql: |
+    PREFIX gndo: <https://d-nb.info/standards/elementset/gnd#>
+    SELECT ?author ?author_name ?work ?title WHERE {
+      ?author gndo:affiliation <https://d-nb.info/gnd/{{ institution_gndid }}> ;
+              gndo:preferredNameForThePerson ?author_name .
+      ?work (gndo:firstAuthor|gndo:author) ?author ;
+            gndo:preferredNameForTheWork ?title .
+    }
+    ORDER BY ?author_name ?title
+    LIMIT {{ limit }}
 'EventAuthorPapers':
   # the papers of all authors of a given scientific event identified by Wikidata QID
   # runs on the full Wikidata graph at qlever.dev - the WDQS graph split separates

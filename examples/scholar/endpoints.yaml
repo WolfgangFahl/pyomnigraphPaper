@@ -14,3 +14,9 @@ endpoints:
       database: qlever
       method: POST
       lang: sparql
+    'scholar-gnd':
+      endpoint: https://sparql.dnb.de/api/gnd
+      website: https://gnd.network/
+      database: qlever
+      method: POST
+      lang: sparql

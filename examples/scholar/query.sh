@@ -10,4 +10,5 @@ done <<EOF
 AuthorPapers scholar-dblp
 CoauthorPapers scholar-dblp
 EventAuthorPapers scholar-wikidata
+InstitutionAuthorPapers scholar-gnd
 EOF
