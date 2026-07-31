@@ -1,0 +1,11 @@
+# combined load helper for the three-leg federated queries
+# see https://github.com/WolfgangFahl/pyomnigraphPaper/issues/24
+datasets:
+  paper_all:
+    # load helper per the all-subgraphs pattern: all use case dumps under
+    # unique file names for a single-pass load - needed for the qlever
+    # index rebuild which holds one dump directory at a time, see
+    # https://github.com/WolfgangFahl/pyomnigraph/issues/40
+    name: "All paper subgraphs (load helper)"
+    description: "scholar, locations and railway dumps combined for a single-pass load"
+    active: true
