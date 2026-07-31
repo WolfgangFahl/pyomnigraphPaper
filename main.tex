@@ -2,18 +2,13 @@
 % Open source at https://github.com/WolfgangFahl/pyomnigraphPaper
 %
 % Target venue: 6th Wikidata Workshop 2026 (co-located with ISWC 2026, Bari),
+% https://wikidataworkshop.github.io/2026/
 % Novel Work track, published in CEUR-WS. In EasyChair, prefix the submission
-% title field with "[Novel]".
+% title field with "[Novel]". Resource Paper
 %
 % CEUR-WS 1-column style (ceurart). Do NOT use the twocolumn / hf options
 % for papers submitted to CEUR-WS.
 %
-% CONTENT POLICY (see AGENTS.md):
-%   This is a scientific paper targeting CEUR-WS. AI assistance is limited
-%   to spelling/grammar and formatting/build tooling. AI must NOT generate,
-%   rewrite or contribute scientific content, arguments or prose.
-%   All sections below are intentionally left EMPTY for the authors to write.
-
 \documentclass[
 % twocolumn, % NOT allowed for CEUR-WS
 % hf,        % NOT allowed for CEUR-WS
@@ -71,8 +66,8 @@ orcid=0000-0001-6324-7164,
 %% Abstract (author-provided text).
 \begin{abstract}
 Wikidata is an example for a very large, crowd sourced general knowledge graph backed by a world wide community since 2012. Factgrid is using the same Wikibase infrastructure as Wikidata since 2017 for historical research projects. GOV (Geschichtliches/Genealogisches Ortsverzeichnis) is an online gazetteer for searching ancient places. Wikidata grew so large that the Blazegraph endpoint powering it was pushed to the 4 Terrabyte limit and the Wikimedia Foundation therefore decided to split the knowledge graph to host two instances. The challenges of federated queries that came up in the above use cases led to the need of being able to work with subgraphs of the RDF graphs and try out different alternative Endpoints such as QLever and Virtuoso and others. 
-While typical research projects that do such subgraphing and benchmarks roll their own environments we decided to provide a python based  Open Source library pyOmnigraph to provide a unified infrastructure with a standard set of REST APIs and CLI commands to improve the handling and potentially get a bigger matrix of subgraphs versus endpoints to work with. 
-In this work we report on pyOmnigraph usage on a matrix of three RDF graphs: Wikidata, Factgrid and GOV and endpoints blazegraph, jena, Qlever on a selection of subgraph combinations.
+While typical research projects that do such subgraphing and benchmarks roll their own environments we decided to provide a python based  Open Source library pyomnigraph to provide a unified infrastructure with a standard set of REST APIs and CLI commands to improve the handling and potentially get a bigger matrix of subgraphs versus endpoints to work with. 
+In this work we report on pyomnigraph usage on a matrix of three RDF graphs: Wikidata, Factgrid and GOV and endpoints blazegraph, jena, Qlever on a selection of subgraph combinations. We show that typical frustrations of scaling multi-hop federated queries can be avoided if the subgraphs are locally loaded and federation is applied locally. 
 
 \end{abstract}
 
@@ -93,46 +88,84 @@ In this work we report on pyOmnigraph usage on a matrix of three RDF graphs: Wik
 \maketitle
 
 \section{Introduction}\label{sec:introduction}
-Wikidata~\cite{Vrandecic2014} started in 2012 as an effort to back the different international Wikipedia sites with a common set of facts. Initially, about 2 million entities were harvested from existing Wikipedia content. As of 2016, over 100 million entities have been curated by a growing worldwide community of contributors. In 2022, we reported on How to get and host your own copy of Wikidata~\cite{fahl2022wikidata}. For quite a few use case the need for federated queries based on subgraphs of diverse public and internal knowledge-graphs has been our motivation to try out different combinations of endpoints and subgraphs. In the case of wikidata we even have been forced to do so by the 2025 graphsplit \cite{willighagen2026scholia}.
+Wikidata~\cite{Vrandecic2014} started in 2012 as an effort to back the different international Wikipedia sites with a common set of facts. Initially, about 2 million entities were harvested from existing Wikipedia content. As of 2016, over 100 million entities have been curated by a growing worldwide community of contributors. In 2022, we reported on How to get and host your own copy of Wikidata~\cite{fahl2022wikidata}. For quite a few use case the need for federated queries based on subgraphs of diverse public and internal knowledge-graphs has been our motivation to try out different combinations of endpoints and subgraphs. In the case of Wikidata we even have been forced to do so by the 2025 graphsplit \cite{willighagen2026scholia}.
 
+Public alternatives to the official Wikidata Query Service WDQS are still rare. Our attempts to convince the Wikimedia Foundation to support a public Mirror infrastructure have so far been in vain.
+Table~\ref{tab:PublicEndpoints}
+lists the seven workin public Wikidata endpoints currently configured in
+\footnotelink{https://nicescholia.wikidata.dbis.rwth-aachen.de/api/endpoints}{nicescholia} to be watched as potential alternative scholia backends.
+
+The Wikimedia Foundation itself now serves three: the
+\footnotelink{https://query-legacy-full.wikidata.org/sparql}{legacy full graph} and, since the
+WDQS graph split, a \footnotelink{https://query-main.wikidata.org/sparql}{main} and a
+\footnotelink{https://query-scholarly.wikidata.org/sparql}{scholarly} half. RWTH Aachen DBIS
+hosts a full \footnotelink{https://wdqs.wikidata.dbis.rwth-aachen.de/sparql}{Blazegraph mirror}
+alongside a \footnotelink{https://qlever-api.wikidata.dbis.rwth-aachen.de/}{QLever endpoint};
+the University of Freiburg \footnotelink{https://qlever.dev/api/wikidata}{QLever} service has
+moved to the \texttt{qlever.dev} host.
+\footnotelink{https://truthy.demo.openlinksw.com/sparql}{OpenLink Software} provides a Virtuoso
+instance restricted to truthy statements. These alternatives still have their own limitations regarding SPARQL language coverage, data currency and completeness.
+
+\begin{table}
+\caption{Public Wikidata query endpoints}
+\label{tab:PublicEndpoints}
+\begin{tabular}{llrl}
+\hline
+Provider & Triple Store & Triples (B) & Last update \\
+\hline
+Wikimedia Foundation (legacy full) & Blazegraph & 22.0 & continuous \\
+Wikimedia Foundation (main)        & Blazegraph &  8.6 & continuous \\
+Wikimedia Foundation (scholarly)   & Blazegraph &  8.7 & continuous \\
+RWTH Aachen DBIS                   & Blazegraph & 17.0 & 2025-06-01 \\
+RWTH Aachen DBIS                   & QLever     &  --  & continuous \\
+University of Freiburg             & QLever     &  --  & continuous \\
+OpenLink Software (truthy)         & Virtuoso   &  --  & 2025-11-01 \\
+\hline
+\end{tabular}
+\end{table}
 
 % From a single Wikidata copy to your own copies of many RDF sources.
-% Intentionally empty — to be written by the authors.
+
 
 \section{Related Work}\label{sec:relatedwork}
+Willighagen et. al. ~\cite{willighagen2026scholia} report on the three options that have been considered for surviving the 2025 Wikidata graph split: Federated queries between the main and the scholar graph, using qlever with modified queries on a full graph that does not suffer from the 4 TB limit of the blazegraph endpoint or using snapquery with named parameterized queries as a middle ware to separate the endpoints concerns from the domain needs.
+
+
 % Predecessor 2022 paper, RDF triple stores, SPARQL 1.1 federation, benchmarking.
-% Intentionally empty — to be written by the authors.
+
 CONSTRUCT queries in SPARQL have been studied by Kostylev et al.~\cite{kostylev2015construct}.
 
 \section{The pyomnigraph Resource}\label{sec:resource}
 pyomnigraph provides a unified python interface for multiple graph databases. The software is open source under Apache 2.0 license and hosted on github. 
 
 % Unified Python API, Docker deployment, YAML configuration.
-% Intentionally empty — to be written by the authors.
+
 
 \subsection{Supported Backends}\label{sec:backends}
 % Jena, Blazegraph, Oxigraph, QLever (working); GraphDB, MillenniumDB,
-% Virtuoso, Stardog (planned). Intentionally empty.
+
 
 \subsection{Command-Line Interfaces}\label{sec:cli}
 There are two command line interfaces available for pyomnigraph: omnigraph for server management and rdfdump for data operations.
 
-\section{Data Sources}\label{sec:datasources}
+\section{Use cases and Data Sources}\label{sec:datasources}
+The use cases for our experiments are motivated by the eat your own dog food approach.
+
 % Subgraphs of Wikidata, FactGrid, GOV, and potentially further RDF sources.
-% Intentionally empty — to be written by the authors.
+
 
 \section{Federated Query Benchmark}\label{sec:benchmark}
 % Combinations of endpoints; query set; metrics (load time, query latency and
-% throughput); reproducibility. Intentionally empty — to be written by the authors.
+% throughput); reproducibility. 
 
 \section{Evaluation}\label{sec:evaluation}
-% Results across store and endpoint combinations. Intentionally empty.
+% Results across store and endpoint combinations. 
 
 \section{Availability}\label{sec:availability}
-% Apache-2.0, PyPI, GitHub; resource metadata. Intentionally empty.
+% Apache-2.0, PyPI, GitHub; resource metadata.
 
 \section{Conclusion and Future Work}\label{sec:conclusion}
-% Intentionally empty — to be written by the authors.
+
 
 %% Declaration on Generative AI (required by CEUR-WS, see
 %% https://ceur-ws.org/GenAI/Policy.html). Finalize per the AGENTS.md
