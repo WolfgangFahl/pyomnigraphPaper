@@ -151,7 +151,7 @@ For real-life use cases that operate on small subgraphs only, it should be feasi
 The contributions of this work are:
 \begin{itemize}
 \item \textbf{pyomnigraph architecture}, a blueprint of components that separate concerns of data operations, server management and endpoint backends using Docker containers, see Figure~\ref{fig:architecture}.
-\item \textbf{pyomnigraph}, an Apache-2.0 licensed Python library that unifies the deployment and operation of multiple RDF triple stores behind a single API, REST interface and Docker-based setup (Section~\ref{sec:resource}), covering the backends listed in Section~\ref{sec:backends} and the \texttt{omnigraph} and \texttt{rdfdump} command-line interfaces (Section~\ref{sec:cli}).
+\item \textbf{pyomnigraph}, an Apache-2.0 licensed Python library that unifies the deployment and operation of multiple RDF triple stores behind a single API and Docker-based setup (Section~\ref{sec:resource}), covering the backends listed in Section~\ref{sec:backends} and the \texttt{omnigraph} and \texttt{rdfdump} command-line interfaces (Section~\ref{sec:cli}).
 \item \textbf{demo survey of working dataset and endpoint combinations}, see Tables~\ref{tab:backends} and \ref{tab:subgraphs}.
 \end{itemize}
 
@@ -186,14 +186,14 @@ Performance is assessed with benchmarks: FedBench has long been the reference~\c
 
 \section{The pyomnigraph Resource}\label{sec:resource}
 pyomnigraph~\cite{pyomnigraph} provides a unified Python interface for multiple graph databases. The software is open source under Apache 2.0 license and hosted on GitHub.
-Figure~\ref{fig:architecture} shows the architecture in one panel: the \texttt{omnigraph} and \texttt{rdfdump} command line interfaces and the REST API share the unified Python API, which manages the triple store backends as Docker containers; \texttt{rdfdump} pulls subgraph dumps from public SPARQL endpoints.
+Figure~\ref{fig:architecture} shows the architecture in one panel: the \texttt{omnigraph} and \texttt{rdfdump} command line interfaces and the planned REST API (future work, see Section~\ref{sec:conclusion}) share the unified Python API, which manages the triple store backends as Docker containers; \texttt{rdfdump} pulls subgraph dumps from public SPARQL endpoints.
 
 \begin{figure}
 \centering
 \includesvg[width=0.85\textwidth,inkscapelatex=false]{figures/architecture}
-\caption{pyomnigraph architecture: CLI and REST API over the unified Python
-API, Docker managed triple store backends, subgraph dumps from public SPARQL
-endpoints. Source: \texttt{figures/architecture.puml} (PlantUML).}
+\caption{pyomnigraph architecture: CLI and planned REST API over the unified
+Python API, Docker managed triple store backends, subgraph dumps from public
+SPARQL endpoints. Source: \texttt{figures/architecture.puml} (PlantUML).}
 \label{fig:architecture}
 \end{figure} 
 
@@ -240,6 +240,20 @@ The two core options are:
                       configured servers [default: ['blazegraph']]
 \end{lstlisting}
 so that multiple commands can be combined to be run on multiple servers.
+
+The core options of \texttt{rdfdump} are:
+\begin{lstlisting}[caption={rdfdump core options},label={lst:rdfdump-options}]
+-ds DATASETS [DATASETS ...], --datasets DATASETS [DATASETS ...]
+                      datasets to work with - all is an alias for
+                      all datasets [default: ['wikidata_triplestores']]
+
+--dump                perform the dump [default: False]
+
+-4o, --for-omnigraph  store dump at default omnigraph location
+                      [default: False]
+\end{lstlisting}
+The design of the two tools is to make them available as a single
+toolchain --- see the loop usage in Listing~\ref{lst:railway-load}.
 
 \section{Use Cases and Data Sources}\label{sec:datasources}
 %The use cases for our experiments are motivated by the eat your own dog food approach.
@@ -389,6 +403,8 @@ pyomnigraph is open source under the Apache 2.0 license, developed on \footnotel
 
 \section{Conclusion and Future Work}\label{sec:conclusion}
 As a resource paper we have been pragmatic about the subtle differences between CONSTRUCT and SELECT queries pointed out by Kostylev et al.~\cite{kostylev2015construct}: the shared WHERE clause even led us to name the extraction pattern of our dataset declarations \texttt{select\_pattern}. A formal analysis of the limitations of this pragmatic approach would be beneficial to avoid trial and error for use cases that are out of bounds of our approach.
+
+The RESTful interface of the architecture (Figure~\ref{fig:architecture}) is future work: it is most interesting for agentic AI work, e.g. as an MCP service backend.
 
 
 %% Declaration on Generative AI (required by CEUR-WS, see
