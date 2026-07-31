@@ -26,3 +26,35 @@ datasets:
     construct_template: "?s ?p ?o"
     description: "Author node and all papers of the authors given by the dblp pid seed, dblp graph via qlever.dev"
     active: true
+  coauthor_papers_dblp:
+    # subgraph of a paper: the paper node, its authors and all their papers
+    # derived from the CoauthorPapers query of
+    # https://github.com/WolfgangFahl/pyomnigraphPaper/issues/5
+    name: "Coauthor papers (dblp)"
+    base_url: "https://qlever.dev/dblp"
+    endpoint_url: "https://qlever.dev/api/dblp"
+    database: "qlever"
+    expected_solutions: 22524
+    params:
+      papers: "<https://dblp.org/rec/conf/semweb/FahlHW0D22a>"
+    select_pattern: |
+      {
+        VALUES ?s { {{ papers }} }
+        ?s ?p ?o .
+      }
+      UNION
+      {
+        VALUES ?paper { {{ papers }} }
+        ?paper <https://dblp.org/rdf/schema#authoredBy> ?s .
+        ?s ?p ?o .
+      }
+      UNION
+      {
+        VALUES ?paper { {{ papers }} }
+        ?paper <https://dblp.org/rdf/schema#authoredBy> ?author .
+        ?s <https://dblp.org/rdf/schema#authoredBy> ?author .
+        ?s ?p ?o .
+      }
+    construct_template: "?s ?p ?o"
+    description: "Paper node, its authors and all papers of these authors given by the dblp record seed, dblp graph via qlever.dev"
+    active: true

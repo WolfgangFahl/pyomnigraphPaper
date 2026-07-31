@@ -4,7 +4,7 @@
 script_dir=$(dirname "$0")
 # local_endpoints.yaml carries credentials - generated on the fly, gitignored
 omnigraph -s all -gepy "$script_dir/local_endpoints.yaml"
-for query_name in AuthorPapers
+for query_name in AuthorPapers CoauthorPapers
 do
   for endpoint_name in blazegraph jena oxigraph qlever
   do
