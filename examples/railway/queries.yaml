@@ -105,3 +105,48 @@
       BIND(geof:longitude(?loc) AS ?lon)
       FILTER (?lat > ?minlat && ?lat < ?maxlat && ?lon > ?minlon && ?lon < ?maxlon)
     }
+'RelationStopsHistogram':
+  # histogram companion of RelationStops per issue #2 / #12 - relation
+  # seed unbound, role and bbox at their defaults: distribution of stop
+  # counts over all OSM relations with a ref in the bbox
+  param_list:
+    - name: role
+      type: str
+      default_value: stop
+    - name: minlat
+      type: float
+      default_value: 42.0
+    - name: maxlat
+      type: float
+      default_value: 44.0
+    - name: minlon
+      type: float
+      default_value: -9.0
+    - name: maxlon
+      type: float
+      default_value: 4.0
+  sparql: |
+    PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+    PREFIX osmrel: <https://www.openstreetmap.org/relation/>
+    PREFIX osmkey: <https://www.openstreetmap.org/wiki/Key:>
+    PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
+    SELECT ?count (COUNT(?rel) AS ?freq) WHERE {
+      { SELECT ?rel (COUNT(*) AS ?count) WHERE {
+          VALUES (?role ?minlat ?maxlat ?minlon ?maxlon) {
+            ("{{ role }}" {{ minlat }} {{ maxlat }} {{ minlon }} {{ maxlon }})
+          }
+          ?rel osmkey:ref ?rel_name .
+          ?rel osmrel:member ?member .
+          ?member osmrel:member_pos ?rel_pos .
+          ?member osmrel:member_role ?role .
+          ?member osmrel:member_id ?node .
+          OPTIONAL { ?node osmkey:name ?node_name}.
+          OPTIONAL { ?node osmkey:ref ?node_ref}.
+          ?node geo:hasGeometry/geo:asWKT ?loc .
+          BIND(geof:latitude(?loc) AS ?lat)
+          BIND(geof:longitude(?loc) AS ?lon)
+          FILTER (?lat > ?minlat && ?lat < ?maxlat && ?lon > ?minlon && ?lon < ?maxlon)
+        } GROUP BY ?rel }
+    }
+    GROUP BY ?count
+    ORDER BY ?count

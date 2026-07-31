@@ -160,3 +160,79 @@
       OPTIONAL { ?pub wdt:P577 ?date . }
       BIND(YEAR(?date) AS ?year)
     }
+'AuthorPapersHistogram':
+  # histogram companion of AuthorPapers per issue #2 / #12 - author seed
+  # unbound: distribution of papers-per-author over all dblp authors
+  param_list: []
+  sparql: |
+    PREFIX dblp: <https://dblp.org/rdf/schema#>
+    SELECT ?count (COUNT(?author) AS ?freq) WHERE {
+      { SELECT ?author (COUNT(*) AS ?count) WHERE {
+          ?pub dblp:authoredBy ?author ;
+               dblp:title ?title ;
+               dblp:yearOfPublication ?year .
+          OPTIONAL { ?pub dblp:publishedIn ?venue }
+        } GROUP BY ?author }
+    }
+    GROUP BY ?count
+    ORDER BY ?count
+'CoauthorPapersHistogram':
+  # histogram companion of CoauthorPapers per issue #2 / #12 - paper seed
+  # unbound: distribution of coauthor-paper counts over all dblp papers
+  param_list: []
+  sparql: |
+    PREFIX dblp: <https://dblp.org/rdf/schema#>
+    SELECT ?count (COUNT(?paper) AS ?freq) WHERE {
+      { SELECT ?paper (COUNT(*) AS ?count) WHERE {
+          ?paper dblp:authoredBy ?author .
+          ?author dblp:primaryCreatorName ?author_name .
+          ?pub dblp:authoredBy ?author ;
+               dblp:title ?title ;
+               dblp:yearOfPublication ?year .
+        } GROUP BY ?paper }
+    }
+    GROUP BY ?count
+    ORDER BY ?count
+'InstitutionAuthorPapersHistogram':
+  # histogram companion of InstitutionAuthorPapers per issue #2 / #12 -
+  # institution seed unbound: distribution of curated work counts over
+  # all GND institutions with affiliated authors
+  param_list: []
+  sparql: |
+    PREFIX gndo: <https://d-nb.info/standards/elementset/gnd#>
+    SELECT ?count (COUNT(?institution) AS ?freq) WHERE {
+      { SELECT ?institution (COUNT(*) AS ?count) WHERE {
+          ?author gndo:affiliation ?institution ;
+                  gndo:preferredNameForThePerson ?author_name .
+          ?work (gndo:firstAuthor|gndo:author) ?author ;
+                gndo:preferredNameForTheWork ?title .
+        } GROUP BY ?institution }
+    }
+    GROUP BY ?count
+    ORDER BY ?count
+'EventAuthorPapersHistogram':
+  # histogram companion of EventAuthorPapers per issue #2 / #12 - event
+  # seed unbound: distribution of author-paper counts over all Wikidata
+  # events with proceedings
+  param_list: []
+  sparql: |
+    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    SELECT ?count (COUNT(?event) AS ?freq) WHERE {
+      { SELECT ?event (COUNT(*) AS ?count) WHERE {
+          ?proceedings wdt:P4745 ?event .
+          ?event_paper wdt:P1433 ?proceedings ;
+                       wdt:P50 ?author .
+          OPTIONAL {
+            ?author rdfs:label ?author_label .
+            FILTER(LANG(?author_label) = "en")
+          }
+          BIND(COALESCE(?author_label, SUBSTR(STR(?author), 32)) AS ?author_name)
+          ?pub wdt:P50 ?author ;
+               wdt:P1476 ?title .
+          OPTIONAL { ?pub wdt:P577 ?date . }
+          BIND(YEAR(?date) AS ?year)
+        } GROUP BY ?event }
+    }
+    GROUP BY ?count
+    ORDER BY ?count
