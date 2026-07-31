@@ -233,10 +233,10 @@ Table~\ref{tab:subgraphs} shows the subgraph sources for the use cases.
 Table~\ref{tab:usecasequeries} tracks the named parameterized queries that we use to demo and benchmark, one row per query and example binding. Each query is defined
 in \texttt{examples/<usecase>/queries.yaml} with its parameter list and default values, each endpoint in \texttt{examples/<usecase>/endpoints.yaml}, so a row is reproduced by a single \texttt{sparqlquery}~\cite{pylodstorage} call; the \texttt{query.sh} script of each use case reruns all its queries and writes a \texttt{<QueryName>.md} result file per query.
 
-The examples are reproducible from the \footnotelink{https://github.com/WolfgangFahl/pyomnigraphPaper}{pyomnigraphPaper github repository}; the result sets that do not fit the paper are available in the query issues of the repository.
+The examples are reproducible from the \footnotelink{https://github.com/WolfgangFahl/pyomnigraphPaper}{pyomnigraphPaper GitHub repository}; the result sets that do not fit within the paper's page limit are available in the query issues of the repository.
 
-As typical for real world use cases the ideal persistent identifiers for linking have limited availability. ORCID and ROR would be such identifiers for the scholarly case, according to Jesper Zedlitz, the counterpart for GOV would be a reconciliation via the current municipalities in Germany. This should work well via the Amtlicher Gemeindeschlüssel (official municipality key, P439).
-PID candidates for railway stations are the UIC station code \footnotelink{https://www.wikidata.org/wiki/Property:P722}{P722}, standardized by the UIC in Paris, or the international station number IBNR \footnotelink{https://www.wikidata.org/wiki/Property:P954}{P954}, which could formerly be resolved via the Deutsche Bahn \footnotelink{https://reiseauskunft.bahn.de/bin/bhftafel.exe/en?input=\$1\&boardType=dep\&time=actual\&productsDefault=1111101\&start=yes}{departure board formatter URL} --- marked with link rot in Wikidata, which is grist to our mill. The \footnotelink{https://www.adif.es/en/w/11600-ir\%C3\%BAn}{Adif page for Irún}, as used in our \footnotelink{https://ebike.bitplan.com/index.php/Irun}{ebike wiki}, uses yet another number.
+As typical for real world use cases, the ideal persistent identifiers for linking have limited availability. ORCID and ROR would be such identifiers for the scholarly case, according to Jesper Zedlitz, the counterpart for GOV would be a reconciliation via the current municipalities in Germany. This should work well via the Amtlicher Gemeindeschlüssel (official municipality key, P439).
+PID candidates for railway stations are the UIC station code \footnotelink{https://www.wikidata.org/wiki/Property:P722}{P722}, standardized by the UIC in Paris, or the international station number IBNR \footnotelink{https://www.wikidata.org/wiki/Property:P954}{P954}, which could formerly be resolved via the Deutsche Bahn \footnotelink{https://reiseauskunft.bahn.de/bin/bhftafel.exe/en?input=\$1\&boardType=dep\&time=actual\&productsDefault=1111101\&start=yes}{departure board formatter URL} --- marked with “link rot” in Wikidata, which is grist to our mill. The \footnotelink{https://www.adif.es/en/w/11600-ir\%C3\%BAn}{Adif page for Irún}, as used in our \footnotelink{https://ebike.bitplan.com/index.php/Irun}{ebike wiki}, uses yet another number.
 
 % Subgraphs of Wikidata, FactGrid, GOV, and potentially further RDF sources.
 \begin{table}
@@ -288,13 +288,13 @@ railway   & StationLocality & OpenStreetMap & Q3095803 (Irun) & 5  \\
 \subsection{scholarly - authors and papers}
 Queries: the papers of an author, the papers of all coauthors of a given paper, the papers of all authors of a given scientific event, the papers of all authors of a given institution
 \subsection{historical locations}
-For the historical location gazetteer GOV~\cite{zedlitz2014modelling} a \footnotelink{https://gov-wiki.genealogy.net/index.php?title=List\_of\_Queries}{List of Queries}
-has been curated which need to be extended by references to FactGrid and Wikidata.
+For the historical location gazetteer GOV~\cite{zedlitz2014modelling}, a \footnotelink{https://gov-wiki.genealogy.net/index.php?title=List\_of\_Queries}{List of Queries}
+has been curated, which need to be extended by references to FactGrid and Wikidata.
 \subsection{railway journey planning}
 This use case is inspired by our \footnotelink{https://github.com/WolfgangFahl/velorail}{velorail} work.
 
 \section{Federated Query Demo and Benchmark}\label{sec:benchmark}
-pyomnigraph is a useful tool for trying out federated queries in a local environment to avoid the typical frustrations to be expected from public endpoints. The examples directory of our github paper repository shows how the pyomnigraph declarative approach and command line tools simplify the task.
+pyomnigraph is a useful tool for trying out federated queries in a local environment to avoid the typical frustrations to be expected from public endpoints. The \textit{examples} directory of our GitHub paper repository shows how pyomnigraph's declarative approach and command line tools simplify the task.
 
 Listing~\ref{lst:railway-load} shows the \texttt{load.sh} script that loads the railway use case datasets into all functional pyomnigraph backends.
 \lstinputlisting[language=bash,
