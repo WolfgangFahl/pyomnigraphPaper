@@ -194,26 +194,26 @@ Table~\ref{tab:backends} reproduces the supported triple stores table of the
 \hline
 Database & Status & Notes \\
 \hline
-Apache Jena  & working  & Robust, standards compliant \\
-Blazegraph   & working  & High performance, easy setup \\
+Apache Jena  & working  & robust, standards compliant \\
+Blazegraph   & working  & high performance, easy setup \\
 Oxigraph     & working  & Rust-based, embedded, fast \\
-QLever       & working  & Extremely fast queries \\
-GraphDB      & disabled & License required (free version available) \\
-MillenniumDB & disabled & Import-first workflow, Property Graph + RDF \\
-Virtuoso     & disabled & Permissions issue \\
-Stardog      & planned  & License required \\
+QLever       & working  & extremely fast queries \\
+GraphDB      & disabled & license required (free version available) \\
+MillenniumDB & disabled & import-first workflow, Property Graph + RDF \\
+Virtuoso     & disabled & permissions issue \\
+Stardog      & planned  & license required \\
 \hline
 \end{tabular}
 \end{table}
 
 
 \subsection{Command-Line Interfaces}\label{sec:cli}
-There are two command line interfaces available for pyomnigraph: omnigraph for server management and rdfdump for data operations.
+There are two command line interfaces available for pyomnigraph: \texttt{omnigraph} for server management and \texttt{rdfdump} for data operations.
 
 \section{Use cases and Data Sources}\label{sec:datasources}
 %The use cases for our experiments are motivated by the eat your own dog food approach.
 Three use cases are the basis for our demonstration and evaluation: papers and authors (scholarly), historical locations for genealogy research and railway journey planning. 
-For each use case we specify a list of information needs from which we derive concrete examples queries. The abstraction is then done applying named parameterized queries.
+For each use case we specify a list of information needs, from which we derive concrete example queries. The abstraction is then done by applying named parameterized queries.
 
 Table~\ref{tab:subgraphs} shows the subgraph sources for the use cases.
 
