@@ -168,7 +168,27 @@ pyomnigraph leverages the named parameterized query approach from the snapquery~
 The same separation of concerns---hiding details of endpoints and queries---is used by pyomnigraph. For human readability you will find YAML versions of these details in the \texttt{examples/<usecase>/} folders of our paper repository.
 
 \subsection{Supported Backends}\label{sec:backends}
-% Jena, Blazegraph, Oxigraph, QLever (working); GraphDB, MillenniumDB,
+Table~\ref{tab:backends} reproduces the supported triple stores table of the
+\footnotelink{https://github.com/WolfgangFahl/pyomnigraph}{pyomnigraph README}.
+
+\begin{table}
+\caption{Supported triple store backends per the pyomnigraph README as of 2026-07-31.}
+\label{tab:backends}
+\begin{tabular}{lll}
+\hline
+Database & Status & Notes \\
+\hline
+Apache Jena  & working  & Robust, standards compliant \\
+Blazegraph   & working  & High performance, easy setup \\
+Oxigraph     & working  & Rust-based, embedded, fast \\
+QLever       & working  & Extremely fast queries \\
+GraphDB      & disabled & License required (free version available) \\
+MillenniumDB & disabled & Import-first workflow, Property Graph + RDF \\
+Virtuoso     & disabled & Permissions issue \\
+Stardog      & planned  & License required \\
+\hline
+\end{tabular}
+\end{table}
 
 
 \subsection{Command-Line Interfaces}\label{sec:cli}
