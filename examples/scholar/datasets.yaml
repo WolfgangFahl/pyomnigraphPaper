@@ -108,3 +108,43 @@ datasets:
     construct_template: "?s ?p ?o"
     description: "Event node, proceedings, event papers, their authors and all papers of these authors given by the event seed, Wikidata graph via qlever.dev"
     active: true
+  institution_author_papers_gnd:
+    # subgraph of an institution: the institution node, its affiliated
+    # authors and their work records
+    # derived from the InstitutionAuthorPapers query of
+    # https://github.com/WolfgangFahl/pyomnigraphPaper/issues/9
+    name: "Institution author papers (gnd)"
+    base_url: "https://sparql.dnb.de"
+    endpoint_url: "https://sparql.dnb.de/api/gnd"
+    database: "qlever"
+    expected_solutions: 30833
+    params:
+      institutions: "<https://d-nb.info/gnd/36225-6>"
+    select_pattern: |
+      {
+        VALUES ?s { {{ institutions }} }
+        ?s ?p ?o .
+      }
+      UNION
+      {
+        VALUES ?institution { {{ institutions }} }
+        ?s <https://d-nb.info/standards/elementset/gnd#affiliation> ?institution .
+        ?s ?p ?o .
+      }
+      UNION
+      {
+        VALUES ?institution { {{ institutions }} }
+        ?author <https://d-nb.info/standards/elementset/gnd#affiliation> ?institution .
+        ?s <https://d-nb.info/standards/elementset/gnd#firstAuthor> ?author .
+        ?s ?p ?o .
+      }
+      UNION
+      {
+        VALUES ?institution { {{ institutions }} }
+        ?author <https://d-nb.info/standards/elementset/gnd#affiliation> ?institution .
+        ?s <https://d-nb.info/standards/elementset/gnd#author> ?author .
+        ?s ?p ?o .
+      }
+    construct_template: "?s ?p ?o"
+    description: "Institution node, affiliated authors and their work records given by the gnd id seed, GND graph via the DNB SPARQL service"
+    active: true
