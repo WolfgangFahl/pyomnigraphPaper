@@ -159,13 +159,13 @@ CONSTRUCT queries in SPARQL have been studied by Kostylev et al.~\cite{kostylev2
 % Performance is assessed with benchmarks: FedBench has long been the reference~\cite{hutchison_benchmarking_2012}, LargeRDFBench scales it to a billion triples with complex and large-data queries~\cite{saleem_largerdfbench_2018}, FedShop scales the number of participating endpoints from 20 to 200~\cite{payne_fedshop_2023}, QFed generates query sets dynamically for specialized systems~\cite{rakhmawati_qfed_2014}, FQCEB targets cardinality estimation~\cite{xu_evaluation_2023}, and FKGQA extends the setting to federated question answering~\cite{dobriy_agentic_2026}.
 %% FedBench alone, however, cannot expose the problem at issue: all of its queries decompose into at most three subqueries, so every engine behaves alike on it~\cite{hameurlain_selection_2016}, and with a mean of 4.3 triple patterns and runtimes of roughly two seconds its results do not extrapolate to the Data Web~\cite{saleem_largerdfbench_2018}.
 
-
-
 \section{The pyomnigraph Resource}\label{sec:resource}
 pyomnigraph provides a unified python interface for multiple graph databases. The software is open source under Apache 2.0 license and hosted on github. 
 
 % Unified Python API, Docker deployment, YAML configuration.
-snapquery~\cite{snapquery} is a framework for handling named and parameterized SPARQL queries. It supports semantic annotation of queries and monitoring of their execution. By abstracting away the underlying endpoint, it can call multiple endpoints at once to compare results, or swap endpoints transparently, without users noticing or having to change anything.
+pyomnigraph leverages the named parameterized query approach from the snapquery~\cite{snapquery}, framework which handles such parameterized SPARQL queries. It supports semantic annotation of queries and monitoring of their execution. By abstracting away the underlying endpoint, it can call multiple endpoints at once to compare results, or swap endpoints transparently, without users noticing or having to change anything.
+
+The same separation of concerns— hiding details of endpoints and queries—is used by pyomnigraph. For human readability you will find YAML versions of these details in our paper repository.
 
 \subsection{Supported Backends}\label{sec:backends}
 % Jena, Blazegraph, Oxigraph, QLever (working); GraphDB, MillenniumDB,
