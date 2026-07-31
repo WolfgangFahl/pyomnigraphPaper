@@ -255,7 +255,12 @@ Queries: the papers of an author, the papers of all coauthors of a given paper, 
 For the the historical location gazetteer GOV~\cite{zedlitz2014modelling} a \footnotelink{https://gov-wiki.genealogy.net/index.php?title=List\_of\_Queries}{List of Queries}
 has been curated which need to be extended by references to FactGrid and Wikidata.
 \subsection{railway journey planning}
-This usecase is inspired by our \footnotelink{https://github.com/WolfgangFahl/velorail}{velorail} work as presented 
+This usecase is inspired by our \footnotelink{https://github.com/WolfgangFahl/velorail}{velorail} work as presented
+
+Listing~\ref{lst:railway-load} shows the \texttt{load.sh} script that loads the railway use case datasets into all functional pyomnigraph backends.
+\lstinputlisting[language=bash,
+  caption={Loading the railway use case datasets into all functional pyomnigraph backends},
+  label={lst:railway-load}]{examples/railway/load.sh}
 \section{Federated Query Benchmark}\label{sec:benchmark}
 % Combinations of endpoints; query set; metrics (load time, query latency and
 % throughput); reproducibility. 
