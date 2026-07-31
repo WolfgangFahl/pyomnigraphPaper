@@ -1,0 +1,261 @@
+# named parameterized three-leg federated queries
+# see https://github.com/WolfgangFahl/pyomnigraphPaper/issues/24
+'AuthorIdentity':
+  # scholarly use case: dblp + GND + Wikidata, linking element ORCID
+  # service legs are late-bound parameters; defaults are the public origins
+  param_list:
+    - name: orcid
+      type: str
+      default_value: 0000-0001-6324-7164 # Stefan Decker
+    - name: dblp_service
+      type: str
+      default_value: https://qlever.dev/api/dblp
+    - name: gnd_service
+      type: str
+      default_value: https://sparql.dnb.de/api/gnd
+    - name: wikidata_service
+      type: str
+      default_value: https://qlever.dev/api/wikidata
+  sparql: |
+    PREFIX dblp: <https://dblp.org/rdf/schema#>
+    PREFIX gndo: <https://d-nb.info/standards/elementset/gnd#>
+    PREFIX owl: <http://www.w3.org/2002/07/owl#>
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+    SELECT ?dblp_person ?dblp_name ?gnd_person ?gnd_name ?wd_person ?wd_name
+    WHERE {
+      SERVICE <{{ dblp_service }}> {
+        ?dblp_person dblp:orcid <https://orcid.org/{{ orcid }}> ;
+                     rdfs:label ?dblp_name .
+      }
+      SERVICE <{{ gnd_service }}> {
+        ?gnd_person owl:sameAs <https://orcid.org/{{ orcid }}> ;
+                    gndo:preferredNameForThePerson ?gnd_name .
+      }
+      SERVICE <{{ wikidata_service }}> {
+        ?wd_person wdt:P496 "{{ orcid }}" ;
+                   rdfs:label ?wd_name .
+        FILTER(LANG(?wd_name) = "en")
+      }
+    }
+'PlaceIdentity':
+  # locations use case: GOV + FactGrid + Wikidata, linking element GOV id
+  # leg idioms per examples/locations/queries.yaml: GOV place IRI,
+  # FactGrid fgt:P1073, Wikidata wdt:P2503
+  # service legs are late-bound parameters; defaults are the public origins
+  param_list:
+    - name: gov_id
+      type: str
+      default_value: AACHENJO30BS # Aachen
+    - name: gov_service
+      type: str
+      default_value: https://gov-sparql.genealogy.net/dataset/sparql
+    - name: factgrid_service
+      type: str
+      default_value: https://database.factgrid.de/sparql
+    - name: wikidata_service
+      type: str
+      default_value: https://qlever.dev/api/wikidata
+  sparql: |
+    PREFIX gp: <http://gov.genealogy.net/ontology.owl#>
+    PREFIX gov: <http://gov.genealogy.net/>
+    PREFIX fgt: <https://database.factgrid.de/prop/direct/>
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+    SELECT ?gov_name ?fg_place ?fg_name ?wd_place ?wd_name
+    WHERE {
+      SERVICE <{{ gov_service }}> {
+        gov:{{ gov_id }} gp:hasName/gp:value ?gov_name .
+      }
+      SERVICE <{{ factgrid_service }}> {
+        ?fg_place fgt:P1073 "{{ gov_id }}" ;
+                  rdfs:label ?fg_name .
+        FILTER(LANG(?fg_name) = "de")
+      }
+      SERVICE <{{ wikidata_service }}> {
+        ?wd_place wdt:P2503 "{{ gov_id }}" ;
+                  rdfs:label ?wd_name .
+        FILTER(LANG(?wd_name) = "en")
+      }
+    }
+'PlaceIdentityCount':
+  # count companion of PlaceIdentity per issue #2 - same WHERE body, no limit
+  param_list:
+    - name: gov_id
+      type: str
+      default_value: AACHENJO30BS # Aachen
+    - name: gov_service
+      type: str
+      default_value: https://gov-sparql.genealogy.net/dataset/sparql
+    - name: factgrid_service
+      type: str
+      default_value: https://database.factgrid.de/sparql
+    - name: wikidata_service
+      type: str
+      default_value: https://qlever.dev/api/wikidata
+  sparql: |
+    PREFIX gp: <http://gov.genealogy.net/ontology.owl#>
+    PREFIX gov: <http://gov.genealogy.net/>
+    PREFIX fgt: <https://database.factgrid.de/prop/direct/>
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+    SELECT (COUNT(*) AS ?count)
+    WHERE {
+      SERVICE <{{ gov_service }}> {
+        gov:{{ gov_id }} gp:hasName/gp:value ?gov_name .
+      }
+      SERVICE <{{ factgrid_service }}> {
+        ?fg_place fgt:P1073 "{{ gov_id }}" ;
+                  rdfs:label ?fg_name .
+        FILTER(LANG(?fg_name) = "de")
+      }
+      SERVICE <{{ wikidata_service }}> {
+        ?wd_place wdt:P2503 "{{ gov_id }}" ;
+                  rdfs:label ?wd_name .
+        FILTER(LANG(?wd_name) = "en")
+      }
+    }
+'LineIdentity':
+  # railway use case: Wikidata + OSM + ERA RINF, linking elements P402 / P1671
+  # leg idioms per examples/railway/queries.yaml; the linking elements are
+  # enforced as cross-leg join filters after the legs return
+  # service legs are late-bound parameters; defaults are the public origins
+  param_list:
+    - name: wikidata_id
+      type: str
+      default_value: Q801991 # Bordeaux-Irun railway
+    - name: osm_relation_id
+      type: int
+      default_value: 1852360 # P402 of Q801991
+    - name: rinf_line_id
+      type: str
+      default_value: 655000-1 # RINF lineId, P1671 of Q801991 plus track suffix
+    - name: wikidata_service
+      type: str
+      default_value: https://qlever.dev/api/wikidata
+    - name: osm_service
+      type: str
+      default_value: https://qlever.dev/api/osm-planet
+    - name: rinf_service
+      type: str
+      default_value: https://rinf.data.era.europa.eu/api/sparql
+  sparql: |
+    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+    PREFIX wd: <http://www.wikidata.org/entity/>
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    PREFIX osmkey: <https://www.openstreetmap.org/wiki/Key:>
+    PREFIX osmrel: <https://www.openstreetmap.org/relation/>
+    PREFIX era: <http://data.europa.eu/949/>
+    SELECT ?line ?line_name ?osm_relation ?osm_name ?line_number ?rinf_lps ?rinf_lid
+    WHERE {
+      SERVICE <{{ wikidata_service }}> {
+        VALUES ?line { wd:{{ wikidata_id }} }
+        ?line wdt:P402 ?osm_relation ;
+              wdt:P1671 ?line_number ;
+              rdfs:label ?line_name .
+        FILTER(LANG(?line_name) = "en")
+      }
+      SERVICE <{{ osm_service }}> {
+        VALUES ?osm_rel { osmrel:{{ osm_relation_id }} }
+        ?osm_rel osmkey:ref ?osm_ref ;
+                 osmkey:name ?osm_name .
+      }
+      SERVICE <{{ rinf_service }}> {
+        ?rinf_lps a era:LinearPositioningSystem ;
+                  era:lineId ?rinf_lid .
+        FILTER(STR(?rinf_lid) = "{{ rinf_line_id }}")
+      }
+      # P402 joins the Wikidata leg to the OSM leg
+      FILTER(STR(?osm_relation) = "{{ osm_relation_id }}")
+      FILTER(?osm_ref = ?line_number)
+      # P1671 joins the Wikidata leg to the RINF leg (lineId adds a track suffix)
+      FILTER(STRSTARTS(STR(?rinf_lid), REPLACE(?line_number, " ", "")))
+    }
+'LineIdentityCount':
+  # count companion of LineIdentity per issue #2 - same WHERE body, no limit
+  param_list:
+    - name: wikidata_id
+      type: str
+      default_value: Q801991 # Bordeaux-Irun railway
+    - name: osm_relation_id
+      type: int
+      default_value: 1852360 # P402 of Q801991
+    - name: rinf_line_id
+      type: str
+      default_value: 655000-1 # RINF lineId, P1671 of Q801991 plus track suffix
+    - name: wikidata_service
+      type: str
+      default_value: https://qlever.dev/api/wikidata
+    - name: osm_service
+      type: str
+      default_value: https://qlever.dev/api/osm-planet
+    - name: rinf_service
+      type: str
+      default_value: https://rinf.data.era.europa.eu/api/sparql
+  sparql: |
+    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+    PREFIX wd: <http://www.wikidata.org/entity/>
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    PREFIX osmkey: <https://www.openstreetmap.org/wiki/Key:>
+    PREFIX osmrel: <https://www.openstreetmap.org/relation/>
+    PREFIX era: <http://data.europa.eu/949/>
+    SELECT (COUNT(*) AS ?count)
+    WHERE {
+      SERVICE <{{ wikidata_service }}> {
+        VALUES ?line { wd:{{ wikidata_id }} }
+        ?line wdt:P402 ?osm_relation ;
+              wdt:P1671 ?line_number ;
+              rdfs:label ?line_name .
+        FILTER(LANG(?line_name) = "en")
+      }
+      SERVICE <{{ osm_service }}> {
+        VALUES ?osm_rel { osmrel:{{ osm_relation_id }} }
+        ?osm_rel osmkey:ref ?osm_ref ;
+                 osmkey:name ?osm_name .
+      }
+      SERVICE <{{ rinf_service }}> {
+        ?rinf_lps a era:LinearPositioningSystem ;
+                  era:lineId ?rinf_lid .
+        FILTER(STR(?rinf_lid) = "{{ rinf_line_id }}")
+      }
+      FILTER(STR(?osm_relation) = "{{ osm_relation_id }}")
+      FILTER(?osm_ref = ?line_number)
+      FILTER(STRSTARTS(STR(?rinf_lid), REPLACE(?line_number, " ", "")))
+    }
+'AuthorIdentityCount':
+  # count companion of AuthorIdentity per issue #2 - same WHERE body, no limit
+  param_list:
+    - name: orcid
+      type: str
+      default_value: 0000-0001-6324-7164 # Stefan Decker
+    - name: dblp_service
+      type: str
+      default_value: https://qlever.dev/api/dblp
+    - name: gnd_service
+      type: str
+      default_value: https://sparql.dnb.de/api/gnd
+    - name: wikidata_service
+      type: str
+      default_value: https://qlever.dev/api/wikidata
+  sparql: |
+    PREFIX dblp: <https://dblp.org/rdf/schema#>
+    PREFIX gndo: <https://d-nb.info/standards/elementset/gnd#>
+    PREFIX owl: <http://www.w3.org/2002/07/owl#>
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+    SELECT (COUNT(*) AS ?count)
+    WHERE {
+      SERVICE <{{ dblp_service }}> {
+        ?dblp_person dblp:orcid <https://orcid.org/{{ orcid }}> ;
+                     rdfs:label ?dblp_name .
+      }
+      SERVICE <{{ gnd_service }}> {
+        ?gnd_person owl:sameAs <https://orcid.org/{{ orcid }}> ;
+                    gndo:preferredNameForThePerson ?gnd_name .
+      }
+      SERVICE <{{ wikidata_service }}> {
+        ?wd_person wdt:P496 "{{ orcid }}" ;
+                   rdfs:label ?wd_name .
+        FILTER(LANG(?wd_name) = "en")
+      }
+    }

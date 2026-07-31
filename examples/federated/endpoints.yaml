@@ -1,0 +1,49 @@
+# SPARQL endpoints declaration for sparqlquery tool
+# see https://github.com/WolfgangFahl/pyLoDStorage
+# public origin endpoints of the nine federation legs per
+# https://github.com/WolfgangFahl/pyomnigraphPaper/issues/24
+# names carry the federated- prefix: 'dblp' is a built-in endpoint name
+# and would be shadowed
+endpoints:
+    'federated-dblp':
+      endpoint: https://qlever.dev/api/dblp
+      website: https://dblp.org/
+      database: qlever
+      method: POST
+      lang: sparql
+    'federated-gnd':
+      endpoint: https://sparql.dnb.de/api/gnd
+      website: https://gnd.network/
+      database: qlever
+      method: POST
+      lang: sparql
+    'federated-wikidata':
+      endpoint: https://qlever.dev/api/wikidata
+      website: https://www.wikidata.org/
+      database: qlever
+      method: POST
+      lang: sparql
+    'federated-gov':
+      endpoint: https://gov-sparql.genealogy.net/dataset/sparql
+      website: https://gov.genealogy.net/
+      database: jena
+      method: POST
+      lang: sparql
+    'federated-factgrid':
+      endpoint: https://database.factgrid.de/sparql
+      website: https://database.factgrid.de/
+      database: blazegraph
+      method: POST
+      lang: sparql
+    'federated-osm':
+      endpoint: https://qlever.dev/api/osm-planet
+      website: https://www.openstreetmap.org/
+      database: qlever
+      method: POST
+      lang: sparql
+    'federated-rinf':
+      endpoint: https://rinf.data.era.europa.eu/api/sparql
+      website: https://data-interop.era.europa.eu/
+      database: rdf4j
+      method: POST
+      lang: sparql
