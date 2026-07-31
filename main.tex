@@ -125,12 +125,17 @@ OpenLink Software (truthy)         & Virtuoso   &  --  & 2025-11-01 \\
 \end{table}
 
 % From a single Wikidata copy to your own copies of many RDF sources.
+Using federated queries on participants of the Linked Open Data Cloud http://cas.lod-cloud.net/  are in theory an excellent way to answer queries over diverse data sources. In practice there are a lot of possible frustrations involved such as outages of endpoints, incompatibilities of endpoints, akward syntax and general query rot.
+
+For real life use cases only that operate on small subgraphs it should be feasible to operate locally by providing the necessary data "on the fly". Unfortunately to do so a lot of technical expertise is needed to setup endpoints, collect the subgraph data and finally perform the query. To ease this pain we introduce pyomnigraph which mitigates the complexity by using docker and python to provide a unified interface to different endpoint technologies in a local environment with limited resources.
+
+The contributions of this work are:
 
 
 \section{Related Work}\label{sec:relatedwork}
 Willighagen et. al. ~\cite{willighagen2026scholia} report on the three options that have been considered for surviving the 2025 Wikidata graph split: Federated queries between the main and the scholar graph, using qlever with modified queries on a full graph that does not suffer from the 4 TB limit of the blazegraph endpoint or using snapquery with named parameterized queries as a middle ware to separate the endpoints concerns from the domain needs.
 
-
+Linked Data Sets
 % Predecessor 2022 paper, RDF triple stores, SPARQL 1.1 federation, benchmarking.
 
 CONSTRUCT queries in SPARQL have been studied by Kostylev et al.~\cite{kostylev2015construct}.
@@ -149,9 +154,33 @@ pyomnigraph provides a unified python interface for multiple graph databases. Th
 There are two command line interfaces available for pyomnigraph: omnigraph for server management and rdfdump for data operations.
 
 \section{Use cases and Data Sources}\label{sec:datasources}
-The use cases for our experiments are motivated by the eat your own dog food approach.
-
+%The use cases for our experiments are motivated by the eat your own dog food approach.
+Three usecases are the basis for our demonstration and evaluation: papers and authors (scholarly), historical locations for genealogy research and railway journey planning. 
+We use concrete examples in this paper. The abstraction is then done applying named parameterized queries. 
+\subsection{scholarly - authors and papers}
+\subsection{historical locations}
+\subsection{railway journey planning}
+Table shows the subgraph sources for the usescases,
 % Subgraphs of Wikidata, FactGrid, GOV, and potentially further RDF sources.
+\begin{table}
+\caption{Public SPARQL endpoints serving the subgraph sources, probed
+2026-07-31 with \texttt{SELECT * WHERE \{?s ?p ?o\} LIMIT 1}.}
+\label{tab:subgraphs}
+\begin{tabular}{lllr}
+\hline
+Dataset       & Endpoint                            & Engine     & Probe \\
+\hline
+dblp          & qlever.dev/api/dblp                 & QLever     & 0.072 s \\
+GND           & sparql.dnb.de/api/gnd               & QLever     & 0.153 s \\
+Wikidata      & query.wikidata.org/sparql           & Blazegraph & 0.355 s \\
+FactGrid      & database.factgrid.de/sparql         & Blazegraph & 0.100 s \\
+OpenStreetMap & sophox.org/sparql                   & Blazegraph & 0.129 s \\
+OpenStreetMap & qlever.dev/api/osm-planet           & QLever     & 0.619 s \\
+ERA RINF      & rinf.data.era.europa.eu/api/sparql  & RDF4J      & 0.139 s \\
+GOV           & gov-wiki.genealogy.net/sparql       & --         & blocked \\
+\hline
+\end{tabular}
+\end{table}
 
 
 \section{Federated Query Benchmark}\label{sec:benchmark}
