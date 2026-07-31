@@ -19,4 +19,4 @@ svg-inkscape
 # OS files
 .DS_Store
 Thumbs.db
-examples/railway/local_endpoints.yaml
+examples/*/local_endpoints.yaml

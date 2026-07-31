@@ -1,0 +1,28 @@
+# npq subgraph datasets for the scholarly use case
+# see https://github.com/WolfgangFahl/pyomnigraphPaper/issues/10
+datasets:
+  author_papers_dblp:
+    # subgraph of an author: the author node and all papers authored
+    # derived from the AuthorPapers query of
+    # https://github.com/WolfgangFahl/pyomnigraphPaper/issues/4
+    name: "Author papers (dblp)"
+    base_url: "https://qlever.dev/dblp"
+    endpoint_url: "https://qlever.dev/api/dblp"
+    database: "qlever"
+    expected_solutions: 204
+    params:
+      authors: "<https://dblp.org/pid/27/6858>"
+    select_pattern: |
+      {
+        VALUES ?s { {{ authors }} }
+        ?s ?p ?o .
+      }
+      UNION
+      {
+        VALUES ?author { {{ authors }} }
+        ?s <https://dblp.org/rdf/schema#authoredBy> ?author .
+        ?s ?p ?o .
+      }
+    construct_template: "?s ?p ?o"
+    description: "Author node and all papers of the authors given by the dblp pid seed, dblp graph via qlever.dev"
+    active: true
