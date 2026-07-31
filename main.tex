@@ -211,13 +211,14 @@ GOV           & gov-sparql.genealogy.net/dataset/sparql & Jena   & 0.060 s \\
 \caption{Named parameterized queries per use case, with the example parameter
 binding used for the reproduction run and the resulting number of records.
 Run with \texttt{sparqlquery} against the endpoint declared in
-\texttt{examples/scholar/endpoints.yaml} }
+\texttt{examples/<usecase>/endpoints.yaml} }
 \label{tab:usecasequeries}
 \begin{tabular}{lllr}
 \hline
 Use case  & Query        & Example              & Records \\
 \hline
 scholarly & AuthorPapers & 27/6858 (Fahl)       & 6   \\
+railway   & RelationStops & 10492086 (MD 18061) & 18  \\
 \hline
 \end{tabular}
 \end{table}
