@@ -161,7 +161,7 @@ The Linked Data Fragments line of work addresses the same pain point --- public 
 % Predecessor 2022 paper, RDF triple stores, SPARQL 1.1 federation, benchmarking.
 
 \paragraph{CONSTRUCT queries}
-CONSTRUCT queries in SPARQL have been studied by Kostylev et al.~\cite{kostylev2015construct}.
+CONSTRUCT queries in SPARQL have been studied by Kostylev et al.~\cite{kostylev2015construct}: the nearly identical syntax of CONSTRUCT and SELECT queries --- both share the same WHERE clause --- is ``often deceptive''. The issues to beware of are the output domain --- partial mappings for SELECT versus RDF graphs for CONSTRUCT ---, blank nodes in templates, which CONSTRUCT allows while they are unavailable in SELECT, and unbound variables that are silently dropped.
 
 % federated queries
 \paragraph{Federated SPARQL query processing}
@@ -278,7 +278,7 @@ scholarly & EventAuthorPapers & Wikidata & Q133307039   & 235 \\
 scholarly & InstitutionAuthorPapers & GND & 36225-6     & 27  \\
 locations & PlaceIdentity & GOV & AACHENJO30BS (Aachen) & 6  \\
 locations & PlaceHierarchy & GOV & AACHENJO30BS (Aachen) & 2  \\
-locations & PlaceNames & GOV & AACHENJO30BS (Aachen) & 3  \\
+locations & PlaceNames & FactGrid & AACHENJO30BS (Aachen) & 11  \\
 locations & PersonsOfPlace & Wikidata & AACHENJO30BS (Aachen) & 5543  \\
 railway   & RelationStops & OpenStreetMap & 10492086 (MD 18061) & 18  \\
 railway   & LineIdentity & Wikidata & Q801991 (Bordeaux--Irun) & 1  \\
@@ -318,6 +318,7 @@ By applying the matrix approach of Section~\ref{sec:benchmark} we obtain interes
 pyomnigraph is open source under the Apache 2.0 license, developed on \footnotelink{https://github.com/WolfgangFahl/pyomnigraph}{GitHub}, released on \footnotelink{https://pypi.org/project/pyomnigraph/}{PyPI} and archived on Zenodo~\cite{pyomnigraph} under the concept DOI 10.5281/zenodo.21721772; version 0.2.3 is the release this paper refers to. The reproducible examples and the paper sources live in the \footnotelink{https://github.com/WolfgangFahl/pyomnigraphPaper}{pyomnigraphPaper repository}; the underlying libraries pyLoDStorage~\cite{pylodstorage} and snapquery~\cite{snapquery} are archived on Zenodo as well.
 
 \section{Conclusion and Future Work}\label{sec:conclusion}
+As a resource paper we have been pragmatic about the subtle differences between CONSTRUCT and SELECT queries pointed out by Kostylev et al.~\cite{kostylev2015construct}: the shared WHERE clause even led us to name the extraction pattern of our dataset declarations \texttt{select\_pattern}.
 
 
 %% Declaration on Generative AI (required by CEUR-WS, see
