@@ -22,6 +22,9 @@
     - name: maxlon
       type: float
       default_value: 4.0
+    - name: limit
+      type: int
+      default_value: 100
   sparql: |
     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
     PREFIX geo: <http://www.opengis.net/ont/geosparql#>
@@ -57,3 +60,4 @@
       FILTER (?lat > ?minlat && ?lat < ?maxlat && ?lon > ?minlon && ?lon < ?maxlon)
     }
     ORDER BY ?rel_pos
+    LIMIT {{ limit }}

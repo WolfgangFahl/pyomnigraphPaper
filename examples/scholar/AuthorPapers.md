@@ -10,10 +10,10 @@ SELECT ?pub ?title ?year ?venue WHERE {
   OPTIONAL { ?pub dblp:publishedIn ?venue }
 }
 ORDER BY DESC(?year)
-LIMIT 10
+LIMIT 1000000
 
 ```
-[try it!](https://dblp.org/?query=PREFIX%20dblp%3A%20%3Chttps%3A//dblp.org/rdf/schema%23%3E%0ASELECT%20%3Fpub%20%3Ftitle%20%3Fyear%20%3Fvenue%20WHERE%20%7B%0A%20%20%3Fpub%20dblp%3AauthoredBy%20%3Chttps%3A//dblp.org/pid/27/6858%3E%20%3B%0A%20%20%20%20%20%20%20dblp%3Atitle%20%3Ftitle%20%3B%0A%20%20%20%20%20%20%20dblp%3AyearOfPublication%20%3Fyear%20.%0A%20%20OPTIONAL%20%7B%20%3Fpub%20dblp%3ApublishedIn%20%3Fvenue%20%7D%0A%7D%0AORDER%20BY%20DESC%28%3Fyear%29%0ALIMIT%2010%0A)
+[try it!](https://dblp.org/?query=PREFIX%20dblp%3A%20%3Chttps%3A//dblp.org/rdf/schema%23%3E%0ASELECT%20%3Fpub%20%3Ftitle%20%3Fyear%20%3Fvenue%20WHERE%20%7B%0A%20%20%3Fpub%20dblp%3AauthoredBy%20%3Chttps%3A//dblp.org/pid/27/6858%3E%20%3B%0A%20%20%20%20%20%20%20dblp%3Atitle%20%3Ftitle%20%3B%0A%20%20%20%20%20%20%20dblp%3AyearOfPublication%20%3Fyear%20.%0A%20%20OPTIONAL%20%7B%20%3Fpub%20dblp%3ApublishedIn%20%3Fvenue%20%7D%0A%7D%0AORDER%20BY%20DESC%28%3Fyear%29%0ALIMIT%201000000%0A)
 ## result
 | pub                                                      | title                                                                                                        |   year | venue                     |
 |----------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|--------|---------------------------|

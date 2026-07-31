@@ -11,10 +11,10 @@ SELECT DISTINCT ?place ?name ?counterpart WHERE {
   OPTIONAL { ?place owl:sameAs ?counterpart }
 }
 ORDER BY ?name ?counterpart
-LIMIT 10
+LIMIT 1000000
 
 ```
-[try it!](https://gov.genealogy.net/?query=PREFIX%20gp%3A%20%3Chttp%3A//gov.genealogy.net/ontology.owl%23%3E%0APREFIX%20gov%3A%20%3Chttp%3A//gov.genealogy.net/%3E%0APREFIX%20owl%3A%20%3Chttp%3A//www.w3.org/2002/07/owl%23%3E%0ASELECT%20DISTINCT%20%3Fplace%20%3Fname%20%3Fcounterpart%20WHERE%20%7B%0A%20%20VALUES%20%3Fplace%20%7B%20gov%3AAACHENJO30BS%20%7D%0A%20%20%3Fplace%20gp%3AhasName/gp%3Avalue%20%3Fname%20.%0A%20%20OPTIONAL%20%7B%20%3Fplace%20owl%3AsameAs%20%3Fcounterpart%20%7D%0A%7D%0AORDER%20BY%20%3Fname%20%3Fcounterpart%0ALIMIT%2010%0A)
+[try it!](https://gov.genealogy.net/?query=PREFIX%20gp%3A%20%3Chttp%3A//gov.genealogy.net/ontology.owl%23%3E%0APREFIX%20gov%3A%20%3Chttp%3A//gov.genealogy.net/%3E%0APREFIX%20owl%3A%20%3Chttp%3A//www.w3.org/2002/07/owl%23%3E%0ASELECT%20DISTINCT%20%3Fplace%20%3Fname%20%3Fcounterpart%20WHERE%20%7B%0A%20%20VALUES%20%3Fplace%20%7B%20gov%3AAACHENJO30BS%20%7D%0A%20%20%3Fplace%20gp%3AhasName/gp%3Avalue%20%3Fname%20.%0A%20%20OPTIONAL%20%7B%20%3Fplace%20owl%3AsameAs%20%3Fcounterpart%20%7D%0A%7D%0AORDER%20BY%20%3Fname%20%3Fcounterpart%0ALIMIT%201000000%0A)
 ## result
 | place                                 | name            | counterpart                        |
 |---------------------------------------|-----------------|------------------------------------|
