@@ -257,17 +257,22 @@ has been curated which need to be extended by references to FactGrid and Wikidat
 \subsection{railway journey planning}
 This usecase is inspired by our \footnotelink{https://github.com/WolfgangFahl/velorail}{velorail} work as presented
 
+\section{Federated Query Demo and Benchmark}\label{sec:benchmark}
+pyomnigraph is a useful tool for trying out federated queries in a local environment to avoid the typical frustrations to be expected from public endpoints. The examples directory of our github paper repository shows how the pyomnigraph declarative approach and command line tools simplify the task.
+
 Listing~\ref{lst:railway-load} shows the \texttt{load.sh} script that loads the railway use case datasets into all functional pyomnigraph backends.
 \lstinputlisting[language=bash,
   caption={Loading the railway use case datasets into all functional pyomnigraph backends},
   label={lst:railway-load}]{examples/railway/load.sh}
-\section{Federated Query Benchmark}\label{sec:benchmark}
+
+note how essentially how calling the command line tools rdfdump and omnigraph in a loop creates a whole matrix  
 % Combinations of endpoints; query set; metrics (load time, query latency and
 % throughput); reproducibility. 
 
 \section{Evaluation}\label{sec:evaluation}
-
 % Results across store and endpoint combinations. 
+By applying the matrix approach of section federated query demo and benchmark we obtain interesting results on performance and failure cases. We then do comparsion of remote-remote-remote versus local-local-local federated queries across all possible combinations.
+
 
 \section{Availability}\label{sec:availability}
 % Apache-2.0, PyPI, GitHub; resource metadata.
