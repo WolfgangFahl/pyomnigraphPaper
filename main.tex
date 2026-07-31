@@ -67,9 +67,9 @@ orcid=0000-0001-6324-7164,
 
 %% Abstract (author-provided text).
 \begin{abstract}
-Wikidata is an example of a very large, crowd-sourced general knowledge graph backed by a world wide community since 2012. FactGrid has been using the same Wikibase infrastructure as Wikidata since 2017 for historical research projects. GOV (Geschichtliches/Genealogisches Ortsverzeichnis) is an online gazetteer for searching ancient places. Wikidata grew so large that the Blazegraph endpoint powering it was pushed to the 4 Terabyte limit and the Wikimedia Foundation therefore decided to split the knowledge graph to host two instances. The challenges of federated queries that came up in the above use cases led to the need of being able to work with subgraphs of the RDF graphs and try out different alternative endpoints such as QLever, Virtuoso and others.
-While typical research projects that do such subgraphing and benchmarks roll their own environments, we decided to provide a Python-based open source library pyomnigraph to provide a unified infrastructure with a standard set of REST APIs and CLI commands to improve the handling and potentially get a bigger matrix of subgraphs versus endpoints to work with.
-In this work we report on pyomnigraph usage on a matrix of three RDF graphs: Wikidata, FactGrid and GOV and endpoints Blazegraph, Jena, QLever on a selection of subgraph combinations. We show that typical frustrations of scaling multi-hop federated queries can be avoided if the subgraphs are locally loaded and federation is applied locally.
+Wikidata is an example of a very large, crowd-sourced general knowledge graph backed by a world wide community since 2012. FactGrid has been using the same Wikibase infrastructure as Wikidata since 2017 for historical research projects. GOV (Geschichtliches/Genealogisches Ortsverzeichnis) is an online gazetteer for searching ancient places. Wikidata grew so large that the Blazegraph endpoint powering it was pushed to the 4 terabyte limit and the Wikimedia Foundation therefore decided to split the knowledge graph to host two instances. The challenges of federated queries that came up in the above use cases led to the need of being able to work with subgraphs of the RDF graphs and try out different alternative endpoints such as QLever, Virtuoso and others.
+While typical research projects that do such subgraphing and benchmarks roll their own environments, our pyomnigraph, a Python-based open source library, provides a unified infrastructure with a standard set of REST APIs and CLI commands to improve the handling and potentially grow the matrix of subgraphs versus endpoints to work with.
+In this work we report on pyomnigraph usage on a matrix of three RDF graphs: Wikidata, FactGrid and GOV, and the Blazegraph, Jena, QLever endpoints on a selection of subgraph combinations. We show that typical frustrations of scaling multi-hop federated queries can be avoided if the subgraphs are locally loaded and federation is applied locally.
 
 \end{abstract}
 
@@ -91,17 +91,17 @@ In this work we report on pyomnigraph usage on a matrix of three RDF graphs: Wik
 \maketitle
 
 \section{Introduction}\label{sec:introduction}
-Wikidata~\cite{Vrandecic2014} started in 2012 as an effort to back the different international Wikipedia sites with a common set of facts. Initially, about 2 million entities were harvested from existing Wikipedia content. As of 2016, over 100 million entities have been curated by a growing worldwide community of contributors. In 2022, we reported on How to get and host your own copy of Wikidata~\cite{fahl2022wikidata}. For quite a few use case the need for federated queries based on subgraphs of diverse public and internal knowledge-graphs has been our motivation to try out different combinations of endpoints and subgraphs. In the case of Wikidata we even have been forced to do so by the 2025 graphsplit \cite{willighagen2026scholia}.
+Wikidata~\cite{Vrandecic2014} started in 2012 as an effort to back the different multilingual Wikipedia sites with a common set of facts. Initially, about 2 million entities were harvested from existing Wikipedia content. As of 2016, over 100 million entities have been curated by a growing worldwide community of contributors. In 2022, we reported on How to get and host your own copy of Wikidata~\cite{fahl2022wikidata}. For quite a few use cases, the need for federated queries based on subgraphs of diverse public and internal knowledge graphs has been our motivation to try out different combinations of endpoints and subgraphs. In the case of Wikidata we have even been forced to do so by the 2025 graph split~\cite{willighagen2026scholia}.
 
 Public alternatives to the official Wikidata Query Service WDQS are still rare. Our attempts to convince the Wikimedia Foundation to support a public Mirror infrastructure have so far been in vain.
 Table~\ref{tab:PublicEndpoints}
 lists the seven working public Wikidata endpoints currently configured in
-\footnotelink{https://nicescholia.wikidata.dbis.rwth-aachen.de/api/endpoints}{nicescholia}~\cite{nicescholia} to be watched as potential alternative scholia backends.
+\footnotelink{https://nicescholia.wikidata.dbis.rwth-aachen.de/api/endpoints}{nicescholia}~\cite{nicescholia} to be watched as potential alternative Scholia backends.
 
 The Wikimedia Foundation itself now serves three: the
 \footnotelink{https://query-legacy-full.wikidata.org/sparql}{legacy full graph} and, since the
 WDQS graph split, a \footnotelink{https://query-main.wikidata.org/sparql}{main} and a
-\footnotelink{https://query-scholarly.wikidata.org/sparql}{scholarly} half. RWTH Aachen DBIS
+\footnotelink{https://query-scholarly.wikidata.org/sparql}{scholarly} half. RWTH Aachen University
 hosts a full \footnotelink{https://wdqs.wikidata.dbis.rwth-aachen.de/sparql}{Blazegraph mirror}
 alongside a \footnotelink{https://qlever-api.wikidata.dbis.rwth-aachen.de/}{QLever endpoint};
 the University of Freiburg \footnotelink{https://qlever.dev/api/wikidata}{QLever} service has
@@ -132,11 +132,11 @@ OpenLink Software (truthy)         & Virtuoso   &  8.1 & 2025-11-01 \\
 % From a single Wikidata copy to your own copies of many RDF sources.
 Using federated queries on participants of the Linked Open Data Cloud \footnotelink{http://cas.lod-cloud.net/}{LOD Cloud} is in theory an excellent way to answer queries over diverse data sources. In practice there are a lot of possible frustrations involved such as outages of endpoints, incompatibilities of endpoints, awkward syntax and general query rot.
 
-For real life use cases only that operate on small subgraphs it should be feasible to operate locally by providing the necessary data "on the fly". Unfortunately to do so a lot of technical expertise is needed to set up endpoints, collect the subgraph data and finally perform the query. To ease this pain we introduce pyomnigraph which mitigates the complexity by using docker and python to provide a unified interface to different endpoint technologies in a local environment with limited resources.
+For real life use cases only that operate on small subgraphs it should be feasible to operate locally by providing the necessary data "on the fly". Unfortunately to do so a lot of technical expertise is needed to set up endpoints, collect the subgraph data and finally perform the query. To ease this pain, we introduce pyomnigraph, which mitigates the complexity by using Docker and Python to provide a unified interface to different endpoint technologies in a local environment with limited resources.
 
 The contributions of this work are:
 \begin{itemize}
-\item \textbf{pyomnigraph}, an Apache-2.0 licensed Python library that unifies the deployment and operation of multiple RDF triple stores behind a single API, REST interface and Docker based setup (Section~\ref{sec:resource}), covering the backends listed in Section~\ref{sec:backends} and the \texttt{omnigraph} and \texttt{rdfdump} command-line interfaces (Section~\ref{sec:cli}).
+\item \textbf{pyomnigraph}, an Apache-2.0 licensed Python library that unifies the deployment and operation of multiple RDF triple stores behind a single API, REST interface and Docker-based setup (Section~\ref{sec:resource}), covering the backends listed in Section~\ref{sec:backends} and the \texttt{omnigraph} and \texttt{rdfdump} command-line interfaces (Section~\ref{sec:cli}).
 \end{itemize}
 
 \section{Related Work}\label{sec:relatedwork}
