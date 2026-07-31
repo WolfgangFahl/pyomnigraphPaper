@@ -3,6 +3,8 @@
 # <Query>.md carries the full set when it has at most 10 entries;
 # above that a -10/-100/... ladder, one file per power of ten below the
 # entry count, plus -full.md when the full set stays under 100 KB
+# the record count comes from the <Query>Count companion query - never
+# from counting md rows
 run_queries() {
   while read -r query_name endpoint_name
   do
@@ -10,9 +12,11 @@ run_queries() {
       sparqlquery -ep "$script_dir/endpoints.yaml" -qp "$script_dir/queries.yaml" \
         -qn "$query_name" -en "$endpoint_name" -f github "$@"
     }
+    rows=$(sparqlquery -ep "$script_dir/endpoints.yaml" -qp "$script_dir/queries.yaml" \
+      -qn "${query_name}Count" -en "$endpoint_name" -f csv | awk 'NF && NR>1 {gsub(/"/,""); print; exit}')
+    echo "$query_name: $rows records" >&2
     tmp="$query_name-full.tmp"
     sq --params limit=1000000 > "$tmp"
-    rows=$(($(grep -c "^|" "$tmp") - 2))
     if [ "$rows" -le 10 ]
     then
       mv "$tmp" "$query_name.md"

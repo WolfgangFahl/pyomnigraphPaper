@@ -23,3 +23,19 @@
     }
     ORDER BY ?name ?counterpart
     LIMIT {{ limit }}
+'PlaceIdentityCount':
+  # count companion of PlaceIdentity per issue #2 - same WHERE body, no limit
+  # COUNT(DISTINCT *) matches the SELECT DISTINCT of the main query
+  param_list:
+    - name: gov_id
+      type: str
+      default_value: AACHENJO30BS # Aachen
+  sparql: |
+    PREFIX gp: <http://gov.genealogy.net/ontology.owl#>
+    PREFIX gov: <http://gov.genealogy.net/>
+    PREFIX owl: <http://www.w3.org/2002/07/owl#>
+    SELECT (COUNT(DISTINCT *) AS ?count) WHERE {
+      VALUES ?place { gov:{{ gov_id }} }
+      ?place gp:hasName/gp:value ?name .
+      OPTIONAL { ?place owl:sameAs ?counterpart }
+    }

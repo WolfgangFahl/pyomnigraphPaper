@@ -19,6 +19,20 @@
     }
     ORDER BY DESC(?year)
     LIMIT {{ limit }}
+'AuthorPapersCount':
+  # count companion of AuthorPapers per issue #2 - same WHERE body, no limit
+  param_list:
+    - name: author_dblpid
+      type: str
+      default_value: 27/6858 # Wolfgang Fahl
+  sparql: |
+    PREFIX dblp: <https://dblp.org/rdf/schema#>
+    SELECT (COUNT(*) AS ?count) WHERE {
+      ?pub dblp:authoredBy <https://dblp.org/pid/{{ author_dblpid }}> ;
+           dblp:title ?title ;
+           dblp:yearOfPublication ?year .
+      OPTIONAL { ?pub dblp:publishedIn ?venue }
+    }
 'CoauthorPapers':
   # the papers of all coauthors of a given paper identified by dblp record id
   param_list:
@@ -39,6 +53,21 @@
     }
     ORDER BY ?author_name DESC(?year)
     LIMIT {{ limit }}
+'CoauthorPapersCount':
+  # count companion of CoauthorPapers per issue #2 - same WHERE body, no limit
+  param_list:
+    - name: paper_dblpid
+      type: str
+      default_value: conf/semweb/FahlHW0D22a # Getting and hosting your own copy of Wikidata
+  sparql: |
+    PREFIX dblp: <https://dblp.org/rdf/schema#>
+    SELECT (COUNT(*) AS ?count) WHERE {
+      <https://dblp.org/rec/{{ paper_dblpid }}> dblp:authoredBy ?author .
+      ?author dblp:primaryCreatorName ?author_name .
+      ?pub dblp:authoredBy ?author ;
+           dblp:title ?title ;
+           dblp:yearOfPublication ?year .
+    }
 'InstitutionAuthorPapers':
   # the works of all authors affiliated with a given institution identified by GND id
   # GND is an authority file - works are the curated gndo:Work records, not a full bibliography
@@ -60,6 +89,20 @@
     }
     ORDER BY ?author_name ?title
     LIMIT {{ limit }}
+'InstitutionAuthorPapersCount':
+  # count companion of InstitutionAuthorPapers per issue #2 - same WHERE body, no limit
+  param_list:
+    - name: institution_gndid
+      type: str
+      default_value: 36225-6 # RWTH Aachen
+  sparql: |
+    PREFIX gndo: <https://d-nb.info/standards/elementset/gnd#>
+    SELECT (COUNT(*) AS ?count) WHERE {
+      ?author gndo:affiliation <https://d-nb.info/gnd/{{ institution_gndid }}> ;
+              gndo:preferredNameForThePerson ?author_name .
+      ?work (gndo:firstAuthor|gndo:author) ?author ;
+            gndo:preferredNameForTheWork ?title .
+    }
 'EventAuthorPapers':
   # the papers of all authors of a given scientific event identified by Wikidata QID
   # runs on the full Wikidata graph at qlever.dev - the WDQS graph split separates
@@ -93,3 +136,27 @@
     }
     ORDER BY ?author_name DESC(?year)
     LIMIT {{ limit }}
+'EventAuthorPapersCount':
+  # count companion of EventAuthorPapers per issue #2 - same WHERE body, no limit
+  param_list:
+    - name: event_qid
+      type: str
+      default_value: Q133307039 # Wikidata Workshop 2025
+  sparql: |
+    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+    PREFIX wd: <http://www.wikidata.org/entity/>
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    SELECT (COUNT(*) AS ?count) WHERE {
+      ?proceedings wdt:P4745 wd:{{ event_qid }} .
+      ?event_paper wdt:P1433 ?proceedings ;
+                   wdt:P50 ?author .
+      OPTIONAL {
+        ?author rdfs:label ?author_label .
+        FILTER(LANG(?author_label) = "en")
+      }
+      BIND(COALESCE(?author_label, SUBSTR(STR(?author), 32)) AS ?author_name)
+      ?pub wdt:P50 ?author ;
+           wdt:P1476 ?title .
+      OPTIONAL { ?pub wdt:P577 ?date . }
+      BIND(YEAR(?date) AS ?year)
+    }

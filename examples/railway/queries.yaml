@@ -61,3 +61,47 @@
     }
     ORDER BY ?rel_pos
     LIMIT {{ limit }}
+'RelationStopsCount':
+  # count companion of RelationStops per issue #2 - same WHERE body, no limit
+  param_list:
+    - name: osm_relation_id
+      type: int
+      default_value: 10492086 # MD 18061
+    - name: role
+      type: str
+      default_value: stop
+    - name: minlat
+      type: float
+      default_value: 42.0
+    - name: maxlat
+      type: float
+      default_value: 44.0
+    - name: minlon
+      type: float
+      default_value: -9.0
+    - name: maxlon
+      type: float
+      default_value: 4.0
+  sparql: |
+    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+    PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+    PREFIX osm2rdfmember: <https://osm2rdf.cs.uni-freiburg.de/rdf/member#>
+    PREFIX osmrel: <https://www.openstreetmap.org/relation/>
+    PREFIX osmkey: <https://www.openstreetmap.org/wiki/Key:>
+    PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
+    SELECT (COUNT(*) AS ?count) WHERE {
+      VALUES (?rel ?role ?minlat ?maxlat ?minlon ?maxlon) {
+        (osmrel:{{ osm_relation_id }} "{{ role }}" {{ minlat }} {{ maxlat }} {{ minlon }} {{ maxlon }})
+      }
+      ?rel osmkey:ref ?rel_name .
+      ?rel osmrel:member ?member .
+      ?member osmrel:member_pos ?rel_pos .
+      ?member osmrel:member_role ?role .
+      ?member osmrel:member_id ?node .
+      OPTIONAL { ?node osmkey:name ?node_name}.
+      OPTIONAL { ?node osmkey:ref ?node_ref}.
+      ?node geo:hasGeometry/geo:asWKT ?loc .
+      BIND(geof:latitude(?loc) AS ?lat)
+      BIND(geof:longitude(?loc) AS ?lon)
+      FILTER (?lat > ?minlat && ?lat < ?maxlat && ?lon > ?minlon && ?lon < ?maxlon)
+    }
