@@ -125,9 +125,9 @@ OpenLink Software (truthy)         & Virtuoso   &  --  & 2025-11-01 \\
 \end{table}
 
 % From a single Wikidata copy to your own copies of many RDF sources.
-Using federated queries on participants of the Linked Open Data Cloud http://cas.lod-cloud.net/  are in theory an excellent way to answer queries over diverse data sources. In practice there are a lot of possible frustrations involved such as outages of endpoints, incompatibilities of endpoints, akward syntax and general query rot.
+Using federated queries on participants of the Linked Open Data Cloud \footnotelink{http://cas.lod-cloud.net/}{LOD Cloud} is in theory an excellent way to answer queries over diverse data sources. In practice there are a lot of possible frustrations involved such as outages of endpoints, incompatibilities of endpoints, awkward syntax and general query rot.
 
-For real life use cases only that operate on small subgraphs it should be feasible to operate locally by providing the necessary data "on the fly". Unfortunately to do so a lot of technical expertise is needed to setup endpoints, collect the subgraph data and finally perform the query. To ease this pain we introduce pyomnigraph which mitigates the complexity by using docker and python to provide a unified interface to different endpoint technologies in a local environment with limited resources.
+For real life use cases only that operate on small subgraphs it should be feasible to operate locally by providing the necessary data "on the fly". Unfortunately to do so a lot of technical expertise is needed to set up endpoints, collect the subgraph data and finally perform the query. To ease this pain we introduce pyomnigraph which mitigates the complexity by using docker and python to provide a unified interface to different endpoint technologies in a local environment with limited resources.
 
 The contributions of this work are:
 
@@ -155,12 +155,10 @@ There are two command line interfaces available for pyomnigraph: omnigraph for s
 
 \section{Use cases and Data Sources}\label{sec:datasources}
 %The use cases for our experiments are motivated by the eat your own dog food approach.
-Three usecases are the basis for our demonstration and evaluation: papers and authors (scholarly), historical locations for genealogy research and railway journey planning. 
+Three use cases are the basis for our demonstration and evaluation: papers and authors (scholarly), historical locations for genealogy research and railway journey planning. 
 We use concrete examples in this paper. The abstraction is then done applying named parameterized queries. 
-\subsection{scholarly - authors and papers}
-\subsection{historical locations}
-\subsection{railway journey planning}
-Table shows the subgraph sources for the usescases,
+
+Table~\ref{tab:subgraphs} shows the subgraph sources for the usescases,
 % Subgraphs of Wikidata, FactGrid, GOV, and potentially further RDF sources.
 \begin{table}
 \caption{Public SPARQL endpoints serving the subgraph sources, probed
@@ -186,7 +184,9 @@ GOV           & gov-wiki.genealogy.net/sparql       & --         & blocked \\
 \section{Federated Query Benchmark}\label{sec:benchmark}
 % Combinations of endpoints; query set; metrics (load time, query latency and
 % throughput); reproducibility. 
-
+\subsection{scholarly - authors and papers}
+\subsection{historical locations}
+\subsection{railway journey planning}
 \section{Evaluation}\label{sec:evaluation}
 % Results across store and endpoint combinations. 
 
