@@ -46,7 +46,7 @@
   param_list:
     - name: event_qid
       type: str
-      default_value: Q116982157 # TEXT2KG 2023
+      default_value: Q133307039 # Wikidata Workshop 2025
     - name: limit
       type: int
       default_value: 10
