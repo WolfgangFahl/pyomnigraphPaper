@@ -165,7 +165,7 @@ CONSTRUCT queries in SPARQL have been studied by Kostylev et al.~\cite{kostylev2
 pyomnigraph provides a unified python interface for multiple graph databases. The software is open source under Apache 2.0 license and hosted on github. 
 
 % Unified Python API, Docker deployment, YAML configuration.
-
+snapquery~\cite{snapquery} is a framework for handling named and parameterized SPARQL queries. It supports semantic annotation of queries and monitoring of their execution. By abstracting away the underlying endpoint, it can call multiple endpoints at once to compare results, or swap endpoints transparently, without users noticing or having to change anything.
 
 \subsection{Supported Backends}\label{sec:backends}
 % Jena, Blazegraph, Oxigraph, QLever (working); GraphDB, MillenniumDB,
@@ -211,7 +211,7 @@ GOV           & gov-wiki.genealogy.net/sparql       & --         & blocked \\
 \caption{Named parameterized queries per use case, with the example parameter
 binding used for the reproduction run and the resulting number of records.
 Run with \texttt{sparqlquery} against the endpoint declared in
-\texttt{examples/scholar/endpoints.yaml} 
+\texttt{examples/scholar/endpoints.yaml} }
 \label{tab:usecasequeries}
 \begin{tabular}{lllr}
 \hline
