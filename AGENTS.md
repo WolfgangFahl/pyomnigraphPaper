@@ -4,6 +4,11 @@ This repository holds a **scientific paper** targeting CEUR-WS.
 
 ## Hard rules
 
+0. **NEVER build the paper locally.** No `scripts/tex2pdf`, no `pdflatex`,
+   no `latexmk` — the PDF is built by CI on push (see the
+   `build: auto-update PDF [skip ci]` commits). Do not chmod or run any
+   build script.
+
 1. AI assistance is limited to **spelling/grammar** and **formatting/build
    tooling** (LaTeX, Makefile, bibliography formatting, repository chores).
 2. AI must **NOT** generate, rewrite or contribute **scientific content,

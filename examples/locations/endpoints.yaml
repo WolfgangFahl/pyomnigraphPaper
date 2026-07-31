@@ -13,3 +13,9 @@ endpoints:
       database: qlever
       method: POST
       lang: sparql
+    'locations-factgrid':
+      endpoint: https://database.factgrid.de/sparql
+      website: https://database.factgrid.de/
+      database: blazegraph
+      method: POST
+      lang: sparql

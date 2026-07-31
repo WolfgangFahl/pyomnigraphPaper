@@ -6,6 +6,6 @@ source "$script_dir/../run_queries.sh"
 run_queries <<EOF2
 PlaceIdentity locations-gov
 PlaceHierarchy locations-gov
-PlaceNames locations-gov
+PlaceNames locations-factgrid
 PersonsOfPlace locations-wikidata
 EOF2

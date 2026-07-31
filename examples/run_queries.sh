@@ -12,8 +12,10 @@ run_queries() {
       sparqlquery -ep "$script_dir/endpoints.yaml" -qp "$script_dir/queries.yaml" \
         -qn "$query_name" -en "$endpoint_name" -f github "$@"
     }
+    # tr strips CR and quotes: BSD awk has no \r regex escape and endpoints
+    # like database.factgrid.de deliver CRLF csv
     rows=$(sparqlquery -ep "$script_dir/endpoints.yaml" -qp "$script_dir/queries.yaml" \
-      -qn "${query_name}Count" -en "$endpoint_name" -f csv | awk 'NR>1 {gsub(/[\r"]/,""); if (length($0)) {print; exit}}')
+      -qn "${query_name}Count" -en "$endpoint_name" -f csv | tr -d '\r"' | awk 'NR>1 && length($0) {print; exit}')
     case "$rows" in
       ""|*[!0-9]*) echo "$query_name: count query failed - got '$rows'" >&2; return 1;;
     esac

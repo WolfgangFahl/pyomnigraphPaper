@@ -113,55 +113,70 @@
     GROUP BY ?count
     ORDER BY ?count
 'PlaceNames':
-  # names of a GOV place over time
-  # prior art: the gp:hasName/gp:value idiom of PlaceIdentity extended by the
-  # PropertyName attributes language, timeBegin and timeEnd
+  # names of a place over time - FactGrid leg per the three-leg rule of #2
+  # the GOV id is the cross-dataset key: ?place fgt:P1073 gov_id (GOV-ID)
+  # P34 Naming statements carry Date (pq:P106) and Language (pq:P18)
+  # qualifiers; historical name forms like "Aquis" (1395) get their date
   param_list:
     - name: gov_id
       type: str
-      default_value: AACHENJO30BS # Aachen
+      default_value: AACHENJO30BS # Aachen -> fg:Q10293
     - name: limit
       type: int
       default_value: 10
   sparql: |
-    PREFIX gp: <http://gov.genealogy.net/ontology.owl#>
-    PREFIX gov: <http://gov.genealogy.net/>
-    SELECT ?place ?name ?language ?begin ?end WHERE {
-      VALUES ?place { gov:{{ gov_id }} }
-      ?place gp:hasName ?nameprop .
-      ?nameprop gp:value ?name .
-      OPTIONAL { ?nameprop gp:language ?language }
-      OPTIONAL { ?nameprop gp:timeBegin ?begin }
-      OPTIONAL { ?nameprop gp:timeEnd ?end }
+    PREFIX fgt: <https://database.factgrid.de/prop/direct/>
+    PREFIX p: <https://database.factgrid.de/prop/>
+    PREFIX ps: <https://database.factgrid.de/prop/statement/>
+    PREFIX pq: <https://database.factgrid.de/prop/qualifier/>
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    SELECT ?place ?name ?language ?date WHERE {
+      ?place fgt:P1073 "{{ gov_id }}" .
+      ?place p:P34 ?namestmt .
+      ?namestmt ps:P34 ?name .
+      OPTIONAL {
+        ?namestmt pq:P18 ?lang_item .
+        ?lang_item rdfs:label ?language .
+        FILTER(LANG(?language) = "en")
+      }
+      OPTIONAL { ?namestmt pq:P106 ?date }
     }
-    ORDER BY ?begin ?name
+    ORDER BY ?date ?name
     LIMIT {{ limit }}
 'PlaceNamesCount':
   # count companion of PlaceNames per issue #2 - same WHERE body, no limit
   param_list:
     - name: gov_id
       type: str
-      default_value: AACHENJO30BS # Aachen
+      default_value: AACHENJO30BS # Aachen -> fg:Q10293
   sparql: |
-    PREFIX gp: <http://gov.genealogy.net/ontology.owl#>
-    PREFIX gov: <http://gov.genealogy.net/>
+    PREFIX fgt: <https://database.factgrid.de/prop/direct/>
+    PREFIX p: <https://database.factgrid.de/prop/>
+    PREFIX ps: <https://database.factgrid.de/prop/statement/>
+    PREFIX pq: <https://database.factgrid.de/prop/qualifier/>
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
     SELECT (COUNT(*) AS ?count) WHERE {
-      VALUES ?place { gov:{{ gov_id }} }
-      ?place gp:hasName ?nameprop .
-      ?nameprop gp:value ?name .
-      OPTIONAL { ?nameprop gp:language ?language }
-      OPTIONAL { ?nameprop gp:timeBegin ?begin }
-      OPTIONAL { ?nameprop gp:timeEnd ?end }
+      ?place fgt:P1073 "{{ gov_id }}" .
+      ?place p:P34 ?namestmt .
+      ?namestmt ps:P34 ?name .
+      OPTIONAL {
+        ?namestmt pq:P18 ?lang_item .
+        ?lang_item rdfs:label ?language .
+        FILTER(LANG(?language) = "en")
+      }
+      OPTIONAL { ?namestmt pq:P106 ?date }
     }
 'PlaceNamesHistogram':
   # histogram companion of PlaceNames per issue #2 / #12 - place seed
-  # unbound: distribution of name counts over all GOV places
+  # unbound: distribution of naming counts over all GOV-linked FactGrid places
   param_list: []
   sparql: |
-    PREFIX gp: <http://gov.genealogy.net/ontology.owl#>
+    PREFIX fgt: <https://database.factgrid.de/prop/direct/>
+    PREFIX p: <https://database.factgrid.de/prop/>
     SELECT ?count (COUNT(?place) AS ?freq) WHERE {
       { SELECT ?place (COUNT(*) AS ?count) WHERE {
-          ?place gp:hasName ?nameprop .
+          ?place fgt:P1073 ?gov_id .
+          ?place p:P34 ?namestmt .
         } GROUP BY ?place }
     }
     GROUP BY ?count
