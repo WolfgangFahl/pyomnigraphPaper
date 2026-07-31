@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="667px" preserveAspectRatio="none" style="width:689px;height:667px;" version="1.1" viewBox="0 0 689 667" width="689px" zoomAndPan="magnify"><defs><filter height="300%" id="fk29xsy2yp99p" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><text fill="#000000" font-family="sans-serif" font-size="18" lengthAdjust="spacingAndGlyphs" textLength="222" x="232.5" y="19.2419">pyomnigraph architecture</text><!--MD5=[d39d75d20503768f828654fc47e3a2bb]
+cluster CLI--><polygon fill="#FFFFFF" filter="url(#fk29xsy2yp99p)" points="316,160.5158,342,160.5158,349,182.86,625,182.86,625,264.5158,316,264.5158,316,160.5158" style="stroke: #FF8000; stroke-width: 1.5;"/><line style="stroke: #FF8000; stroke-width: 1.5;" x1="316" x2="349" y1="182.86" y2="182.86"/><text fill="#000000" font-family="Technical" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="20" x="320" y="175.3439">CLI</text><!--MD5=[650549a419f5c12567a1d4133012c9e7]
+cluster pyomnigraph--><polygon fill="#FFFFFF" filter="url(#fk29xsy2yp99p)" points="138,169.0158,226,169.0158,233,191.36,292,191.36,292,395.0158,138,395.0158,138,169.0158" style="stroke: #FF8000; stroke-width: 1.5;"/><line style="stroke: #FF8000; stroke-width: 1.5;" x1="138" x2="233" y1="191.36" y2="191.36"/><text fill="#000000" font-family="Technical" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="82" x="142" y="183.8439">pyomnigraph</text><!--MD5=[42591781c74864aa6bd8b9830e23a81c]
+cluster Docker--><polygon fill="#FFFFFF" filter="url(#fk29xsy2yp99p)" points="140,439.5158,187,439.5158,194,461.86,290,461.86,290,526.5158,140,526.5158,140,439.5158" style="stroke: #FF8000; stroke-width: 1.5;"/><line style="stroke: #FF8000; stroke-width: 1.5;" x1="140" x2="194" y1="461.86" y2="461.86"/><text fill="#000000" font-family="Technical" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="41" x="144" y="454.3439">Docker</text><!--MD5=[26655d127d1089e1f82e2ca71732c758]
+cluster backends--><polygon fill="#FFFFFF" filter="url(#fk29xsy2yp99p)" points="22,559.5158,85,559.5158,92,581.86,419,581.86,419,655.5158,22,655.5158,22,559.5158" style="stroke: #FF8000; stroke-width: 1.5;"/><line style="stroke: #FF8000; stroke-width: 1.5;" x1="22" x2="92" y1="581.86" y2="581.86"/><text fill="#000000" font-family="Technical" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="57" x="26" y="574.3439">backends</text><!--MD5=[00bce1e894ed9881cb9b0383a24a7042]
+entity og--><rect fill="#FFFFFF" filter="url(#fk29xsy2yp99p)" height="52.6882" style="stroke: #FF8000; stroke-width: 1.5;" width="134" x="332" y="195.5158"/><rect fill="#FFFFFF" height="5" style="stroke: #FF8000; stroke-width: 1.5;" width="10" x="327" y="200.5158"/><rect fill="#FFFFFF" height="5" style="stroke: #FF8000; stroke-width: 1.5;" width="10" x="327" y="238.2041"/><text fill="#000000" font-family="Technical" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="61" x="342" y="218.3439">omnigraph</text><text fill="#000000" font-family="Technical" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="114" x="342" y="234.6881">server management</text><!--MD5=[3df74d0e0ef6e3d4152e0268750447c9]
+entity rd--><rect fill="#FFFFFF" filter="url(#fk29xsy2yp99p)" height="52.6882" style="stroke: #FF8000; stroke-width: 1.5;" width="108" x="501" y="195.5158"/><rect fill="#FFFFFF" height="5" style="stroke: #FF8000; stroke-width: 1.5;" width="10" x="496" y="200.5158"/><rect fill="#FFFFFF" height="5" style="stroke: #FF8000; stroke-width: 1.5;" width="10" x="496" y="238.2041"/><text fill="#000000" font-family="Technical" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="48" x="511" y="218.3439">rdfdump</text><text fill="#000000" font-family="Technical" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="88" x="511" y="234.6881">data operations</text><!--MD5=[e2307af040e3f87d22824e7603ca28ec]
+entity api--><rect fill="#FFFFFF" filter="url(#fk29xsy2yp99p)" height="36.3441" style="stroke: #FF8000; stroke-width: 1.5;" width="121" x="154.5" y="343.0158"/><rect fill="#FFFFFF" height="5" style="stroke: #FF8000; stroke-width: 1.5;" width="10" x="149.5" y="348.0158"/><rect fill="#FFFFFF" height="5" style="stroke: #FF8000; stroke-width: 1.5;" width="10" x="149.5" y="369.36"/><text fill="#000000" font-family="Technical" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="101" x="164.5" y="365.8439">unified Python API</text><!--MD5=[ac40dd4c03671801018102ca7be9c337]
+entity rest--><rect fill="#FFFFFF" filter="url(#fk29xsy2yp99p)" height="36.3441" style="stroke: #FF8000; stroke-width: 1.5;" width="70" x="193" y="204.0158"/><rect fill="#FFFFFF" height="5" style="stroke: #FF8000; stroke-width: 1.5;" width="10" x="188" y="209.0158"/><rect fill="#FFFFFF" height="5" style="stroke: #FF8000; stroke-width: 1.5;" width="10" x="188" y="230.36"/><text fill="#000000" font-family="Technical" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="50" x="203" y="226.8439">REST API</text><!--MD5=[7c0f197cad09c4d86c8b8989e1030b9e]
+entity docker--><rect fill="#FFFFFF" filter="url(#fk29xsy2yp99p)" height="36.3441" style="stroke: #FF8000; stroke-width: 1.5;" width="118" x="156" y="474.5158"/><rect fill="#FFFFFF" height="5" style="stroke: #FF8000; stroke-width: 1.5;" width="10" x="151" y="479.5158"/><rect fill="#FFFFFF" height="5" style="stroke: #FF8000; stroke-width: 1.5;" width="10" x="151" y="500.86"/><text fill="#000000" font-family="Technical" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="98" x="166" y="497.3439">server containers</text><!--MD5=[6c680d52448e07fa5d6f747b33fd4d84]
+entity jena--><path d="M38,604.5158 C38,594.5158 60,594.5158 60,594.5158 C60,594.5158 82,594.5158 82,604.5158 L82,629.86 C82,639.86 60,639.86 60,639.86 C60,639.86 38,639.86 38,629.86 L38,604.5158 " fill="#FFFFFF" filter="url(#fk29xsy2yp99p)" style="stroke: #FF8000; stroke-width: 1.5;"/><path d="M38,604.5158 C38,614.5158 60,614.5158 60,614.5158 C60,614.5158 82,614.5158 82,604.5158 " fill="none" style="stroke: #FF8000; stroke-width: 1.5;"/><text fill="#000000" font-family="Technical" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="24" x="48" y="631.3439">Jena</text><!--MD5=[430f40f522cb9f6d51a8230909252821]
+entity bg--><path d="M117,604.5158 C117,594.5158 159,594.5158 159,594.5158 C159,594.5158 201,594.5158 201,604.5158 L201,629.86 C201,639.86 159,639.86 159,639.86 C159,639.86 117,639.86 117,629.86 L117,604.5158 " fill="#FFFFFF" filter="url(#fk29xsy2yp99p)" style="stroke: #FF8000; stroke-width: 1.5;"/><path d="M117,604.5158 C117,614.5158 159,614.5158 159,614.5158 C159,614.5158 201,614.5158 201,604.5158 " fill="none" style="stroke: #FF8000; stroke-width: 1.5;"/><text fill="#000000" font-family="Technical" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="64" x="127" y="631.3439">Blazegraph</text><!--MD5=[72845efab42e190356b9cce313929a21]
+entity ox--><path d="M236.5,604.5158 C236.5,594.5158 272,594.5158 272,594.5158 C272,594.5158 307.5,594.5158 307.5,604.5158 L307.5,629.86 C307.5,639.86 272,639.86 272,639.86 C272,639.86 236.5,639.86 236.5,629.86 L236.5,604.5158 " fill="#FFFFFF" filter="url(#fk29xsy2yp99p)" style="stroke: #FF8000; stroke-width: 1.5;"/><path d="M236.5,604.5158 C236.5,614.5158 272,614.5158 272,614.5158 C272,614.5158 307.5,614.5158 307.5,604.5158 " fill="none" style="stroke: #FF8000; stroke-width: 1.5;"/><text fill="#000000" font-family="Technical" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="51" x="246.5" y="631.3439">Oxigraph</text><!--MD5=[2f898e88b7e31d50ec1f9fbc56138dc4]
+entity ql--><path d="M343,604.5158 C343,594.5158 373,594.5158 373,594.5158 C373,594.5158 403,594.5158 403,604.5158 L403,629.86 C403,639.86 373,639.86 373,639.86 C373,639.86 343,639.86 343,629.86 L343,604.5158 " fill="#FFFFFF" filter="url(#fk29xsy2yp99p)" style="stroke: #FF8000; stroke-width: 1.5;"/><path d="M343,604.5158 C343,614.5158 373,614.5158 373,614.5158 C373,614.5158 403,614.5158 403,604.5158 " fill="none" style="stroke: #FF8000; stroke-width: 1.5;"/><text fill="#000000" font-family="Technical" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="40" x="353" y="631.3439">QLever</text><!--MD5=[8fc3522a43f8c7199df5e09e5bb0188e]
+entity user--><ellipse cx="399" cy="42.0158" fill="#FFFFFF" filter="url(#fk29xsy2yp99p)" rx="8" ry="8" style="stroke: #FF8000; stroke-width: 1.5;"/><path d="M399,50.0158 L399,77.0158 M386,58.0158 L412,58.0158 M399,77.0158 L386,92.0158 M399,77.0158 L412,92.0158 " fill="none" filter="url(#fk29xsy2yp99p)" style="stroke: #FF8000; stroke-width: 1.5;"/><text fill="#000000" font-family="Technical" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="25" x="386.5" y="110.3439">user</text><!--MD5=[9a021870090d77f794912cb9468db6c9]
+entity lod--><path d="M450.2906,340.3365 C453.2927,332.4726 458.742,331.0999 464.4891,337.6285 C469.2368,331.1707 476.875,331.281 479.7169,339.5934 C483.6108,331.4811 490.8644,332.112 494.8081,339.5451 C498.6288,331.7337 505.5745,328.6022 512.14,336.5208 C516.5711,330.3912 521.5552,328.8052 526.239,336.2586 C530.6184,328.8907 537.8045,330.1962 541.2384,337.2424 C546.2063,329.6128 551.8009,329.5122 556.1558,337.8164 C561.1037,330.9378 566.5638,329.7105 571.9561,337.3322 C576.8923,330.2788 582.3431,329.2977 587.2955,337.3158 C592.9669,329.7304 597.7454,331.4705 602.1683,338.5796 C606.7037,331.4464 612.914,331.262 616.9091,339.1111 C619.658,331.5551 626.4044,331.2974 630.9245,337.2771 C637.146,328.6967 643.6174,330.7769 648.0511,339.0896 C652.6483,332.9668 657.4055,333.1444 661.2313,339.8803 C675.8301,342.2499 676.6044,354.6713 667.9568,363.6251 C677.9063,372.7925 673.3185,382.0843 662.0044,385.4532 C658.6701,392.4357 652.6095,395.1122 646.8945,388.0065 C642.9648,396.557 635.5371,395.4905 630.936,388.7052 C626.2468,395.2202 620.4404,395.0814 615.8656,388.5728 C612.841,395.204 608.7771,397.7355 602.7467,391.6813 C598.2213,399.2002 591.6303,400.3337 585.5864,393.4964 C582.3732,400.2676 576.5834,399.9548 572.1595,394.8671 C568.6016,403.7014 560.6008,403.1961 555.9691,395.9482 C550.0814,402.7118 543.6705,401.8003 540.7894,393.0133 C535.3553,400.4201 530.6139,399.8959 526.3982,391.8766 C521.3921,399.1712 515.3312,398.8173 510.0878,392.1538 C504.9977,397.9231 497.9057,395.8239 495.6874,388.8966 C490.3811,395.2691 484.9846,394.1006 481.2683,387.1728 C477.2076,394.655 470.1399,395.0543 465.8044,387.4546 C460.1026,395.04 453.2997,393.8478 450.5196,384.7738 C437.1817,379.8395 434.4387,371.2942 445.284,361.0278 C438.3198,352.5617 440.3382,344.7093 450.2906,340.3365 " fill="#FFFFFF" style="stroke: #FF8000; stroke-width: 1.5;"/><text fill="#000000" font-family="Technical" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="138" x="456" y="357.3439">public SPARQL endpoints</text><text fill="#000000" font-family="Technical" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="198" x="456" y="373.6881">(Wikidata, dblp, GND, OSM, GOV, ...)</text><!--MD5=[60ec718cf4513edbcefa6a911d75c2da]
+link user to og--><path d="M399,113.7958 C399,137.7258 399,167.7458 399,189.9258 " fill="none" id="user-&gt;og" style="stroke: #FF8000; stroke-width: 1.0;"/><polygon fill="#FF8000" points="399,195.1058,403,186.1058,399,190.1058,395,186.1058,399,195.1058" style="stroke: #FF8000; stroke-width: 1.0;"/><!--MD5=[86519b1b5608d03e997c265c094c3093]
+link user to rd--><path d="M413.53,87.2558 C430.52,102.7858 459.46,129.3558 484,152.5158 C497.55,165.3058 512.39,179.5858 525,191.7858 " fill="none" id="user-&gt;rd" style="stroke: #FF8000; stroke-width: 1.0;"/><polygon fill="#FF8000" points="528.83,195.5058,525.1467,186.3717,525.2379,192.0278,519.5818,192.119,528.83,195.5058" style="stroke: #FF8000; stroke-width: 1.0;"/><!--MD5=[de54b5ebd9c85c488503c16cc18c50e2]
+link user to rest--><path d="M384.42,86.5458 C354.89,111.9358 287.75,169.6558 251.79,200.5658 " fill="none" id="user-&gt;rest" style="stroke: #FF8000; stroke-width: 1.0;"/><polygon fill="#FF8000" points="247.98,203.8358,257.4165,201.0158,251.7763,200.5819,252.2101,194.9417,247.98,203.8358" style="stroke: #FF8000; stroke-width: 1.0;"/><!--MD5=[4a3757a67dc109c857ff427e81e80cfb]
+link og to api--><path d="M364.39,248.7858 C328.92,275.1958 274.51,315.7058 242.07,339.8658 " fill="none" id="og-&gt;api" style="stroke: #FF8000; stroke-width: 1.0;"/><polygon fill="#FF8000" points="237.83,343.0158,247.4387,340.8542,241.842,340.0319,242.6643,334.4351,237.83,343.0158" style="stroke: #FF8000; stroke-width: 1.0;"/><!--MD5=[d6b508d87df1ddd9ba4dd646a4840a7d]
+link rd to api--><path d="M522.67,248.5558 C510.95,256.9858 497.32,265.8858 484,272.5158 C417.84,305.4258 336.53,329.8758 280.73,344.4458 " fill="none" id="rd-&gt;api" style="stroke: #FF8000; stroke-width: 1.0;"/><polygon fill="#FF8000" points="275.75,345.7358,285.4663,347.3462,280.5896,344.4795,283.4562,339.6028,275.75,345.7358" style="stroke: #FF8000; stroke-width: 1.0;"/><!--MD5=[627d907f711e2e7976c45e9f2fe85e3a]
+link rest to api--><path d="M226.38,240.0858 C224.04,264.7058 219.73,310.1858 217.14,337.5158 " fill="none" id="rest-&gt;api" style="stroke: #FF8000; stroke-width: 1.0;"/><polygon fill="#FF8000" points="216.64,342.7258,221.4695,334.1424,217.1107,337.748,213.505,333.3893,216.64,342.7258" style="stroke: #FF8000; stroke-width: 1.0;"/><!--MD5=[52384f3b60deca858194358a29c4aec5]
+link api to docker--><path d="M215,379.2158 C215,402.3358 215,443.4958 215,469.0458 " fill="none" id="api-&gt;docker" style="stroke: #FF8000; stroke-width: 1.0;"/><polygon fill="#FF8000" points="215,474.2458,219,465.2458,215,469.2458,211,465.2458,215,474.2458" style="stroke: #FF8000; stroke-width: 1.0;"/><!--MD5=[fc66b01b05ff19445b73f39221108083]
+link docker to jena--><path d="M166.38,510.5658 C144.03,520.1158 118.28,533.7258 99,551.5158 C87.44,562.1858 78.13,577.0658 71.52,589.8358 " fill="none" id="docker-&gt;jena" style="stroke: #FF8000; stroke-width: 1.0;"/><polygon fill="#FF8000" points="69.2,594.4358,76.8186,588.1943,71.4475,589.9695,69.6724,584.5983,69.2,594.4358" style="stroke: #FF8000; stroke-width: 1.0;"/><!--MD5=[1902a78bfd1e3590fbd18db2e8df7caa]
+link docker to bg--><path d="M207.21,510.5458 C197.86,531.0158 182.06,565.5658 171.11,589.5258 " fill="none" id="docker-&gt;bg" style="stroke: #FF8000; stroke-width: 1.0;"/><polygon fill="#FF8000" points="168.99,594.1658,176.3557,587.6278,171.059,589.614,169.0728,584.3173,168.99,594.1658" style="stroke: #FF8000; stroke-width: 1.0;"/><!--MD5=[ac8950b3b75eeb45f209a629200f321a]
+link docker to ox--><path d="M222.93,510.5458 C232.45,531.0158 248.53,565.5658 259.67,589.5258 " fill="none" id="docker-&gt;ox" style="stroke: #FF8000; stroke-width: 1.0;"/><polygon fill="#FF8000" points="261.83,594.1658,261.6471,584.3187,259.7148,589.6353,254.3982,587.703,261.83,594.1658" style="stroke: #FF8000; stroke-width: 1.0;"/><!--MD5=[c90958df4c62228b4306aacdfdab91c3]
+link docker to ql--><path d="M257.69,510.5958 C279.29,520.5258 305.08,534.4558 325,551.5158 C337.76,562.4458 349.14,577.3558 357.61,590.0958 " fill="none" id="docker-&gt;ql" style="stroke: #FF8000; stroke-width: 1.0;"/><polygon fill="#FF8000" points="360.37,594.3158,358.8061,584.592,357.6395,590.1272,352.1043,588.9607,360.37,594.3158" style="stroke: #FF8000; stroke-width: 1.0;"/><!--MD5=[6795b48863ad45535e7abba7a674952c]
+reverse link rd to lod--><path d="M555,254.0258 C555,276.4658 555,306.6658 555,329.0858 " fill="none" id="rd&lt;-lod" style="stroke: #FF8000; stroke-width: 1.0;"/><polygon fill="#FF8000" points="555,248.7858,551,257.7858,555,253.7858,559,257.7858,555,248.7858" style="stroke: #FF8000; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="103" x="556" y="295.4129">subgraph dumps</text><!--MD5=[8d44fe7a66b002835bd1870ff036bdea]
+@startuml
+title pyomnigraph architecture
+actor "user" as user
+package "CLI" {
+  [omnigraph\nserver management] as og
+  [rdfdump\ndata operations] as rd
+}
+package "pyomnigraph" {
+  [unified Python API] as api
+  [REST API] as rest
+}
+package "Docker" {
+  [server containers] as docker
+}
+package "backends" {
+  database "Jena" as jena
+  database "Blazegraph" as bg
+  database "Oxigraph" as ox
+  database "QLever" as ql
+}
+cloud "public SPARQL endpoints\n(Wikidata, dblp, GND, OSM, GOV, ...)" as lod
+user - -> og
+user - -> rd
+user - -> rest
+og - -> api
+rd - -> api
+rest - -> api
+api - -> docker
+docker - -> jena
+docker - -> bg
+docker - -> ox
+docker - -> ql
+rd <- - lod : subgraph dumps
+skinparam note {
+  BackGroundColor #FFFFFF
+  FontSize 12
+  ArrowColor #FF8000
+  BorderColor #FF8000
+  FontColor black
+  FontName Technical
+}
+skinparam component {
+  BackGroundColor #FFFFFF
+  FontSize 12
+  ArrowColor #FF8000
+  BorderColor #FF8000
+  FontColor black
+  FontName Technical
+}
+skinparam package {
+  BackGroundColor #FFFFFF
+  FontSize 12
+  ArrowColor #FF8000
+  BorderColor #FF8000
+  FontColor black
+  FontName Technical
+}
+skinparam database {
+  BackGroundColor #FFFFFF
+  FontSize 12
+  ArrowColor #FF8000
+  BorderColor #FF8000
+  FontColor black
+  FontName Technical
+}
+skinparam actor {
+  BackGroundColor #FFFFFF
+  FontSize 12
+  ArrowColor #FF8000
+  BorderColor #FF8000
+  FontColor black
+  FontName Technical
+}
+skinparam cloud {
+  BackGroundColor #FFFFFF
+  FontSize 12
+  ArrowColor #FF8000
+  BorderColor #FF8000
+  FontColor black
+  FontName Technical
+}
+hide Circle
+@enduml
+
+PlantUML version 1.2020.02(Sun Mar 01 11:22:07 CET 2020)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 25.0.3+9-2-24.04.2-Ubuntu
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

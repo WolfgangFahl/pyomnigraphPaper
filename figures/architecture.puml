@@ -1,0 +1,85 @@
+@startuml
+title pyomnigraph architecture
+actor "user" as user
+package "CLI" {
+  [omnigraph\nserver management] as og
+  [rdfdump\ndata operations] as rd
+}
+package "pyomnigraph" {
+  [unified Python API] as api
+  [REST API] as rest
+}
+package "Docker" {
+  [server containers] as docker
+}
+package "backends" {
+  database "Jena" as jena
+  database "Blazegraph" as bg
+  database "Oxigraph" as ox
+  database "QLever" as ql
+}
+cloud "public SPARQL endpoints\n(Wikidata, dblp, GND, OSM, GOV, ...)" as lod
+user --> og
+user --> rd
+user --> rest
+og --> api
+rd --> api
+rest --> api
+api --> docker
+docker --> jena
+docker --> bg
+docker --> ox
+docker --> ql
+rd <-- lod : subgraph dumps
+' BITPlan Corporate identity skin params
+' see https://wiki.bitplan.com/index.php/PlantUmlSkinParams#BITPlanCI
+skinparam note {
+  BackGroundColor #FFFFFF
+  FontSize 12
+  ArrowColor #FF8000
+  BorderColor #FF8000
+  FontColor black
+  FontName Technical
+}
+skinparam component {
+  BackGroundColor #FFFFFF
+  FontSize 12
+  ArrowColor #FF8000
+  BorderColor #FF8000
+  FontColor black
+  FontName Technical
+}
+skinparam package {
+  BackGroundColor #FFFFFF
+  FontSize 12
+  ArrowColor #FF8000
+  BorderColor #FF8000
+  FontColor black
+  FontName Technical
+}
+skinparam database {
+  BackGroundColor #FFFFFF
+  FontSize 12
+  ArrowColor #FF8000
+  BorderColor #FF8000
+  FontColor black
+  FontName Technical
+}
+skinparam actor {
+  BackGroundColor #FFFFFF
+  FontSize 12
+  ArrowColor #FF8000
+  BorderColor #FF8000
+  FontColor black
+  FontName Technical
+}
+skinparam cloud {
+  BackGroundColor #FFFFFF
+  FontSize 12
+  ArrowColor #FF8000
+  BorderColor #FF8000
+  FontColor black
+  FontName Technical
+}
+hide Circle
+@enduml
