@@ -18,6 +18,29 @@ queries with all legs on one local backend (local-local-local, LLL) after
 QLever index load. Failure modes are collected in the
 [failure cases issue](https://github.com/WolfgangFahl/pyomnigraphPaper/issues/16).
 
+## QLever notes
+
+QLever loads bulk data by rebuilding its index from the dump files of one
+directory — there is no incremental HTTP bulk load. Consequences, tracked
+in [pyomnigraph #40](https://github.com/WolfgangFahl/pyomnigraph/issues/40):
+
+- each `omnigraph ... -s qlever --cmd upload` replaces the previous index
+  content; load everything QLever should serve in one pass —
+  `federated/load.sh` combines all use case dumps under unique file names
+  for exactly this reason
+- the index build concatenates its input files; a turtle dump that
+  introduces new `@prefix` directives mid-stream aborts the parallel
+  parser and the old index keeps being served — set
+  `"parallel-parsing": false` in the `settings_json` line of the generated
+  `Qleverfile` as workaround
+- `qlever stop` without `--server-container` does not stop the
+  containerized server, so the subsequent `qlever start` refuses;
+  `docker restart qlever-omnigraph` loads a freshly built index
+- keep the `qlever` pip package and the `adfreiburg/qlever` docker image
+  in sync: a newer qlever-control with an older image fails with
+  `qlever-server: command not found` — run
+  `docker pull docker.io/adfreiburg/qlever:latest`
+
 ## Prerequisites
 
 - [pyomnigraph](https://github.com/WolfgangFahl/pyomnigraph) (provides the
