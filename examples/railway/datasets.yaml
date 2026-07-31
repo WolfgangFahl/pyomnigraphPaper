@@ -1,0 +1,47 @@
+# npq subgraph datasets for the railway journey planning use case
+# see https://github.com/WolfgangFahl/pyomnigraphPaper/issues/8
+datasets:
+  relation_stops_osm:
+    # subgraph of an OSM relation: the relation, its member statements,
+    # the member nodes and their geometries
+    # derived from the RelationStops query of
+    # https://github.com/WolfgangFahl/pyomnigraphPaper/issues/3
+    name: "Relation stops (osm)"
+    base_url: "https://qlever.dev/osm-planet"
+    endpoint_url: "https://qlever.dev/api/osm-planet"
+    database: "qlever"
+    expected_solutions: 67543
+    params:
+      rels: "<https://www.openstreetmap.org/relation/10492086>"
+    # four flat self-contained UNION branches: the nested UNION/BIND closure
+    # form is planned as a >240s query by QLever while each flat branch
+    # answers in well under a second
+    select_pattern: |
+      {
+        VALUES ?s { {{ rels }} }
+        ?s ?p ?o .
+      }
+      UNION
+      {
+        VALUES ?rel { {{ rels }} }
+        ?rel <https://www.openstreetmap.org/relation/member> ?s .
+        ?s ?p ?o .
+      }
+      UNION
+      {
+        VALUES ?rel { {{ rels }} }
+        ?rel <https://www.openstreetmap.org/relation/member> ?member .
+        ?member <https://www.openstreetmap.org/relation/member_id> ?s .
+        ?s ?p ?o .
+      }
+      UNION
+      {
+        VALUES ?rel { {{ rels }} }
+        ?rel <https://www.openstreetmap.org/relation/member> ?member .
+        ?member <https://www.openstreetmap.org/relation/member_id> ?node .
+        ?node <http://www.opengis.net/ont/geosparql#hasGeometry> ?s .
+        ?s ?p ?o .
+      }
+    construct_template: "?s ?p ?o"
+    description: "OSM relation with member statements, member nodes and geometries given by the relation seed, OSM planet graph via qlever.dev"
+    active: true
