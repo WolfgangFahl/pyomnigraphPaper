@@ -6,6 +6,9 @@
     - name: author_dblpid
       type: str
       default_value: 27/6858 # Wolfgang Fahl
+    - name: limit
+      type: int
+      default_value: 10
   sparql: |
     PREFIX dblp: <https://dblp.org/rdf/schema#>
     SELECT ?pub ?title ?year ?venue WHERE {
@@ -15,3 +18,4 @@
       OPTIONAL { ?pub dblp:publishedIn ?venue }
     }
     ORDER BY DESC(?year)
+    LIMIT {{ limit }}
