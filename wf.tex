@@ -1,0 +1,21 @@
+% multicolumn support
+\usepackage{multicol}
+% font
+\usepackage[T1]{fontenc}
+% linenumbers
+\usepackage{lineno}
+% utf8 encoding
+\usepackage[utf8]{inputenc}
+% make references clickable: https://www.overleaf.com/learn/latex/Hyperlinks
+\usepackage{hyperref}
+% allow verbatim code
+\usepackage{verbatim}
+% source code rendering
+\usepackage{minted}
+% render SVG files: https://tex.stackexchange.com/questions/122871/include-svg-images-with-the-svg-package
+\usepackage{svg}
+% orcidID
+\renewcommand{\orcidID}[1]{\href{https://orcid.org/#1}{\includegraphics[width=8pt]{orcid.png}}}
+\newcommand\wf{{Wolfgang Fahl \orcidID{0000-0002-0821-6995}}}
+% footnotelink
+\newcommand{\footnotelink}[2]{\href{#1}{#2}\footnote{#1}}
