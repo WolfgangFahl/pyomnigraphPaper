@@ -1,0 +1,10 @@
+# SPARQL endpoints declaration for sparqlquery tool
+# see https://github.com/WolfgangFahl/pyLoDStorage
+endpoints:
+    # 'dblp' is a built-in endpoint name and would be shadowed - use a distinct one
+    'scholar-dblp':
+      endpoint: https://qlever.dev/api/dblp
+      website: https://dblp.org/
+      database: qlever
+      method: POST
+      lang: sparql

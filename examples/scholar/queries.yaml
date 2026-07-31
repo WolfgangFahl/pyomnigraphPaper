@@ -1,0 +1,17 @@
+# named parameterized queries for the scholarly use case
+# see https://github.com/WolfgangFahl/pyLoDStorage
+'AuthorPapers':
+  # the papers of an author identified by dblp person id (pid)
+  param_list:
+    - name: author_dblpid
+      type: str
+      default_value: 27/6858 # Wolfgang Fahl
+  sparql: |
+    PREFIX dblp: <https://dblp.org/rdf/schema#>
+    SELECT ?pub ?title ?year ?venue WHERE {
+      ?pub dblp:authoredBy <https://dblp.org/pid/{{ author_dblpid }}> ;
+           dblp:title ?title ;
+           dblp:yearOfPublication ?year .
+      OPTIONAL { ?pub dblp:publishedIn ?venue }
+    }
+    ORDER BY DESC(?year)
