@@ -393,8 +393,12 @@ Note how calling the command line tools \texttt{rdfdump} and \texttt{omnigraph} 
 % throughput); reproducibility. 
 
 \section{Evaluation}\label{sec:evaluation}
-% Results across store and endpoint combinations. 
+% Results across store and endpoint combinations.
 By applying the matrix approach of Section~\ref{sec:benchmark} we obtain interesting results on performance and failure cases. We then do a comparison of remote-remote-remote versus local-local-local federated queries across all possible combinations.
+
+Federation works cleanly for the remote-remote-remote (RRR) and local-local-local (LLL) placements on three of the four backends, with a set of specific failure modes which we collected in the
+\footnotelink{https://github.com/WolfgangFahl/pyomnigraphPaper/issues/16}{failure cases issue}
+of our paper repository. The $4^3 = 64$ off-diagonal grid is feasible for the executors Apache Jena, Oxigraph and QLever per the pair matrix --- roughly a 10-minute run on a MacBook Pro 2.4 GHz 8-core with 32 GB of RAM; structural failures have been found with Blazegraph as reported in our GitHub repository.
 
 
 \section{Availability}\label{sec:availability}

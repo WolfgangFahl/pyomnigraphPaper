@@ -1,13 +1,22 @@
 # Examples
 
 Reproducible use cases for the pyomnigraph paper. Three use cases, one
-folder each:
+folder each, plus the cross-use-case federation folder:
 
 | Folder | Use case | Example queries |
 |---|---|---|
 | [scholar/](scholar/) | papers and authors | AuthorPapers, CoauthorPapers, EventAuthorPapers, InstitutionAuthorPapers |
 | [locations/](locations/) | historical locations (GOV) | PlaceIdentity, PlaceNames, PlaceHierarchy, PersonsOfPlace |
 | [railway/](railway/) | railway journey planning | RelationStops, StationsOfLine, LineIdentity, StationLocality |
+| [federated/](federated/) | three-leg federated SERVICE queries across the use cases | AuthorIdentity, PlaceIdentity, LineIdentity |
+
+The federated queries take their three SERVICE legs as late-bound
+parameters defaulting to the public origin endpoints
+(remote-remote-remote, RRR); `federated/lll_diagonal.sh` runs the same
+queries with all legs on one local backend (local-local-local, LLL) after
+`federated/load.sh` has combined all use case dumps for the single-pass
+QLever index load. Failure modes are collected in the
+[failure cases issue](https://github.com/WolfgangFahl/pyomnigraphPaper/issues/16).
 
 ## Prerequisites
 
