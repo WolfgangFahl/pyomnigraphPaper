@@ -96,7 +96,7 @@ Wikidata~\cite{Vrandecic2014} started in 2012 as an effort to back the different
 Public alternatives to the official Wikidata Query Service WDQS are still rare. Our attempts to convince the Wikimedia Foundation to support a public Mirror infrastructure have so far been in vain.
 Table~\ref{tab:PublicEndpoints}
 lists the seven working public Wikidata endpoints currently configured in
-\footnotelink{https://nicescholia.wikidata.dbis.rwth-aachen.de/api/endpoints}{nicescholia} to be watched as potential alternative scholia backends.
+\footnotelink{https://nicescholia.wikidata.dbis.rwth-aachen.de/api/endpoints}{nicescholia}~\cite{nicescholia} to be watched as potential alternative scholia backends.
 
 The Wikimedia Foundation itself now serves three: the
 \footnotelink{https://query-legacy-full.wikidata.org/sparql}{legacy full graph} and, since the
@@ -216,7 +216,7 @@ For each use case we specify a list of information needs from which we derive co
 Table~\ref{tab:subgraphs} shows the subgraph sources for the use cases.
 
 Table~\ref{tab:usecasequeries} tracks the named parameterized queries that we use to demo and benchmark, one row per query and example binding. Each query is defined
-in \texttt{examples/<usecase>/queries.yaml} with its parameter list and default values, each endpoint in \texttt{examples/<usecase>/endpoints.yaml}, so a row is reproduced by a single \texttt{sparqlquery} call; the \texttt{query.sh} script of each use case reruns all its queries and writes a \texttt{<QueryName>.md} result file per query.
+in \texttt{examples/<usecase>/queries.yaml} with its parameter list and default values, each endpoint in \texttt{examples/<usecase>/endpoints.yaml}, so a row is reproduced by a single \texttt{sparqlquery}~\cite{pylodstorage} call; the \texttt{query.sh} script of each use case reruns all its queries and writes a \texttt{<QueryName>.md} result file per query.
 
 The examples are reproducible from the \footnotelink{https://github.com/WolfgangFahl/pyomnigraphPaper}{pyomnigraphPaper github repository}; the result sets that do not fit the paper are available in the query issues of the repository.
 
