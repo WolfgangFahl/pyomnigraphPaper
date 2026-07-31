@@ -45,3 +45,127 @@ datasets:
     construct_template: "?s ?p ?o"
     description: "OSM relation with member statements, member nodes and geometries given by the relation seed, OSM planet graph via qlever.dev"
     active: true
+  line_identity_wikidata:
+    # subgraph of a railway line: the line node closure
+    # derived from the LineIdentity query of
+    # https://github.com/WolfgangFahl/pyomnigraphPaper/issues/18
+    name: "Line identity (wikidata)"
+    base_url: "https://qlever.dev/wikidata"
+    endpoint_url: "https://qlever.dev/api/wikidata"
+    database: "qlever"
+    expected_solutions: 102
+    params:
+      lines: "<http://www.wikidata.org/entity/Q801991>"
+    select_pattern: |
+      VALUES ?s { {{ lines }} }
+      ?s ?p ?o .
+    construct_template: "?s ?p ?o"
+    description: "Railway line node closure given by the item seed, Wikidata graph via qlever.dev"
+    active: true
+  stations_of_line_rinf:
+    # subgraph of a national railway line: the linear positioning system,
+    # its kilometric posts, coordinates, net references and operational points
+    # derived from the StationsOfLine query of
+    # https://github.com/WolfgangFahl/pyomnigraphPaper/issues/19
+    name: "Stations of line (era rinf)"
+    base_url: "https://data-interop.era.europa.eu"
+    endpoint_url: "https://rinf.data.era.europa.eu/api/sparql"
+    database: "rdf4j"
+    expected_solutions: 3354
+    params:
+      line_id: "655000-1"
+    select_pattern: |
+      {
+        ?s <http://data.europa.eu/949/lineId> ?lid .
+        FILTER(STR(?lid) = "{{ line_id }}")
+        ?s ?p ?o .
+      }
+      UNION
+      {
+        ?lps <http://data.europa.eu/949/lineId> ?lid .
+        FILTER(STR(?lid) = "{{ line_id }}")
+        ?s <http://data.europa.eu/949/hasLRS> ?lps .
+        ?s ?p ?o .
+      }
+      UNION
+      {
+        ?lps <http://data.europa.eu/949/lineId> ?lid .
+        FILTER(STR(?lid) = "{{ line_id }}")
+        ?kmpost <http://data.europa.eu/949/hasLRS> ?lps .
+        ?s <http://data.europa.eu/949/kmPost> ?kmpost .
+        ?s ?p ?o .
+      }
+      UNION
+      {
+        ?lps <http://data.europa.eu/949/lineId> ?lid .
+        FILTER(STR(?lid) = "{{ line_id }}")
+        ?kmpost <http://data.europa.eu/949/hasLRS> ?lps .
+        ?coord <http://data.europa.eu/949/kmPost> ?kmpost .
+        ?s <http://data.europa.eu/949/hasLrsCoordinate> ?coord .
+        ?s ?p ?o .
+      }
+      UNION
+      {
+        ?lps <http://data.europa.eu/949/lineId> ?lid .
+        FILTER(STR(?lid) = "{{ line_id }}")
+        ?kmpost <http://data.europa.eu/949/hasLRS> ?lps .
+        ?coord <http://data.europa.eu/949/kmPost> ?kmpost .
+        ?netref <http://data.europa.eu/949/hasLrsCoordinate> ?coord .
+        ?s <http://data.europa.eu/949/netReference> ?netref .
+        ?s ?p ?o .
+      }
+    construct_template: "?s ?p ?o"
+    description: "Linear positioning system, kilometric posts, coordinates, net references and operational points given by the line id seed, ERA RINF graph"
+    active: true
+  station_locality_osm:
+    # subgraph of a station given by Wikidata QID on the OSM graph: the
+    # tagged entities, their geometries, the member statements pointing at
+    # them and the containing relations
+    # derived from the StationLocality query of
+    # https://github.com/WolfgangFahl/pyomnigraphPaper/issues/20
+    name: "Station locality (osm)"
+    base_url: "https://qlever.dev/osm-planet"
+    endpoint_url: "https://qlever.dev/api/osm-planet"
+    database: "qlever"
+    expected_solutions: 1263
+    params:
+      station_qids: '"Q3095803"'
+    select_pattern: |
+      {
+        VALUES ?qid { {{ station_qids }} }
+        ?s <https://www.openstreetmap.org/wiki/Key:wikidata> ?qid .
+        ?s ?p ?o .
+      }
+      UNION
+      {
+        VALUES ?qid { {{ station_qids }} }
+        ?e <https://www.openstreetmap.org/wiki/Key:wikidata> ?qid .
+        ?e <http://www.opengis.net/ont/geosparql#hasGeometry> ?s .
+        ?s ?p ?o .
+      }
+      UNION
+      {
+        VALUES ?qid { {{ station_qids }} }
+        ?e <https://www.openstreetmap.org/wiki/Key:wikidata> ?qid .
+        ?s <https://www.openstreetmap.org/relation/member_id> ?e .
+        ?s ?p ?o .
+      }
+      UNION
+      {
+        VALUES ?qid { {{ station_qids }} }
+        ?e <https://www.openstreetmap.org/wiki/Key:wikidata> ?qid .
+        ?member <https://www.openstreetmap.org/relation/member_id> ?e .
+        ?s <https://www.openstreetmap.org/relation/member> ?member .
+        ?s ?p ?o .
+      }
+    construct_template: "?s ?p ?o"
+    description: "Tagged OSM entities, their geometries, member statements and containing relations given by the wikidata qid seed, OSM planet graph via qlever.dev"
+    active: true
+  railway_all:
+    # load helper per the all-subgraphs pattern: all railway dumps under
+    # unique file names for a single-pass load - needed for the qlever
+    # index rebuild which holds one dump directory at a time, see
+    # https://github.com/WolfgangFahl/pyomnigraph/issues/40
+    name: "All railway subgraphs (load helper)"
+    description: "relation stops, line identity, stations of line and station locality dumps combined for a single-pass load"
+    active: true

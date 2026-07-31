@@ -150,3 +150,233 @@
     }
     GROUP BY ?count
     ORDER BY ?count
+'LineIdentity':
+  # a Wikidata railway line with its OSM relation and RINF counterparts
+  # the national line number (P1671) is the cross-dataset key to ERA RINF
+  # lineIds (which carry a track suffix, e.g. 655000-1); the OSM relation
+  # id (P402) is the key to the OSM graph
+  param_list:
+    - name: wikidata_id
+      type: str
+      default_value: Q801991 # Bordeaux-Irun railway
+    - name: limit
+      type: int
+      default_value: 10
+  sparql: |
+    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+    PREFIX wd: <http://www.wikidata.org/entity/>
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    SELECT ?line ?line_name ?osm_relation ?line_number ?rinf_line_key WHERE {
+      VALUES ?line { wd:{{ wikidata_id }} }
+      OPTIONAL { ?line rdfs:label ?label . FILTER(LANG(?label) = "en") }
+      BIND(COALESCE(?label, SUBSTR(STR(?line), 32)) AS ?line_name)
+      OPTIONAL { ?line wdt:P402 ?osm_relation }
+      OPTIONAL { ?line wdt:P1671 ?line_number }
+      BIND(REPLACE(?line_number, " ", "") AS ?rinf_line_key)
+    }
+    ORDER BY ?line_number
+    LIMIT {{ limit }}
+'LineIdentityCount':
+  # count companion of LineIdentity per issue #2 - same WHERE body, no limit
+  param_list:
+    - name: wikidata_id
+      type: str
+      default_value: Q801991 # Bordeaux-Irun railway
+  sparql: |
+    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+    PREFIX wd: <http://www.wikidata.org/entity/>
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    SELECT (COUNT(*) AS ?count) WHERE {
+      VALUES ?line { wd:{{ wikidata_id }} }
+      OPTIONAL { ?line rdfs:label ?label . FILTER(LANG(?label) = "en") }
+      OPTIONAL { ?line wdt:P402 ?osm_relation }
+      OPTIONAL { ?line wdt:P1671 ?line_number }
+    }
+'LineIdentityHistogram':
+  # histogram companion of LineIdentity per issue #2 / #12 - line seed
+  # unbound: distribution of identity link counts over all railway lines
+  param_list: []
+  sparql: |
+    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+    PREFIX wd: <http://www.wikidata.org/entity/>
+    SELECT ?count (COUNT(?line) AS ?freq) WHERE {
+      { SELECT ?line (COUNT(*) AS ?count) WHERE {
+          ?line wdt:P31 wd:Q728937 .
+          OPTIONAL { ?line wdt:P402 ?osm_relation }
+          OPTIONAL { ?line wdt:P1671 ?line_number }
+        } GROUP BY ?line }
+    }
+    GROUP BY ?count
+    ORDER BY ?count
+'StationsOfLine':
+  # operational points of a national railway line from ERA RINF with
+  # kilometric position and wgs84 coordinates
+  # chain: LinearPositioningSystem (lineId) <- KilometricPost <-
+  # LinearPositioningSystemCoordinate <- NetPointReference <- OperationalPoint
+  param_list:
+    - name: line_id
+      type: str
+      default_value: 655000-1 # Bordeaux-Irun railway, RINF lineId
+    - name: limit
+      type: int
+      default_value: 10
+  sparql: |
+    PREFIX era: <http://data.europa.eu/949/>
+    PREFIX wgs: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+    SELECT ?op ?uopid ?op_name ?km ?lat ?lon WHERE {
+      ?lps a era:LinearPositioningSystem ; era:lineId ?lid .
+      FILTER(STR(?lid) = "{{ line_id }}")
+      ?kmpost era:hasLRS ?lps .
+      OPTIONAL { ?kmpost era:kilometer ?km }
+      ?coord era:kmPost ?kmpost .
+      ?netref era:hasLrsCoordinate ?coord .
+      ?op a era:OperationalPoint ; era:netReference ?netref ;
+          era:uopid ?uopid ; era:opName ?op_name .
+      OPTIONAL { ?netref wgs:lat ?lat . ?netref wgs:long ?lon }
+    }
+    ORDER BY ?km ?uopid
+    LIMIT {{ limit }}
+'StationsOfLineCount':
+  # count companion of StationsOfLine per issue #2 - same WHERE body, no limit
+  param_list:
+    - name: line_id
+      type: str
+      default_value: 655000-1 # Bordeaux-Irun railway, RINF lineId
+  sparql: |
+    PREFIX era: <http://data.europa.eu/949/>
+    SELECT (COUNT(*) AS ?count) WHERE {
+      ?lps a era:LinearPositioningSystem ; era:lineId ?lid .
+      FILTER(STR(?lid) = "{{ line_id }}")
+      ?kmpost era:hasLRS ?lps .
+      ?coord era:kmPost ?kmpost .
+      ?netref era:hasLrsCoordinate ?coord .
+      ?op a era:OperationalPoint ; era:netReference ?netref ;
+          era:uopid ?uopid ; era:opName ?op_name .
+    }
+'StationsOfLineHistogram':
+  # histogram companion of StationsOfLine per issue #2 / #12 - line seed
+  # unbound: distribution of operational point counts over all lines
+  param_list: []
+  sparql: |
+    PREFIX era: <http://data.europa.eu/949/>
+    SELECT ?count (COUNT(?lps) AS ?freq) WHERE {
+      { SELECT ?lps (COUNT(*) AS ?count) WHERE {
+          ?lps a era:LinearPositioningSystem .
+          ?kmpost era:hasLRS ?lps .
+          ?coord era:kmPost ?kmpost .
+          ?netref era:hasLrsCoordinate ?coord .
+          ?op a era:OperationalPoint ; era:netReference ?netref .
+        } GROUP BY ?lps }
+    }
+    GROUP BY ?count
+    ORDER BY ?count
+'StationLocality':
+  # OSM entities of a station given by its Wikidata QID with centroid
+  # coordinates and the OSM relations containing them
+  # the osmkey:wikidata tag is the cross-dataset key, the counterpart of
+  # P402 seen from the OSM side
+  param_list:
+    - name: station_qid
+      type: str
+      default_value: Q3095803 # Irun railway station
+    - name: limit
+      type: int
+      default_value: 10
+  sparql: |
+    PREFIX osmkey: <https://www.openstreetmap.org/wiki/Key:>
+    PREFIX osmrel: <https://www.openstreetmap.org/relation/>
+    PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+    PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
+    SELECT ?osm_entity ?osm_name ?lat ?lon ?relation ?relation_name WHERE {
+      ?osm_entity osmkey:wikidata "{{ station_qid }}" .
+      OPTIONAL { ?osm_entity osmkey:name ?osm_name }
+      ?osm_entity geo:hasGeometry/geo:asWKT ?loc .
+      BIND(geof:latitude(geof:centroid(?loc)) AS ?lat)
+      BIND(geof:longitude(geof:centroid(?loc)) AS ?lon)
+      OPTIONAL {
+        ?member osmrel:member_id ?osm_entity .
+        ?relation osmrel:member ?member .
+        OPTIONAL { ?relation osmkey:name ?relation_name }
+      }
+    }
+    ORDER BY ?osm_entity ?relation
+    LIMIT {{ limit }}
+'StationLocalityCount':
+  # count companion of StationLocality per issue #2 - same WHERE body, no limit
+  param_list:
+    - name: station_qid
+      type: str
+      default_value: Q3095803 # Irun railway station
+  sparql: |
+    PREFIX osmkey: <https://www.openstreetmap.org/wiki/Key:>
+    PREFIX osmrel: <https://www.openstreetmap.org/relation/>
+    PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+    SELECT (COUNT(*) AS ?count) WHERE {
+      ?osm_entity osmkey:wikidata "{{ station_qid }}" .
+      ?osm_entity geo:hasGeometry/geo:asWKT ?loc .
+      OPTIONAL {
+        ?member osmrel:member_id ?osm_entity .
+        ?relation osmrel:member ?member .
+      }
+    }
+'StationLocalityHistogram':
+  # histogram companion of StationLocality per issue #2 / #12 - station seed
+  # unbound: distribution of containing relation counts over wikidata-tagged
+  # railway stations
+  param_list: []
+  sparql: |
+    PREFIX osmkey: <https://www.openstreetmap.org/wiki/Key:>
+    PREFIX osmrel: <https://www.openstreetmap.org/relation/>
+    SELECT ?count (COUNT(?station) AS ?freq) WHERE {
+      { SELECT ?station (COUNT(*) AS ?count) WHERE {
+          ?station osmkey:railway "station" .
+          ?station osmkey:wikidata ?qid .
+          ?member osmrel:member_id ?station .
+          ?relation osmrel:member ?member .
+        } GROUP BY ?station }
+    }
+    GROUP BY ?count
+    ORDER BY ?count
+'LineIdentity':
+  # a Wikidata railway line with its OSM relation and ERA RINF national line counterparts
+  # see https://github.com/WolfgangFahl/pyomnigraphPaper/issues/21
+  # identity bridge: P402 OSM relation ID, P1671 route number = RINF national line id,
+  # P17/P297 ISO country code pairing with the RINF inCountry
+  param_list:
+    - name: line_qid
+      type: str
+      default_value: Q264936 # Cologne-Aachen high-speed railway
+    - name: limit
+      type: int
+      default_value: 10
+  sparql: |
+    # a Wikidata railway line with its OSM relation and ERA RINF national line counterparts
+    # npq parameters: line_qid (default Q264936 Cologne-Aachen high-speed railway), limit (10)
+    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+    PREFIX wd: <http://www.wikidata.org/entity/>
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    SELECT ?line ?name ?osm_relation ?rinf_line_id ?country WHERE {
+      VALUES ?line { wd:{{ line_qid }} }
+      ?line rdfs:label ?name . FILTER(LANG(?name) = "en")
+      OPTIONAL { ?line wdt:P402 ?osm_rel_id . BIND(IRI(CONCAT("https://www.openstreetmap.org/relation/", ?osm_rel_id)) AS ?osm_relation) }
+      OPTIONAL { ?line wdt:P1671 ?rinf_line_id }
+      OPTIONAL { ?line wdt:P17/wdt:P297 ?country }
+    }
+    LIMIT {{ limit }}
+'LineIdentityCount':
+  # count companion of LineIdentity per issue #2 - same WHERE body, no limit
+  param_list:
+    - name: line_qid
+      type: str
+      default_value: Q264936 # Cologne-Aachen high-speed railway
+  sparql: |
+    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+    PREFIX wd: <http://www.wikidata.org/entity/>
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    SELECT (COUNT(*) AS ?count) WHERE {
+      VALUES ?line { wd:{{ line_qid }} }
+      ?line rdfs:label ?name . FILTER(LANG(?name) = "en")
+      OPTIONAL { ?line wdt:P402 ?osm_rel_id . BIND(IRI(CONCAT("https://www.openstreetmap.org/relation/", ?osm_rel_id)) AS ?osm_relation) }
+      OPTIONAL { ?line wdt:P1671 ?rinf_line_id }
+      OPTIONAL { ?line wdt:P17/wdt:P297 ?country }
+    }

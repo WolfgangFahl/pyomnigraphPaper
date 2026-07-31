@@ -7,3 +7,15 @@ endpoints:
       database: qlever
       method: POST
       lang: sparql
+    'railway-wikidata':
+      endpoint: https://qlever.dev/api/wikidata
+      website: https://www.wikidata.org/
+      database: qlever
+      method: POST
+      lang: sparql
+    'railway-rinf':
+      endpoint: https://rinf.data.era.europa.eu/api/sparql
+      website: https://data-interop.era.europa.eu/
+      database: rdf4j
+      method: POST
+      lang: sparql
