@@ -3,6 +3,9 @@
 # see https://github.com/WolfgangFahl/pyomnigraphPaper/issues/2
 script_dir=$(dirname "$0")
 source "$script_dir/../run_queries.sh"
-run_queries <<EOF
+run_queries <<EOF2
 PlaceIdentity locations-gov
-EOF
+PlaceHierarchy locations-gov
+PlaceNames locations-gov
+PersonsOfPlace locations-wikidata
+EOF2

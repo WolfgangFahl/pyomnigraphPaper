@@ -7,3 +7,9 @@ endpoints:
       database: jena
       method: POST
       lang: sparql
+    'locations-wikidata':
+      endpoint: https://qlever.dev/api/wikidata
+      website: https://www.wikidata.org/
+      database: qlever
+      method: POST
+      lang: sparql

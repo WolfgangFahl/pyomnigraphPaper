@@ -1,0 +1,141 @@
+# npq subgraph datasets for the historical locations use case
+# see https://github.com/WolfgangFahl/pyomnigraphPaper/issues/10
+datasets:
+  place_identity_gov:
+    # subgraph of a GOV place: the place node and its name property nodes
+    # derived from the PlaceIdentity query of
+    # https://github.com/WolfgangFahl/pyomnigraphPaper/issues/11
+    # also serves the PlaceNames query of issue 14 - the name property
+    # nodes carry the language and time attributes
+    name: "Place identity (gov)"
+    base_url: "https://gov-sparql.genealogy.net"
+    endpoint_url: "https://gov-sparql.genealogy.net/dataset/sparql"
+    database: "jena"
+    expected_solutions: 29
+    params:
+      places: "<http://gov.genealogy.net/AACHENJO30BS>"
+    select_pattern: &place_name_closure |
+      {
+        VALUES ?s { {{ places }} }
+        ?s ?p ?o .
+      }
+      UNION
+      {
+        VALUES ?place { {{ places }} }
+        ?place <http://gov.genealogy.net/ontology.owl#hasName> ?s .
+        ?s ?p ?o .
+      }
+    construct_template: "?s ?p ?o"
+    description: "Place node and its name property nodes given by the gov id seed, GOV graph"
+    active: true
+  place_names_gov:
+    # same closure as place_identity_gov - the PlaceNames query of
+    # https://github.com/WolfgangFahl/pyomnigraphPaper/issues/14 reads the
+    # name property nodes with their language and time attributes
+    name: "Place names (gov)"
+    base_url: "https://gov-sparql.genealogy.net"
+    endpoint_url: "https://gov-sparql.genealogy.net/dataset/sparql"
+    database: "jena"
+    expected_solutions: 29
+    params:
+      places: "<http://gov.genealogy.net/AACHENJO30BS>"
+    select_pattern: *place_name_closure
+    construct_template: "?s ?p ?o"
+    description: "Place node and its name property nodes given by the gov id seed, GOV graph"
+    active: true
+  place_hierarchy_gov:
+    # subgraph of a GOV place: the place node, its membership relation nodes,
+    # the parent places and their name property nodes
+    # derived from the PlaceHierarchy query of
+    # https://github.com/WolfgangFahl/pyomnigraphPaper/issues/13
+    name: "Place hierarchy (gov)"
+    base_url: "https://gov-sparql.genealogy.net"
+    endpoint_url: "https://gov-sparql.genealogy.net/dataset/sparql"
+    database: "jena"
+    expected_solutions: 57
+    params:
+      places: "<http://gov.genealogy.net/AACHENJO30BS>"
+    select_pattern: |
+      {
+        VALUES ?s { {{ places }} }
+        ?s ?p ?o .
+      }
+      UNION
+      {
+        VALUES ?place { {{ places }} }
+        ?place <http://gov.genealogy.net/ontology.owl#isPartOf> ?s .
+        ?s ?p ?o .
+      }
+      UNION
+      {
+        VALUES ?place { {{ places }} }
+        ?place <http://gov.genealogy.net/ontology.owl#isPartOf> ?membership .
+        ?membership <http://gov.genealogy.net/ontology.owl#ref> ?s .
+        ?s ?p ?o .
+      }
+      UNION
+      {
+        VALUES ?place { {{ places }} }
+        ?place <http://gov.genealogy.net/ontology.owl#isPartOf> ?membership .
+        ?membership <http://gov.genealogy.net/ontology.owl#ref> ?parent .
+        ?parent <http://gov.genealogy.net/ontology.owl#hasName> ?s .
+        ?s ?p ?o .
+      }
+    construct_template: "?s ?p ?o"
+    description: "Place node, membership relation nodes, parent places and their name property nodes given by the gov id seed, GOV graph"
+    active: true
+  persons_of_place_wikidata:
+    # subgraph of a place given by GOV id on the Wikidata graph: the place
+    # closure, the person relation triples (P19, P20, P937) and the person
+    # labels - the bounded closure the PersonsOfPlace query needs
+    # derived from the PersonsOfPlace query of
+    # https://github.com/WolfgangFahl/pyomnigraphPaper/issues/15
+    name: "Persons of place (wikidata)"
+    base_url: "https://qlever.dev/wikidata"
+    endpoint_url: "https://qlever.dev/api/wikidata"
+    database: "qlever"
+    expected_solutions: 73980
+    params:
+      gov_ids: '"AACHENJO30BS"'
+    select_pattern: |
+      {
+        VALUES ?gov_id { {{ gov_ids }} }
+        ?s <http://www.wikidata.org/prop/direct/P2503> ?gov_id .
+        ?s ?p ?o .
+      }
+      UNION
+      {
+        VALUES ?gov_id { {{ gov_ids }} }
+        ?place <http://www.wikidata.org/prop/direct/P2503> ?gov_id .
+        VALUES ?p {
+          <http://www.wikidata.org/prop/direct/P19>
+          <http://www.wikidata.org/prop/direct/P20>
+          <http://www.wikidata.org/prop/direct/P937>
+        }
+        ?s ?p ?place .
+        BIND(?place AS ?o)
+      }
+      UNION
+      {
+        VALUES ?gov_id { {{ gov_ids }} }
+        ?place <http://www.wikidata.org/prop/direct/P2503> ?gov_id .
+        VALUES ?rel {
+          <http://www.wikidata.org/prop/direct/P19>
+          <http://www.wikidata.org/prop/direct/P20>
+          <http://www.wikidata.org/prop/direct/P937>
+        }
+        ?s ?rel ?place .
+        VALUES ?p { <http://www.w3.org/2000/01/rdf-schema#label> }
+        ?s ?p ?o .
+      }
+    construct_template: "?s ?p ?o"
+    description: "Place closure, person relation triples and person labels given by the gov id seed, Wikidata graph via qlever.dev"
+    active: true
+  locations_all:
+    # load helper per the all-subgraphs pattern: all locations dumps under
+    # unique file names for a single-pass load - needed for the qlever
+    # index rebuild which holds one dump directory at a time, see
+    # https://github.com/WolfgangFahl/pyomnigraph/issues/40
+    name: "All locations subgraphs (load helper)"
+    description: "place identity, names, hierarchy and persons dumps combined for a single-pass load"
+    active: true

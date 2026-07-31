@@ -39,3 +39,187 @@
       ?place gp:hasName/gp:value ?name .
       OPTIONAL { ?place owl:sameAs ?counterpart }
     }
+'PlaceIdentityHistogram':
+  # histogram companion of PlaceIdentity per issue #2 / #12 - place seed
+  # unbound: distribution of identity record counts over all GOV places
+  param_list: []
+  sparql: |
+    PREFIX gp: <http://gov.genealogy.net/ontology.owl#>
+    PREFIX owl: <http://www.w3.org/2002/07/owl#>
+    SELECT ?count (COUNT(?place) AS ?freq) WHERE {
+      { SELECT ?place (COUNT(*) AS ?count) WHERE {
+          { SELECT DISTINCT ?place ?name ?counterpart WHERE {
+              ?place gp:hasName/gp:value ?name .
+              OPTIONAL { ?place owl:sameAs ?counterpart }
+          } }
+        } GROUP BY ?place }
+    }
+    GROUP BY ?count
+    ORDER BY ?count
+'PlaceHierarchy':
+  # memberships of a GOV place over time
+  # prior art: gov-wiki Query/UebergeordneteObjekte isPartOf/ref idiom and
+  # Query/EingemeindungenKiel time attributes and GROUP_CONCAT name handling
+  param_list:
+    - name: gov_id
+      type: str
+      default_value: AACHENJO30BS # Aachen
+    - name: limit
+      type: int
+      default_value: 10
+  sparql: |
+    PREFIX gp: <http://gov.genealogy.net/ontology.owl#>
+    PREFIX gov: <http://gov.genealogy.net/>
+    SELECT ?place ?parent (GROUP_CONCAT(DISTINCT ?parent_name; separator=", ") AS ?parent_names) ?begin ?end WHERE {
+      VALUES ?place { gov:{{ gov_id }} }
+      ?place gp:isPartOf ?membership .
+      ?membership gp:ref ?parent .
+      OPTIONAL { ?membership gp:timeBegin ?begin }
+      OPTIONAL { ?membership gp:timeEnd ?end }
+      OPTIONAL { ?parent gp:hasName/gp:value ?parent_name }
+    }
+    GROUP BY ?place ?parent ?begin ?end
+    ORDER BY ?begin ?end ?parent
+    LIMIT {{ limit }}
+'PlaceHierarchyCount':
+  # count companion of PlaceHierarchy per issue #2 - grouped rows, no limit
+  param_list:
+    - name: gov_id
+      type: str
+      default_value: AACHENJO30BS # Aachen
+  sparql: |
+    PREFIX gp: <http://gov.genealogy.net/ontology.owl#>
+    PREFIX gov: <http://gov.genealogy.net/>
+    SELECT (COUNT(*) AS ?count) WHERE {
+      { SELECT DISTINCT ?place ?parent ?begin ?end WHERE {
+          VALUES ?place { gov:{{ gov_id }} }
+          ?place gp:isPartOf ?membership .
+          ?membership gp:ref ?parent .
+          OPTIONAL { ?membership gp:timeBegin ?begin }
+          OPTIONAL { ?membership gp:timeEnd ?end }
+      } }
+    }
+'PlaceHierarchyHistogram':
+  # histogram companion of PlaceHierarchy per issue #2 / #12 - place seed
+  # unbound: distribution of membership counts over all GOV places
+  param_list: []
+  sparql: |
+    PREFIX gp: <http://gov.genealogy.net/ontology.owl#>
+    SELECT ?count (COUNT(?place) AS ?freq) WHERE {
+      { SELECT ?place (COUNT(*) AS ?count) WHERE {
+          ?place gp:isPartOf ?membership .
+        } GROUP BY ?place }
+    }
+    GROUP BY ?count
+    ORDER BY ?count
+'PlaceNames':
+  # names of a GOV place over time
+  # prior art: the gp:hasName/gp:value idiom of PlaceIdentity extended by the
+  # PropertyName attributes language, timeBegin and timeEnd
+  param_list:
+    - name: gov_id
+      type: str
+      default_value: AACHENJO30BS # Aachen
+    - name: limit
+      type: int
+      default_value: 10
+  sparql: |
+    PREFIX gp: <http://gov.genealogy.net/ontology.owl#>
+    PREFIX gov: <http://gov.genealogy.net/>
+    SELECT ?place ?name ?language ?begin ?end WHERE {
+      VALUES ?place { gov:{{ gov_id }} }
+      ?place gp:hasName ?nameprop .
+      ?nameprop gp:value ?name .
+      OPTIONAL { ?nameprop gp:language ?language }
+      OPTIONAL { ?nameprop gp:timeBegin ?begin }
+      OPTIONAL { ?nameprop gp:timeEnd ?end }
+    }
+    ORDER BY ?begin ?name
+    LIMIT {{ limit }}
+'PlaceNamesCount':
+  # count companion of PlaceNames per issue #2 - same WHERE body, no limit
+  param_list:
+    - name: gov_id
+      type: str
+      default_value: AACHENJO30BS # Aachen
+  sparql: |
+    PREFIX gp: <http://gov.genealogy.net/ontology.owl#>
+    PREFIX gov: <http://gov.genealogy.net/>
+    SELECT (COUNT(*) AS ?count) WHERE {
+      VALUES ?place { gov:{{ gov_id }} }
+      ?place gp:hasName ?nameprop .
+      ?nameprop gp:value ?name .
+      OPTIONAL { ?nameprop gp:language ?language }
+      OPTIONAL { ?nameprop gp:timeBegin ?begin }
+      OPTIONAL { ?nameprop gp:timeEnd ?end }
+    }
+'PlaceNamesHistogram':
+  # histogram companion of PlaceNames per issue #2 / #12 - place seed
+  # unbound: distribution of name counts over all GOV places
+  param_list: []
+  sparql: |
+    PREFIX gp: <http://gov.genealogy.net/ontology.owl#>
+    SELECT ?count (COUNT(?place) AS ?freq) WHERE {
+      { SELECT ?place (COUNT(*) AS ?count) WHERE {
+          ?place gp:hasName ?nameprop .
+        } GROUP BY ?place }
+    }
+    GROUP BY ?count
+    ORDER BY ?count
+'PersonsOfPlace':
+  # persons related to a place identified by its GOV id, Wikidata graph
+  # the GOV id is the cross-dataset key: ?place wdt:P2503 gov_id (GOV ID property)
+  # relations: born in (P19), died in (P20), work location (P937)
+  # label handling per scholia author_list-of-publications.sparql:
+  # persons without an english label fall back to their QID
+  param_list:
+    - name: gov_id
+      type: str
+      default_value: AACHENJO30BS # Aachen -> wd:Q1017
+    - name: limit
+      type: int
+      default_value: 10
+  sparql: |
+    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    SELECT ?person ?person_name ?relation WHERE {
+      ?place wdt:P2503 "{{ gov_id }}" .
+      VALUES ?relation { wdt:P19 wdt:P20 wdt:P937 }
+      ?person ?relation ?place .
+      OPTIONAL {
+        ?person rdfs:label ?person_label .
+        FILTER(LANG(?person_label) = "en")
+      }
+      BIND(COALESCE(?person_label, SUBSTR(STR(?person), 32)) AS ?person_name)
+    }
+    ORDER BY ?person_name ?relation
+    LIMIT {{ limit }}
+'PersonsOfPlaceCount':
+  # count companion of PersonsOfPlace per issue #2 - same WHERE body, no limit
+  param_list:
+    - name: gov_id
+      type: str
+      default_value: AACHENJO30BS # Aachen -> wd:Q1017
+  sparql: |
+    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    SELECT (COUNT(*) AS ?count) WHERE {
+      ?place wdt:P2503 "{{ gov_id }}" .
+      VALUES ?relation { wdt:P19 wdt:P20 wdt:P937 }
+      ?person ?relation ?place .
+    }
+'PersonsOfPlaceHistogram':
+  # histogram companion of PersonsOfPlace per issue #2 / #12 - place seed
+  # unbound: distribution of person counts over all places with a GOV id
+  param_list: []
+  sparql: |
+    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+    SELECT ?count (COUNT(?place) AS ?freq) WHERE {
+      { SELECT ?place (COUNT(*) AS ?count) WHERE {
+          ?place wdt:P2503 ?gov_id .
+          VALUES ?relation { wdt:P19 wdt:P20 wdt:P937 }
+          ?person ?relation ?place .
+        } GROUP BY ?place }
+    }
+    GROUP BY ?count
+    ORDER BY ?count
