@@ -259,3 +259,211 @@
         FILTER(LANG(?wd_name) = "en")
       }
     }
+'AuthorIdentityHistogram':
+  # seed-unbound histogram companion of AuthorIdentity per issue #25 / #28:
+  # the ORCID seed is unbound, the dblp orcid IRI joins the GND sameAs leg
+  # directly and the Wikidata P496 string via a cross-leg filter
+  param_list:
+    - name: dblp_service
+      type: str
+      default_value: https://qlever.dev/api/dblp
+    - name: gnd_service
+      type: str
+      default_value: https://sparql.dnb.de/api/gnd
+    - name: wikidata_service
+      type: str
+      default_value: https://qlever.dev/api/wikidata
+  sparql: |
+    PREFIX dblp: <https://dblp.org/rdf/schema#>
+    PREFIX gndo: <https://d-nb.info/standards/elementset/gnd#>
+    PREFIX owl: <http://www.w3.org/2002/07/owl#>
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+    SELECT ?count (COUNT(?orcid) AS ?freq) WHERE {
+      { SELECT ?orcid (COUNT(*) AS ?count) WHERE {
+          SERVICE <{{ dblp_service }}> {
+            ?dblp_person dblp:orcid ?orcid ;
+                         rdfs:label ?dblp_name .
+          }
+          SERVICE <{{ gnd_service }}> {
+            ?gnd_person owl:sameAs ?orcid ;
+                        gndo:preferredNameForThePerson ?gnd_name .
+          }
+          SERVICE <{{ wikidata_service }}> {
+            ?wd_person wdt:P496 ?orcid_str ;
+                       rdfs:label ?wd_name .
+            FILTER(LANG(?wd_name) = "en")
+          }
+          FILTER(STR(?orcid) = CONCAT("https://orcid.org/", ?orcid_str))
+        } GROUP BY ?orcid }
+    }
+    GROUP BY ?count
+    ORDER BY ?count
+'PlaceIdentityHistogram':
+  # seed-unbound histogram companion of PlaceIdentity per issue #25 / #28:
+  # the GOV id seed is unbound, FactGrid P1073 and Wikidata P2503 share the
+  # ?gov_id variable, the GOV place IRI joins via a cross-leg filter
+  param_list:
+    - name: gov_service
+      type: str
+      default_value: https://gov-sparql.genealogy.net/dataset/sparql
+    - name: factgrid_service
+      type: str
+      default_value: https://database.factgrid.de/sparql
+    - name: wikidata_service
+      type: str
+      default_value: https://qlever.dev/api/wikidata
+  sparql: |
+    PREFIX gp: <http://gov.genealogy.net/ontology.owl#>
+    PREFIX fgt: <https://database.factgrid.de/prop/direct/>
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+    SELECT ?count (COUNT(?gov_id) AS ?freq) WHERE {
+      { SELECT ?gov_id (COUNT(*) AS ?count) WHERE {
+          SERVICE <{{ gov_service }}> {
+            ?gov_place gp:hasName/gp:value ?gov_name .
+          }
+          SERVICE <{{ factgrid_service }}> {
+            ?fg_place fgt:P1073 ?gov_id ;
+                      rdfs:label ?fg_name .
+            FILTER(LANG(?fg_name) = "de")
+          }
+          SERVICE <{{ wikidata_service }}> {
+            ?wd_place wdt:P2503 ?gov_id ;
+                      rdfs:label ?wd_name .
+            FILTER(LANG(?wd_name) = "en")
+          }
+          FILTER(STR(?gov_place) = CONCAT("http://gov.genealogy.net/", ?gov_id))
+        } GROUP BY ?gov_id }
+    }
+    GROUP BY ?count
+    ORDER BY ?count
+'LineIdentityHistogram':
+  # seed-unbound histogram companion of LineIdentity per issue #25 / #28:
+  # the line seed is unbound, all OSM relations with ref and name and all
+  # RINF positioning systems join via the P402/P1671 cross-leg filters
+  param_list:
+    - name: wikidata_service
+      type: str
+      default_value: https://qlever.dev/api/wikidata
+    - name: osm_service
+      type: str
+      default_value: https://qlever.dev/api/osm-planet
+    - name: rinf_service
+      type: str
+      default_value: https://rinf.data.era.europa.eu/api/sparql
+  sparql: |
+    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    PREFIX osmkey: <https://www.openstreetmap.org/wiki/Key:>
+    PREFIX era: <http://data.europa.eu/949/>
+    SELECT ?count (COUNT(?line) AS ?freq) WHERE {
+      { SELECT ?line (COUNT(*) AS ?count) WHERE {
+          SERVICE <{{ wikidata_service }}> {
+            ?line wdt:P402 ?osm_relation ;
+                  wdt:P1671 ?line_number ;
+                  rdfs:label ?line_name .
+            FILTER(LANG(?line_name) = "en")
+          }
+          SERVICE <{{ osm_service }}> {
+            ?osm_rel osmkey:ref ?osm_ref ;
+                     osmkey:name ?osm_name .
+          }
+          SERVICE <{{ rinf_service }}> {
+            ?rinf_lps a era:LinearPositioningSystem ;
+                      era:lineId ?rinf_lid .
+          }
+          FILTER(STR(?osm_rel) = CONCAT("https://www.openstreetmap.org/relation/", STR(?osm_relation)))
+          FILTER(?osm_ref = ?line_number)
+          FILTER(STRSTARTS(STR(?rinf_lid), REPLACE(?line_number, " ", "")))
+        } GROUP BY ?line }
+    }
+    GROUP BY ?count
+    ORDER BY ?count
+'PersonsOfPlaceFederated':
+  # data-heavy federated composition per issue #28: the PersonsOfPlace
+  # Wikidata leg of issue #15 (thousands of person rows) joined with the
+  # PlaceNames GOV leg of issue #14 and the FactGrid identity leg of
+  # PlaceIdentity - three legs per the #2 rule, GOV id as linking element
+  param_list:
+    - name: gov_id
+      type: str
+      default_value: AACHENJO30BS # Aachen
+    - name: limit
+      type: int
+      default_value: 10
+    - name: wikidata_service
+      type: str
+      default_value: https://qlever.dev/api/wikidata
+    - name: gov_service
+      type: str
+      default_value: https://gov-sparql.genealogy.net/dataset/sparql
+    - name: factgrid_service
+      type: str
+      default_value: https://database.factgrid.de/sparql
+  sparql: |
+    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    PREFIX gp: <http://gov.genealogy.net/ontology.owl#>
+    PREFIX gov: <http://gov.genealogy.net/>
+    PREFIX fgt: <https://database.factgrid.de/prop/direct/>
+    SELECT ?person ?person_name ?relation ?gov_name ?fg_place WHERE {
+      SERVICE <{{ wikidata_service }}> {
+        ?place wdt:P2503 "{{ gov_id }}" .
+        VALUES ?relation { wdt:P19 wdt:P20 wdt:P937 }
+        ?person ?relation ?place .
+        OPTIONAL {
+          ?person rdfs:label ?person_label .
+          FILTER(LANG(?person_label) = "en")
+        }
+        BIND(COALESCE(?person_label, SUBSTR(STR(?person), 32)) AS ?person_name)
+      }
+      SERVICE <{{ gov_service }}> {
+        gov:{{ gov_id }} gp:hasName/gp:value ?gov_name .
+      }
+      SERVICE <{{ factgrid_service }}> {
+        ?fg_place fgt:P1073 "{{ gov_id }}" .
+      }
+    }
+    ORDER BY ?person_name ?relation
+    LIMIT {{ limit }}
+'PersonsOfPlaceFederatedCount':
+  # count companion of PersonsOfPlaceFederated per issue #2 - same WHERE
+  # body, no limit
+  param_list:
+    - name: gov_id
+      type: str
+      default_value: AACHENJO30BS # Aachen
+    - name: wikidata_service
+      type: str
+      default_value: https://qlever.dev/api/wikidata
+    - name: gov_service
+      type: str
+      default_value: https://gov-sparql.genealogy.net/dataset/sparql
+    - name: factgrid_service
+      type: str
+      default_value: https://database.factgrid.de/sparql
+  sparql: |
+    PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    PREFIX gp: <http://gov.genealogy.net/ontology.owl#>
+    PREFIX gov: <http://gov.genealogy.net/>
+    PREFIX fgt: <https://database.factgrid.de/prop/direct/>
+    SELECT (COUNT(*) AS ?count) WHERE {
+      SERVICE <{{ wikidata_service }}> {
+        ?place wdt:P2503 "{{ gov_id }}" .
+        VALUES ?relation { wdt:P19 wdt:P20 wdt:P937 }
+        ?person ?relation ?place .
+        OPTIONAL {
+          ?person rdfs:label ?person_label .
+          FILTER(LANG(?person_label) = "en")
+        }
+        BIND(COALESCE(?person_label, SUBSTR(STR(?person), 32)) AS ?person_name)
+      }
+      SERVICE <{{ gov_service }}> {
+        gov:{{ gov_id }} gp:hasName/gp:value ?gov_name .
+      }
+      SERVICE <{{ factgrid_service }}> {
+        ?fg_place fgt:P1073 "{{ gov_id }}" .
+      }
+    }
