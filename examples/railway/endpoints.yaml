@@ -1,0 +1,9 @@
+# SPARQL endpoints declaration for sparqlquery tool
+# see https://github.com/WolfgangFahl/pyLoDStorage
+endpoints:
+    'railway-osm':
+      endpoint: https://qlever.dev/api/osm-planet
+      website: https://www.openstreetmap.org/
+      database: qlever
+      method: POST
+      lang: sparql
