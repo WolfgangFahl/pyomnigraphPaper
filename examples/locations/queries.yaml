@@ -1,0 +1,25 @@
+# named parameterized queries for the historical locations use case
+# see https://github.com/WolfgangFahl/pyLoDStorage
+'PlaceIdentity':
+  # a GOV place with its names and external identity links
+  # prior art: gov-wiki Query/KirchenkreiseNordkirche owl:sameAs idiom
+  # GOV carries sameAs to Wikidata, geonames and GND; the FactGrid counterpart
+  # lives on the FactGrid side (GOV ID property) per the three-leg rule
+  param_list:
+    - name: gov_id
+      type: str
+      default_value: AACHENJO30BS # Aachen
+    - name: limit
+      type: int
+      default_value: 10
+  sparql: |
+    PREFIX gp: <http://gov.genealogy.net/ontology.owl#>
+    PREFIX gov: <http://gov.genealogy.net/>
+    PREFIX owl: <http://www.w3.org/2002/07/owl#>
+    SELECT DISTINCT ?place ?name ?counterpart WHERE {
+      VALUES ?place { gov:{{ gov_id }} }
+      ?place gp:hasName/gp:value ?name .
+      OPTIONAL { ?place owl:sameAs ?counterpart }
+    }
+    ORDER BY ?name ?counterpart
+    LIMIT {{ limit }}

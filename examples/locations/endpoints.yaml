@@ -1,0 +1,9 @@
+# SPARQL endpoints declaration for sparqlquery tool
+# see https://github.com/WolfgangFahl/pyLoDStorage
+endpoints:
+    'locations-gov':
+      endpoint: https://gov-sparql.genealogy.net/dataset/sparql
+      website: https://gov.genealogy.net/
+      database: jena
+      method: POST
+      lang: sparql
