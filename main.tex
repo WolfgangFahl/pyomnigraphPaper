@@ -229,6 +229,18 @@ Stardog      & planned  & license required \\
 \subsection{Command-Line Interfaces}\label{sec:cli}
 There are two command line interfaces available for pyomnigraph: \texttt{omnigraph} for server management and \texttt{rdfdump} for data operations.
 
+The two core options are:
+\begin{lstlisting}[caption={omnigraph core options},label={lst:omnigraph-options}]
+--cmd CMD [CMD ...]   commands to execute on servers: bash, clear,
+                      count, info, load, logs, needed, rm, start,
+                      status, stop, upload, webui
+
+-s SERVERS [SERVERS ...], --servers SERVERS [SERVERS ...]
+                      servers to work with - 'all' selects all
+                      configured servers [default: ['blazegraph']]
+\end{lstlisting}
+so that multiple commands can be combined to be run on multiple servers.
+
 \section{Use Cases and Data Sources}\label{sec:datasources}
 %The use cases for our experiments are motivated by the eat your own dog food approach.
 Three use cases are the basis for our demonstration and evaluation: papers and authors (scholarly), historical locations for genealogy research and railway journey planning. 
