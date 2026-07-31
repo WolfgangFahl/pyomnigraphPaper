@@ -153,6 +153,7 @@ The contributions of this work are:
 \item \textbf{pyomnigraph architecture}, a blueprint of components that separate concerns of data operations, server management and endpoint backends using Docker containers, see Figure~\ref{fig:architecture}.
 \item \textbf{pyomnigraph}, an Apache-2.0 licensed Python library that unifies the deployment and operation of multiple RDF triple stores behind a single API and Docker-based setup (Section~\ref{sec:resource}), covering the backends listed in Section~\ref{sec:backends} and the \texttt{omnigraph} and \texttt{rdfdump} command-line interfaces (Section~\ref{sec:cli}).
 \item \textbf{demo survey of working dataset and endpoint combinations}, see Tables~\ref{tab:backends} and \ref{tab:subgraphs}.
+\item \textbf{RRR versus LLL federated query comparison}, a measured comparison of remote-remote-remote against local-local-local placements of three-leg federated \texttt{SERVICE} queries across four local backends, including the executor versus \texttt{SERVICE} target compatibility matrix and engine-specific failure modes (Section~\ref{sec:evaluation}, Tables~\ref{tab:llldiagonal} and \ref{tab:servicematrix}).
 \end{itemize}
 
 \section{Related Work}\label{sec:relatedwork}
