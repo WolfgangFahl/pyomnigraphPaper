@@ -131,6 +131,25 @@ datasets:
     construct_template: "?s ?p ?o"
     description: "Place closure, person relation triples and person labels given by the gov id seed, Wikidata graph via qlever.dev"
     active: true
+  place_identity_factgrid:
+    # subgraph of a FactGrid place: the place node closure given by the gov
+    # id seed - the FactGrid leg of the PlaceIdentity query per
+    # https://github.com/WolfgangFahl/pyomnigraphPaper/issues/14 and
+    # https://github.com/WolfgangFahl/pyomnigraphPaper/issues/24
+    name: "Place identity (factgrid)"
+    base_url: "https://database.factgrid.de"
+    endpoint_url: "https://database.factgrid.de/sparql"
+    database: "blazegraph"
+    expected_solutions: 361
+    params:
+      gov_ids: '"AACHENJO30BS"'
+    select_pattern: |
+      VALUES ?gov_id { {{ gov_ids }} }
+      ?s <https://database.factgrid.de/prop/direct/P1073> ?gov_id .
+      ?s ?p ?o .
+    construct_template: "?s ?p ?o"
+    description: "Place node closure given by the gov id seed, FactGrid graph"
+    active: true
   locations_all:
     # load helper per the all-subgraphs pattern: all locations dumps under
     # unique file names for a single-pass load - needed for the qlever

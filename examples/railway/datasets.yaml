@@ -161,6 +161,23 @@ datasets:
     construct_template: "?s ?p ?o"
     description: "Tagged OSM entities, their geometries, member statements and containing relations given by the wikidata qid seed, OSM planet graph via qlever.dev"
     active: true
+  line_relation_osm:
+    # subgraph of an OSM line relation: the relation node closure only -
+    # carries the ref and name tags the LineIdentity osm leg reads per
+    # https://github.com/WolfgangFahl/pyomnigraphPaper/issues/24
+    name: "Line relation (osm)"
+    base_url: "https://qlever.dev/osm-planet"
+    endpoint_url: "https://qlever.dev/api/osm-planet"
+    database: "qlever"
+    expected_solutions: 6043
+    params:
+      rels: "<https://www.openstreetmap.org/relation/1852360>"
+    select_pattern: |
+      VALUES ?s { {{ rels }} }
+      ?s ?p ?o .
+    construct_template: "?s ?p ?o"
+    description: "Relation node closure given by the relation seed, OSM planet graph via qlever.dev"
+    active: true
   railway_all:
     # load helper per the all-subgraphs pattern: all railway dumps under
     # unique file names for a single-pass load - needed for the qlever
