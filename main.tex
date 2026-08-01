@@ -35,6 +35,7 @@ hf, % draft only - NOT allowed for CEUR-WS, dropped pre submission per issue #6
   xleftmargin=0.5em,
   framexleftmargin=0.5em
 }
+\usepackage{comment}
 
 \begin{document}
 
@@ -105,9 +106,9 @@ In this work we report on pyomnigraph usage on seven graphs, four endpoints and 
 \maketitle
 
 \section{Introduction}\label{sec:introduction}
-Wikidata~\cite{Vrandecic2014} started in 2012 as an effort to back the different multilingual Wikipedia sites with a common set of facts. Initially, about 2 million entities were harvested from existing Wikipedia content. As of 2026, over 100 million entities have been curated by a growing worldwide community of contributors. In 2022, we reported on \emph{Getting and Hosting Your Own Copy of Wikidata}~\cite{fahl2022wikidata}. For quite a few use cases, the need for federated queries based on subgraphs of diverse public and internal knowledge graphs has been our motivation to try out different combinations of endpoints and subgraphs. In the case of Wikidata we have even been forced to do so by the 2025 graph split~\cite{willighagen2026scholia}.
+Wikidata~\cite{Vrandecic2014} started in 2012 as an effort to back the different multilingual Wikipedia sites with a common set of facts. Initially, about 2 million entities were harvested from existing Wikipedia content. As of 2026, over 100 million entities have been curated by a growing worldwide community of contributors. In 2022, we reported on \emph{Getting and Hosting Your Own Copy of Wikidata}~\cite{fahl2022wikidata}. For quite a few use cases, the need for federated queries based on subgraphs of diverse public and internal knowledge graphs has been our motivation to try out different combinations of endpoints and subgraphs. In the case of Wikidata, we have even been forced to do so by the 2025 graph split~\cite{willighagen2026scholia}.
 
-Public alternatives to the official Wikidata Query Service WDQS are still rare. Our attempts to convince the Wikimedia Foundation to support a public mirror infrastructure have so far been in vain.
+Public alternatives to the official Wikidata Query Service WDQS are still rare. Our attempts to convince the Wikimedia Foundation to support a public mirror infrastructure have so far been unsuccessful.
 Table~\ref{tab:PublicEndpoints}
 lists the seven working public Wikidata endpoints currently configured in
 \footnotelink{https://nicescholia.wikidata.dbis.rwth-aachen.de/api/endpoints}{nicescholia}~\cite{nicescholia} to be watched as potential alternative Scholia backends.
@@ -144,21 +145,22 @@ OpenLink Software (truthy)         & Virtuoso   &  8.1 & 2025-11-01 \\
 \end{table}
 
 % From a single Wikidata copy to your own copies of many RDF sources.
-Using federated queries on participants of the Linked Open Data Cloud \footnotelink{http://cas.lod-cloud.net/}{LOD Cloud} is in theory an excellent way to answer queries over diverse data sources. In practice there are a lot of possible frustrations involved, such as outages of endpoints, incompatibilities of endpoints, awkward syntax and general query rot.
+Using federated queries on participants of the Linked Open Data Cloud \footnotelink{http://cas.lod-cloud.net/}{LOD Cloud} is in theory an excellent way to answer queries over diverse data sources. In practice, there are a lot of possible frustrations involved, such as outages of endpoints, incompatibilities of endpoints, awkward syntax and general query rot.
 
-For real-life use cases that operate on small subgraphs only, it should be feasible to operate locally by providing the necessary data ``on the fly''. Unfortunately, to do so a lot of technical expertise is needed to set up endpoints, collect the subgraph data and finally perform the query. To ease this pain, we introduce pyomnigraph, which mitigates the complexity by using Docker and Python to provide a unified interface to different endpoint technologies in a local environment with limited resources.
+For real-life use cases that operate on small subgraphs only, it should be feasible to operate locally by providing the necessary data ``on the fly''. Unfortunately, to do so, a lot of technical expertise is needed to set up endpoints, collect the subgraph data and finally perform the query. 
+To ease this pain, we introduce pyomnigraph, which mitigates the complexity by using Docker and Python to provide a unified interface to different endpoint technologies in a local environment with limited resources.
 
 The contributions of this work are:
 \begin{itemize}
 \item \textbf{pyomnigraph architecture}, a blueprint of components that separate concerns of data operations, server management and endpoint backends using Docker containers, see Figure~\ref{fig:architecture}.
 \item \textbf{pyomnigraph}, an Apache-2.0 licensed Python library that unifies the deployment and operation of multiple RDF triple stores behind a single API and Docker-based setup (Section~\ref{sec:resource}), covering the backends listed in Section~\ref{sec:backends} and the \texttt{omnigraph} and \texttt{rdfdump} command-line interfaces (Section~\ref{sec:cli}).
 \item \textbf{demo survey of working dataset and endpoint combinations}, see Tables~\ref{tab:backends} and \ref{tab:subgraphs}.
-\item \textbf{RRR versus LLL federated query comparison}, a measured comparison of remote-remote-remote against local-local-local placements of three-leg federated \texttt{SERVICE} queries across four local backends, including the executor versus \texttt{SERVICE} target compatibility matrix and engine-specific failure modes (Section~\ref{sec:evaluation}, Tables~\ref{tab:llldiagonal} and \ref{tab:servicematrix}).
+\item \textbf{RRR versus LLL federated query comparison}, a measured comparison of remote-remote-remote (RRR) against local-local-local (LLL) placements of three-leg federated \texttt{SERVICE} queries across four local backends, including the executor versus \texttt{SERVICE} target compatibility matrix and engine-specific failure modes (Section~\ref{sec:evaluation}, Tables~\ref{tab:llldiagonal} and \ref{tab:servicematrix}).
 \end{itemize}
 
 \section{Related Work}\label{sec:relatedwork}
 \paragraph{Wikidata graph split}
-Willighagen et al.~\cite{willighagen2026scholia} report on the three options that have been considered for surviving the 2025 Wikidata graph split: federated queries between the main and the scholarly graph, using QLever~\cite{bast2017qlever} with modified queries on a full graph that does not suffer from the 4 TB limit of the Blazegraph endpoint, or using snapquery~\cite{snapquery} with named parameterized queries as a middleware to separate the endpoints' concerns from the domain needs.
+Willighagen et al.~\cite{willighagen2026scholia} report on the three options that have been considered for handling existing queries after the 2025 Wikidata graph split: federated queries between the main and the scholarly graph, using QLever~\cite{bast2017qlever} with modified queries on a full graph that does not suffer from the 4 TB limit of the Blazegraph endpoint, or using snapquery~\cite{snapquery} with named parameterized queries as a middleware to separate the endpoints' concerns from the domain needs.
 
 \paragraph{Wikidata subsetting}
 Hosseini Beghaeiraveri et al.~\cite{hosseini2023subsetting} survey approaches,
@@ -172,7 +174,7 @@ The Linked Data Fragments line of work addresses the same pain point --- public 
 % Predecessor 2022 paper, RDF triple stores, SPARQL 1.1 federation, benchmarking.
 
 \paragraph{CONSTRUCT queries}
-CONSTRUCT queries in SPARQL have been studied by Kostylev et al.~\cite{kostylev2015construct}: the nearly identical syntax of CONSTRUCT and SELECT queries --- both share the same WHERE clause --- is ``often deceptive''. The issues to beware of are the output domain --- partial mappings for SELECT versus RDF graphs for CONSTRUCT ---, blank nodes in templates, which CONSTRUCT allows while they are unavailable in SELECT, and unbound variables that are silently dropped.
+CONSTRUCT queries in SPARQL have been studied by Kostylev et al.~\cite{kostylev2015construct}: the nearly identical syntax of CONSTRUCT and SELECT queries --- both share the same WHERE clause --- is ``often deceptive''. The issues to beware of are (1) the output domain --- partial mappings for SELECT versus RDF graphs for CONSTRUCT --- (2) blank nodes in templates, which CONSTRUCT allows while they are unavailable in SELECT, and (3) unbound variables that are silently dropped.
 
 % federated queries
 \paragraph{Federated SPARQL query processing}
@@ -190,10 +192,10 @@ Two rather different mechanisms are commonly subsumed under the term, and they d
  It is the automatic derivation of the distribution, rather than the delegation mechanism itself, that the results discussed below call into question.
 \paragraph{Benchmarks}
 Performance is assessed with benchmarks: FedBench has long been the reference~\cite{hutchison_benchmarking_2012}, LargeRDFBench scales it to a billion triples with complex and large-data queries~\cite{saleem_largerdfbench_2018}, FedShop scales the number of participating endpoints from 20 to 200~\cite{payne_fedshop_2023}, QFed generates query sets dynamically for specialized systems~\cite{rakhmawati_qfed_2014}, FQCEB targets cardinality estimation~\cite{xu_evaluation_2023}, and FKGQA extends the setting to federated question answering~\cite{dobriy_agentic_2026}.
- FedBench alone, however, cannot expose the problem at issue: all of its queries decompose into at most three subqueries, so every engine behaves alike on it~\cite{hameurlain_selection_2016}, and with a mean of 4.3 triple patterns and runtimes of roughly two seconds its results do not extrapolate to the Data Web~\cite{saleem_largerdfbench_2018}.
+ FedBench alone, however, cannot expose the problem at hand: all of its queries decompose into at most three subqueries, so every engine behaves alike on it~\cite{hameurlain_selection_2016}, and with a mean of 4.3 triple patterns and runtimes of roughly two seconds its results do not extrapolate to the Data Web~\cite{saleem_largerdfbench_2018}.
 
 \paragraph{Alternative tooling}
-The obvious alternative to pyomnigraph is the hand-rolled setup: benchmark and evaluation projects routinely build their own Docker compose files, store-specific loaders and engine control scripts, and the prevailing answer to the question of the best tooling tends to be ``my own''. Even the triple store authors themselves maintain per-engine control tooling rather than a cross-engine toolchain. pyomnigraph replaces this per-project fragmentation with one declarative subgraphs-versus-backends matrix; the direct feedback we received from triple store authors on this approach is tracked in our repositories.
+An obvious alternative to pyomnigraph is the hand-rolled setup: benchmark and evaluation projects routinely build their own Docker compose files, store-specific loaders and engine control scripts, and the prevailing answer to the question of the best tooling tends to be ``my own''. Even the triple store authors themselves maintain per-engine control tooling rather than a cross-engine toolchain. pyomnigraph replaces this per-project fragmentation with one declarative subgraphs-versus-backends matrix; the direct feedback we received from triple store authors on this approach is tracked in our repositories.
 % original sources for these observations are collected in
 % https://github.com/WolfgangFahl/pyomnigraphPaper/issues/26 - cite them
 % here once verified
@@ -214,7 +216,7 @@ SPARQL endpoints. Source: \texttt{figures/architecture.puml} (PlantUML).}
 % Unified Python API, Docker deployment, YAML configuration.
 pyomnigraph leverages the named parameterized query approach from the snapquery~\cite{snapquery} framework, which handles such parameterized SPARQL queries. It supports semantic annotation of queries and monitoring of their execution. By abstracting away the underlying endpoint, it can call multiple endpoints at once to compare results, or swap endpoints transparently, without users noticing or having to change anything.
 
-The same separation of concerns---hiding details of endpoints and queries---is used by pyomnigraph. For human readability you will find YAML versions of these details in the \texttt{examples/<usecase>/} folders of our paper repository.
+The same separation of concerns---hiding details of endpoints and queries---is used by pyomnigraph. For human readability, you will find YAML versions of these details in the \texttt{examples/<usecase>/} folders of our paper repository.
 
 \subsection{Supported Backends}\label{sec:backends}
 Table~\ref{tab:backends} reproduces the supported triple stores table of the
@@ -271,8 +273,8 @@ toolchain --- see the loop usage in Listing~\ref{lst:railway-load}.
 
 \section{Use Cases and Data Sources}\label{sec:datasources}
 %The use cases for our experiments are motivated by the eat your own dog food approach.
-Three use cases are the basis for our demonstration and evaluation: papers and authors (scholarly), historical locations for genealogy research and railway journey planning. 
-For each use case we specify a list of information needs, from which we derive concrete example queries. The abstraction is then done by applying named parameterized queries.
+Three use cases are the basis for our demonstration and evaluation: papers and authors (scholarly), historical locations for genealogy research, and railway journey planning. 
+For each use, case we specify a list of information needs, from which we derive concrete example queries. The abstraction is then done by applying named parameterized queries.
 
 Table~\ref{tab:subgraphs} shows the subgraph sources for the use cases.
 
@@ -332,20 +334,20 @@ railway   & StationLocality & OpenStreetMap & Q3095803 (Irun) & 5  \\
 \end{table}
 
 Per the histogram section of the
-\footnotelink{https://github.com/WolfgangFahl/pyomnigraphPaper/issues/2}{query workflow issue}
+\footnotelink{https://github.com/WolfgangFahl/pyomnigraphPaper/issues/2}{query workflow issue},
 every named parameterized query gets a Histogram companion that unbinds the
 main seed parameter and shows the distribution of record counts over all seed
 values --- so the realistic count range behind the Records column of
 Table~\ref{tab:usecasequeries} is visible and the example binding can be
-judged as typical or outlier. Listing~\ref{lst:histogram-shape} shows the
-shape; other parameters stay at their defaults. For each of the 12 queries:
+judged as \emph{typical} or \emph{outlier}. Listing~\ref{lst:histogram-shape} illustrates the
+shape; other parameters stay at their defaults. For each of the 12 queries in Table~\ref{tab:usecasequeries}, Table~\ref{tab:histograms} answers the following questions with the verified runs of the
+\footnotelink{https://github.com/WolfgangFahl/pyomnigraphPaper/issues/12}{histogram verification issue}:
 does the histogram run on the primary endpoint, and what is the distribution
 (min/median/max, position of the example binding)?
-Table~\ref{tab:histograms} answers with the verified runs of the
-\footnotelink{https://github.com/WolfgangFahl/pyomnigraphPaper/issues/12}{histogram verification issue}.
 Timeouts/aggregation limits on the full graphs are expected for the big
 datasets and are a result too --- documented, not hidden.
 
+\newpage
 \begin{lstlisting}[caption={Histogram companion shape},label={lst:histogram-shape}]
 SELECT ?count (COUNT(?seed) AS ?freq) WHERE {
   { SELECT ?seed (COUNT(*) AS ?count) WHERE {
@@ -408,9 +410,9 @@ Note how calling the command line tools \texttt{rdfdump} and \texttt{omnigraph} 
 
 \section{Evaluation}\label{sec:evaluation}
 % Results across store and endpoint combinations.
-By applying the matrix approach of Section~\ref{sec:benchmark} we obtain interesting results on performance and failure cases. We then do a comparison of remote-remote-remote versus local-local-local federated queries across all possible combinations.
+By applying the matrix approach of Section~\ref{sec:benchmark}, we obtain interesting results on performance and failure cases. We then do a comparison of remote-remote-remote versus local-local-local federated queries across all possible combinations.
 
-Federation works cleanly for the remote-remote-remote (RRR) and local-local-local (LLL) placements on three of the four backends, with a set of specific failure modes which we collected in the
+Federation works cleanly for the remote-remote-remote and local-local-local  placements on three of the four backends, with a set of specific failure modes which we collected in the
 \footnotelink{https://github.com/WolfgangFahl/pyomnigraphPaper/issues/16}{failure cases issue}
 of our paper repository. The $4^3 = 64$ off-diagonal grid is feasible for the executors Apache Jena, Oxigraph and QLever per the pair matrix --- roughly a 10-minute run on a MacBook Pro 2.4 GHz 8-core with 32 GB of RAM; structural failures have been found with Blazegraph as reported in our GitHub repository.
 
@@ -463,7 +465,7 @@ QLever      & + & + & +  & +  \\
 pyomnigraph is open source under the Apache 2.0 license, developed on \footnotelink{https://github.com/WolfgangFahl/pyomnigraph}{GitHub}, released on \footnotelink{https://pypi.org/project/pyomnigraph/}{PyPI} and archived on Zenodo~\cite{pyomnigraph} under the concept DOI 10.5281/zenodo.21721772; version 0.2.3 is the release this paper refers to. The reproducible examples and the paper sources live in the \footnotelink{https://github.com/WolfgangFahl/pyomnigraphPaper}{pyomnigraphPaper repository}; the underlying libraries pyLoDStorage~\cite{pylodstorage} and snapquery~\cite{snapquery} are archived on Zenodo as well.
 
 \section{Conclusion and Future Work}\label{sec:conclusion}
-As a resource paper we have been pragmatic about the subtle differences between CONSTRUCT and SELECT queries pointed out by Kostylev et al.~\cite{kostylev2015construct}: the shared WHERE clause even led us to name the extraction pattern of our dataset declarations \texttt{select\_pattern}. A formal analysis of the limitations of this pragmatic approach would be beneficial to avoid trial and error for use cases that are out of bounds of our approach.
+As this is a resource paper, we have been pragmatic about the subtle differences between CONSTRUCT and SELECT queries pointed out by Kostylev et al.~\cite{kostylev2015construct}: the shared WHERE clause even led us to name the extraction pattern of our dataset declarations \texttt{select\_pattern}. A formal analysis of the limitations of this pragmatic approach would be beneficial to avoid trial and error for use cases that are out of bounds of our approach.
 
 The RESTful interface of the architecture (Figure~\ref{fig:architecture}) is future work: it is most interesting for agentic AI work, e.g. as an MCP service backend.
 
