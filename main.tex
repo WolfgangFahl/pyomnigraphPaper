@@ -47,6 +47,16 @@
   framexleftmargin=0.5em
 }
 \usepackage{comment}
+% SPARQL language for listings (not built in)
+\lstdefinelanguage{SPARQL}{
+  morekeywords={SELECT,CONSTRUCT,ASK,DESCRIBE,WHERE,GROUP,ORDER,BY,AS,
+    COUNT,SUM,AVG,MIN,MAX,FILTER,OPTIONAL,SERVICE,PREFIX,BASE,LIMIT,
+    OFFSET,DISTINCT,UNION,BIND,VALUES,GRAPH,FROM,NAMED,HAVING,ASC,DESC},
+  sensitive=true,
+  morecomment=[l]{\#},
+  morestring=[b]",
+  morestring=[b]'
+}
 
 \begin{document}
 
@@ -430,7 +440,7 @@ Timeouts/aggregation limits on the full graphs are expected for the big
 datasets and are a result too --- documented, not hidden.
 % check before submission
 \newpage
-\begin{lstlisting}[caption={Histogram companion shape},label={lst:histogram-shape}]
+\begin{lstlisting}[language=SPARQL,caption={Histogram companion shape},label={lst:histogram-shape}]
 SELECT ?count (COUNT(?seed) AS ?freq) WHERE {
   { SELECT ?seed (COUNT(*) AS ?count) WHERE {
       # same WHERE body as the named query, seed unbound
