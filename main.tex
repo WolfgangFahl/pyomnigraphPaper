@@ -311,6 +311,22 @@ toolchain --- see the loop usage in Listing~\ref{lst:railway-load}.
 Three use cases are the basis for our demonstration and evaluation: papers and authors (scholarly), historical locations for genealogy research, and railway journey planning. 
 For each use, case we specify a list of information needs, from which we derive concrete example queries. The abstraction is then done by applying named parameterized queries.
 
+\subsection{Method}\label{sec:method}
+Our query development is issue driven in the
+\footnotelink{https://github.com/WolfgangFahl/pyomnigraphPaper/issues/2}{query workflow issue}
+of the paper repository. For each use case, the authors provided the information
+needs and the raw initial queries from the use case sources as the initial prompt.
+Agentic AI then worked on per-query sub-issues to provide the different forms of
+each query: the endpoint-checked and potentially adapted named parameterized
+query, its Count and Histogram companions, and the CONSTRUCT version as a
+pyomnigraph dataset declaration, starting from the
+\footnotelink{https://github.com/WolfgangFahl/pyomnigraphPaper/issues/8}{dataset declaration issue}.
+Acting as a research assistant, the agentic AI checked the queries and documented
+the results in the query issues. The evaluation experiments of
+Section~\ref{sec:evaluation} were run the same agentic way, tracked in issues
+\footnotelink{https://github.com/WolfgangFahl/pyomnigraphPaper/issues/24}{\#24} to
+\footnotelink{https://github.com/WolfgangFahl/pyomnigraphPaper/issues/28}{\#28}.
+
 Table~\ref{tab:subgraphs} shows the subgraph sources for the use cases.
 
 Table~\ref{tab:usecasequeries} tracks the named parameterized queries that we use to demo and benchmark, one row per query and example binding. Each query is defined
@@ -510,7 +526,11 @@ The RESTful interface of the architecture (Figure~\ref{fig:architecture}) is fut
 %% https://ceur-ws.org/GenAI/Policy.html). Finalize per the AGENTS.md
 %% governance in this repository before submission.
 \section*{Declaration on Generative AI}
-AI assistance in this project is limited to spelling, grammar, and formatting/build tooling; AI is NOT used to generate scientific content, arguments, or prose.
+The queries, dataset declarations and evaluation experiments of this paper were
+developed, checked and documented with agentic AI assistance acting as a research
+assistant per the issue-driven method of Section~\ref{sec:method}. The scientific
+content, arguments and prose are authored by the human authors; AI assistance
+further covered spelling, grammar, formatting and build tooling.
 
 %% Bibliography
 \bibliography{references}
