@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use this repository, please cite it as below."
+title: "pyomnigraph - Getting and hosting your own federated copies of subgraphs of Wikidata and other knowledge graphs"
+authors:
+  - family-names: Fahl
+    given-names: Wolfgang
+    orcid: "https://orcid.org/0000-0002-0821-6995"
+  - family-names: Holzheim
+    given-names: Tim
+    orcid: "https://orcid.org/0000-0003-2533-6363"
+  - family-names: Lange
+    given-names: Christoph
+    orcid: "https://orcid.org/0000-0001-9879-3827"
+  - family-names: Decker
+    given-names: Stefan
+    orcid: "https://orcid.org/0000-0001-6324-7164"
+repository-code: "https://github.com/WolfgangFahl/pyomnigraphPaper"
