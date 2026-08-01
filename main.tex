@@ -175,7 +175,7 @@ The contributions of this work are:
 
 \section{Related Work}\label{sec:relatedwork}
 \paragraph{Wikidata graph split}
-Willighagen et al.~\cite{willighagen2026scholia} report on the three options that have been considered for handling existing queries after the 2025 Wikidata graph split: federated queries between the main and the scholarly graph, using QLever~\cite{bast2017qlever} with modified queries on a full graph that does not suffer from the 4 TB limit of the Blazegraph endpoint, or using snapquery~\cite{snapquery} with named parameterized queries as a middleware to separate the endpoints' concerns from the domain needs.
+Willighagen et al.~\cite{willighagen2026scholia} report on the three options that have been considered for handling existing queries after the 2025 Wikidata graph split: federated queries between the main and the scholarly graph, using QLever~\cite{bast2017qlever} with modified queries on a full graph that does not suffer from the 4 TB limit of the Blazegraph endpoint, or using the snapquery named-parameterized-query middleware~\cite{snapquery} to separate the endpoints' concerns from the domain needs.
 
 \paragraph{Wikidata subsetting}
 Hosseini Beghaeiraveri et al.~\cite{hosseini2023subsetting} survey approaches,
@@ -238,7 +238,8 @@ Table~\ref{tab:backends} reproduces the supported triple stores table of the
 \footnotelink{https://github.com/WolfgangFahl/pyomnigraph}{pyomnigraph README}.
 
 \begin{table}
-\caption{Supported triple store backends per the pyomnigraph README as of 2026-07-31.}
+\caption{Supported triple store backends per the pyomnigraph README as of 2026-07-31.
+$\ddag$: open issue \href{https://github.com/WolfgangFahl/pyomnigraph/issues/30}{pyomnigraph \#30}, default graph write permissions.}
 \label{tab:backends}
 \begin{tabular}{lll}
 \hline
@@ -250,7 +251,7 @@ Oxigraph     & working  & Rust-based, embedded, fast \\
 QLever       & working  & extremely fast queries \\
 GraphDB      & disabled & license required (free version available) \\
 MillenniumDB & disabled & import-first workflow, Property Graph + RDF \\
-Virtuoso     & disabled & robust, standards compliant minor open issue in our repo \\
+Virtuoso     & disabled & robust, standards compliant$\ddag$ \\
 Stardog      & planned  & license required \\
 \hline
 \end{tabular}
