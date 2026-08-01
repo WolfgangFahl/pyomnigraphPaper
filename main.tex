@@ -119,7 +119,7 @@ In this work we report on pyomnigraph usage on seven graphs, four endpoints and 
 \maketitle
 
 \section{Introduction}\label{sec:introduction}
-Wikidata~\cite{Vrandecic2014} started in 2012 as an effort to back the different multilingual Wikipedia sites with a common set of facts. Initially, about 2 million entities were harvested from existing Wikipedia content. As of 2026, over 100 million entities have been curated by a growing worldwide community of contributors. In 2022, we reported on \emph{Getting and Hosting Your Own Copy of Wikidata}~\cite{fahl2022wikidata}. For quite a few use cases, the need for federated queries based on subgraphs of diverse public and internal knowledge graphs has been our motivation to try out different combinations of endpoints and subgraphs. In the case of Wikidata, we have even been forced to do so by the 2025 graph split~\cite{willighagen2026scholia}.
+Wikidata~\cite{Vrandecic2014} started in 2012 as an effort to back the different multilingual Wikipedia sites with a common set of facts. By the end of the year, 2149719 entities were harvested from existing Wikipedia content, this initial phase ended in February 2013 with 4 million items. As of 2026, over 100 million entities have been curated by a growing worldwide community of contributors. In 2022, we reported on \emph{Getting and Hosting Your Own Copy of Wikidata}~\cite{fahl2022wikidata}. For quite a few use cases, the need for federated queries based on subgraphs of diverse public and internal knowledge graphs has been our motivation to try out different combinations of endpoints and subgraphs. In the case of Wikidata, we have even been forced to do so by the 2025 graph split~\cite{willighagen2026scholia}.
 
 Public alternatives to the official Wikidata Query Service WDQS are still rare. Our attempts to convince the Wikimedia Foundation to support a public mirror infrastructure have so far been unsuccessful.
 Table~\ref{tab:PublicEndpoints}
@@ -135,7 +135,7 @@ alongside a \footnotelink{https://qlever-api.wikidata.dbis.rwth-aachen.de/}{QLev
 the University of Freiburg \footnotelink{https://qlever.dev/api/wikidata}{QLever} service has
 moved to the \texttt{qlever.dev} host.
 \footnotelink{https://truthy.demo.openlinksw.com/sparql}{OpenLink Software} provides a Virtuoso
-instance restricted to truthy statements\footnote{The best-ranked non-deprecated statements per property, as plain \texttt{wdt:} triples without qualifiers and references; see \url{https://www.mediawiki.org/wiki/Wikibase/Indexing/RDF_Dump_Format\#Truthy_statements}.}. These alternatives still have their own limitations regarding SPARQL language coverage, data currency and completeness.
+instance restricted to truthy statements\footnote{The best-ranked non-deprecated statements per property, as plain \texttt{wdt:} triples without qualifiers and references.}. These alternatives still have their own limitations regarding SPARQL language coverage, data currency and completeness.
 
 \begin{table}
 \caption{Public Wikidata query endpoints. Triple counts for QLever (Freiburg)
