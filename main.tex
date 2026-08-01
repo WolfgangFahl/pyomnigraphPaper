@@ -528,19 +528,76 @@ QLever      & + & + & +  & +  \\
 \end{tabular}
 \end{table}
 
+\subsection{Subsetting accuracy replication}\label{sec:accuracy}
+The accuracy test of the subsetting survey~\cite{hosseini2023subsetting}
+(its Section~4.4 and Table~5) has been replicated with \texttt{rdfdump}
+against a live endpoint instead of a full dump, tracked in the
+\footnotelink{https://github.com/WolfgangFahl/pyomnigraphPaper/issues/27}{accuracy issue}
+\#27. The survey extracts the direct \wdp{instance of}{P31} instances ---
+no subclass instances --- of four life-science classes together with all
+statements about the matched items.
+
+For the disease class the extraction took 2.9\,s and yielded 17{,}482
+triples in two Turtle files; the counts on the local Apache Jena backend
+after loading are identical to the counts on the live endpoint
+(600 items, 17{,}482 statements). No dump was involved at any point.
+
+Re-running the survey's own class counts against Wikidata today gives
+Table~\ref{tab:classrot}. Two of the four classes have kept their
+modelling and grown; for the other two the population has moved to a new
+class: \wdq{aspirin}{Q18216} is now an instance of
+\wdq{type of chemical entity}{Q113145171} and
+\wdq{asthma}{Q35869} of \wdq{type of disease}{Q112193867}.
+The counts were taken on the two full graphs of
+Table~\ref{tab:PublicEndpoints} --- QLever Freiburg and QLever DBIS ---
+which agree in every cell. The split halves cannot serve as a control
+here, since neither holds the full graph; the three Wikimedia Foundation
+endpoints did not answer these counts at the time of the run.
+
+\begin{table}
+\caption{Class counts of the subsetting survey's accuracy test, its 2023
+input dump versus Wikidata on 2026-08-01, direct \texttt{P31} instances,
+measured identically on the QLever Freiburg and QLever DBIS full graphs.
+The last column names the class the population has moved to, with its
+instance count.}
+\label{tab:classrot}
+\small
+\begin{tabular}{lrrl}
+\hline
+Class & Survey 2023 & 2026-08-01 & Moved to (instances) \\
+\hline
+\wdqTable{gene}{Q7187}     & 1,196,532 & 1,225,240 & --- \\
+\wdqTable{protein}{Q8054}  &   987,636 & 1,020,285 & --- \\
+\wdqTable{chemical compound}{Q11173} & 1,244,881 & 121 & \wdqTable{type of chemical entity}{Q113145171}, 1,280,213 \\
+\wdqTable{disease}{Q12136} &     5,513 &       600 & \wdqTable{type of disease}{Q112193867}, 19,632 \\
+\hline
+\end{tabular}
+\end{table}
+
 \section{Availability}\label{sec:availability}
 % Apache-2.0, PyPI, GitHub; resource metadata.
 pyomnigraph is open source under the Apache 2.0 license, developed on \footnotelink{https://github.com/WolfgangFahl/pyomnigraph}{GitHub}, released on \footnotelink{https://pypi.org/project/pyomnigraph/}{PyPI} and archived on Zenodo~\cite{pyomnigraph} under the concept DOI 10.5281/zenodo.21721772; version 0.2.3 is the release this paper refers to. The reproducible examples and the paper sources live in the \footnotelink{https://github.com/WolfgangFahl/pyomnigraphPaper}{pyomnigraphPaper repository}; the underlying libraries pyLoDStorage~\cite{pylodstorage} and snapquery~\cite{snapquery} are archived on Zenodo as well.
 Table~\ref{tab:availability} in Section~\ref{sec:resource} summarizes the resource metadata.
 
 \section{Conclusion and Future Work}\label{sec:conclusion}
-We have presented pyomnigraph as a versatile tool for handling subgraphs of RDF datasets from different sources. The main motivation is the assumption that local federation avoids frustration and is more stable and performant than its remote counterparts. For our trivial examples the performance aspect is negligible. The experiment of issue~\#27, based on~\cite{hosseini2023subsetting}, has shown another frustration that makes us declare this future work: query rot has happened --- the \texttt{instance of} classes have shifted since the 2023 publication.
+We have presented pyomnigraph as a versatile tool for handling subgraphs of RDF datasets from different sources. The main motivation is the assumption that local federation avoids frustration and is more stable and performant than its remote counterparts. For our trivial examples the performance aspect is negligible.
 
-The agentic AI driven approach to running the experiments has proven to be very effective and efficient. With state of the art models such as Claude Fable, the rewriting tasks have been performed with quite high accuracy. In this work we consider queries and result sets in a black-box style --- we are not really interested in the details. The Human In The Loop (HITL) check of the queries per issue has shown that the results are sufficiently trustworthy --- again something that might be evaluated in more detail in future work.
+The subsetting accuracy replication of Section~\ref{sec:accuracy} confirms that a live SPARQL server is sufficient for the CONSTRUCT-based extraction --- the local counts reproduce the endpoint counts exactly. The same experiment surfaced another frustration: query rot has happened --- the \texttt{instance of} classes of two of the four surveyed life-science classes have shifted since the 2023 publication.
 
-As this is a resource paper, we have been pragmatic about the subtle differences between CONSTRUCT and SELECT queries pointed out by Kostylev et al.~\cite{kostylev2015construct}: the shared WHERE clause even led us to name the extraction pattern of our dataset declarations \texttt{select\_pattern}. A formal analysis of the limitations of this pragmatic approach would be beneficial to avoid trial and error for use cases that are out of bounds of our approach.
+As this is a resource paper, we have been pragmatic about the subtle differences between CONSTRUCT and SELECT queries pointed out by Kostylev et al.~\cite{kostylev2015construct}: the shared WHERE clause even led us to name the extraction pattern of our dataset declarations \texttt{select\_pattern}.
 
-The RESTful interface of the architecture (Figure~\ref{fig:architecture}) is future work: it is most interesting for agentic AI work, e.g. as an MCP service backend.
+The agentic AI driven approach to running the experiments has proven to be very effective and efficient. With state of the art models the rewriting tasks have been performed with quite high accuracy. In this work we consider queries and result sets in a black-box style --- we are not really interested in the details. The Human In The Loop (HITL) check of the queries per issue has shown that the results are sufficiently trustworthy.
+
+\paragraph{Future work}
+The replication of the remaining three classes of the accuracy test is
+open, as is the question of how a subset specification should be pinned so
+that it survives class re-modelling. A formal analysis of the limitations
+of our pragmatic CONSTRUCT/SELECT approach would be beneficial to avoid
+trial and error for use cases that are out of bounds of our approach. The
+RESTful interface of the architecture (Figure~\ref{fig:architecture}) is
+future work as well: it is most interesting for agentic AI work, e.g. as an
+MCP service backend. Finally, the trustworthiness of the agentic approach
+and its HITL check might be evaluated in more detail.
 
 
 %% Declaration on Generative AI (required by CEUR-WS, see
