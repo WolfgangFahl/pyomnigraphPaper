@@ -640,7 +640,13 @@ of our pragmatic CONSTRUCT/SELECT approach would be beneficial to avoid
 trial and error for use cases that are out of bounds of our approach. The
 RESTful interface of the architecture (Figure~\ref{fig:architecture}) is
 future work as well: it is most interesting for agentic AI work, e.g. as an
-MCP service backend. Finally, the trustworthiness of the agentic approach
+MCP service backend. Every additional named parameterized query contributes
+its dataset declaration, so the local subgraph grows query by query ---
+approaching a cache that likely already holds the data of interest, without
+ever keeping a full copy of the source graph. Combined with a writable local
+endpoint --- e.g. a SPARQL facade for a Semantic MediaWiki --- this also
+opens an agent-assisted curation path back to public graphs such as
+Wikidata. Finally, the trustworthiness of the agentic approach
 and its HITL check might be evaluated in more detail.
 
 
