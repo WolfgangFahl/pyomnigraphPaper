@@ -94,8 +94,8 @@ orcid=0000-0001-6324-7164,
 %% Abstract (author-provided text).
 \begin{abstract}
 The challenges of federated queries that came up in our use cases highlighted the need to be able to work with RDF subgraphs and try out different alternative endpoints such as QLever and Virtuoso. Wikidata is an example of a very large, crowd-sourced general knowledge graph backed by a worldwide community since 2012. FactGrid has been using the same Wikibase infrastructure as Wikidata since 2017 for historical research projects. GOV (Geschichtliches/Genealogisches Ortsverzeichnis) is an online gazetteer for searching historic places. Wikidata grew so large that the Blazegraph endpoint powering it was pushed to the 4 terabyte limit and the Wikimedia Foundation therefore decided to split the knowledge graph to host two instances.
-While typical research projects that do such subgraphing and benchmarks roll their own environments, our pyomnigraph --- a Python-based open source library --- provides a unified infrastructure with a standard set of APIs and CLI commands to improve the handling and potentially grow the matrix of subgraphs versus endpoints to work with.
-In this work, we report on pyomnigraph usage on seven graphs, four endpoints and three use cases with four example queries each, spanning three different graphs per use case. This opens a multidimensional space for exploring different combinations of federated queries, starting from a natural remote-remote-remote federated query to the possible combinations of local federated queries backed by all endpoints supported by pyomnigraph. We show that typical frustrations of scaling multi-hop federated queries can be quickly surfaced if the subgraphs are locally loaded and federation is applied locally. pyomnigraph is therefore usable for pre-flight checks and benchmarks.
+While typical research projects that do such subgraphing and benchmarks roll their own environments, our pyomnigraph --- a Python-based open source library --- provides a unified infrastructure with CLI commands to improve the handling and potentially grow the matrix of subgraphs versus endpoints to work with.
+In this work, we report on pyomnigraph usage on seven graphs, four endpoints and three use cases with four example queries each, spanning three different graphs per use case. This opens a multidimensional space for exploring different combinations of federated queries, starting from a natural remote-remote-remote federated query to the possible combinations of local federated queries backed by all endpoints supported by pyomnigraph. We show that typical frustrations of scaling multi-hop federated queries can be quickly surfaced if the subgraphs are locally loaded and federation is applied locally. pyomnigraph is therefore usable for pre-production checks and benchmarks.
 
 \end{abstract}
 
@@ -125,10 +125,10 @@ Table~\ref{tab:PublicEndpoints}
 lists the seven public Wikidata endpoints currently configured in
 \footnotelink{https://nicescholia.wikidata.dbis.rwth-aachen.de/api/endpoints}{nicescholia}~\cite{nicescholia} to be watched as potential alternative Scholia backends.
 
-The Wikimedia Foundation itself now serves three: the
+The Wikimedia Foundation itself used to serve three: the
 \footnotelink{https://query-legacy-full.wikidata.org/sparql}{legacy full graph} and, since the
 WDQS graph split, a \footnotelink{https://query-main.wikidata.org/sparql}{main} and a
-\footnotelink{https://query-scholarly.wikidata.org/sparql}{scholarly} half. RWTH Aachen University
+\footnotelink{https://query-scholarly.wikidata.org/sparql}{scholarly} half. To mitigate the full graph decommission, RWTH Aachen University
 hosts a full \footnotelink{https://wdqs.wikidata.dbis.rwth-aachen.de/sparql}{Blazegraph mirror}
 alongside a \footnotelink{https://qlever-api.wikidata.dbis.rwth-aachen.de/}{QLever endpoint};
 the University of Freiburg \footnotelink{https://qlever.dev/api/wikidata}{QLever} service has
@@ -150,9 +150,9 @@ Provider & Triple Store & Triples (B) & Last update \\
 Wikimedia Foundation (legacy full) & Blazegraph & 22.0 & 2026-01$\dag$ \\
 Wikimedia Foundation (main)        & Blazegraph &  8.6 & continuous \\
 Wikimedia Foundation (scholarly)   & Blazegraph &  8.7 & continuous \\
+University of Freiburg             & QLever     & 17.7 & continuous \\
 RWTH Aachen DBIS                   & Blazegraph & 17.0 & 2025-06-01 \\
 RWTH Aachen DBIS                   & QLever     & 17.7 & continuous \\
-University of Freiburg             & QLever     & 17.7 & continuous \\
 OpenLink Software (truthy)         & Virtuoso   &  8.1 & 2025-11-01 \\
 \hline
 \end{tabular}
@@ -216,7 +216,7 @@ An obvious alternative to pyomnigraph is the hand-rolled setup: benchmark and ev
 
 \section{The pyomnigraph Resource}\label{sec:resource}
 pyomnigraph~\cite{pyomnigraph} provides a unified Python interface for multiple graph databases. The software is open source under Apache 2.0 license and hosted on GitHub.
-Figure~\ref{fig:architecture} shows the architecture in one panel: the \texttt{omnigraph} and \texttt{rdfdump} command line interfaces and the planned REST API (future work, see Section~\ref{sec:conclusion}) share the unified Python API, which manages the triple store backends as Docker containers; \texttt{rdfdump} pulls subgraph dumps from public SPARQL endpoints.
+Figure~\ref{fig:architecture} shows the architecture in one panel: the \texttt{omnigraph} and \texttt{rdfdump} command line interfaces and the planned REST API (future work, see Section~\ref{sec:conclusion}) share the unified Python API, which manages the triple store backends as Docker containers; \texttt{rdfdump} pulls subgraph dumps from public SPARQL endpoints based on CONSTRUCT query declarations\footnote{Which by our method we derive from standard SELECT queries with the help of AI and known limitations as per the conclusion section.}.
 
 \begin{figure}
 \centering
@@ -366,7 +366,7 @@ in \texttt{examples/<usecase>/queries.yaml} with its parameter list and default 
 The examples can be reproduced from the \footnotelink{https://github.com/WolfgangFahl/pyomnigraphPaper}{pyomnigraphPaper GitHub repository}. Result sets that exceed the page limit of this paper are imported into the repository's query issues, one issue per query; the \footnotelink{https://cr.bitplan.com/index.php/TryQueries}{TryQueries} page complements them with short try-it links that run each query interactively against its endpoint.
 
 As typical for real-world use cases, the ideal persistent identifiers for linking have limited availability. ORCID and ROR would be such identifiers for the scholarly case; according to Jesper Zedlitz, the counterpart for GOV would be a reconciliation via the current municipalities in Germany. This should work well via the Amtlicher Gemeindeschlüssel, \wdp{official municipality key}{P439}.
-PID candidates for railway stations are the \wdp{UIC station code}{P722}, standardized by the UIC in Paris, or the international station number \wdp{IBNR}{P954}, which could formerly be resolved via the Deutsche Bahn \footnotelink{https://reiseauskunft.bahn.de/bin/bhftafel.exe/en?input=\$1\&boardType=dep\&time=actual\&productsDefault=1111101\&start=yes}{departure board formatter URL} --- marked with \tquote{link rot} in Wikidata, which is grist to our mill. The \footnotelink{https://www.adif.es/en/w/11600-ir\%C3\%BAn}{Adif page for Irún}, as used in our \footnotelink{https://ebike.bitplan.com/index.php/Irun}{ebike wiki}, uses yet another number.
+PID candidates for railway stations are the \wdp{UIC station code}{P722}, standardized by the UIC in Paris, or the international station number \wdp{IBNR}{P954}, which could formerly be resolved via the Deutsche Bahn \footnotelink{https://reiseauskunft.bahn.de/bin/bhftafel.exe/en?input=\$1\&boardType=dep\&time=actual\&productsDefault=1111101\&start=yes}{departure board formatter URL} --- marked with \tquote{link rot} in Wikidata, which is grist to our mill. Spain's Railway Infrastructure Manager (ADIF) \footnotelink{https://www.adif.es/en/w/11600-ir\%C3\%BAn}{uses yet another identifier system}, which we re-used in our \footnotelink{https://ebike.bitplan.com/index.php/Irun}{ebike wiki}.
 
 % Subgraphs of Wikidata, FactGrid, GOV, and potentially further RDF sources.
 \begin{table}
