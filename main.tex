@@ -479,6 +479,24 @@ QLever      & + & + & +  & +  \\
 \section{Availability}\label{sec:availability}
 % Apache-2.0, PyPI, GitHub; resource metadata.
 pyomnigraph is open source under the Apache 2.0 license, developed on \footnotelink{https://github.com/WolfgangFahl/pyomnigraph}{GitHub}, released on \footnotelink{https://pypi.org/project/pyomnigraph/}{PyPI} and archived on Zenodo~\cite{pyomnigraph} under the concept DOI 10.5281/zenodo.21721772; version 0.2.3 is the release this paper refers to. The reproducible examples and the paper sources live in the \footnotelink{https://github.com/WolfgangFahl/pyomnigraphPaper}{pyomnigraphPaper repository}; the underlying libraries pyLoDStorage~\cite{pylodstorage} and snapquery~\cite{snapquery} are archived on Zenodo as well.
+Table~\ref{tab:availability} summarizes the resource metadata.
+
+\begin{table}
+\caption{Resource metadata: repositories, packages and Zenodo concept DOIs.}
+\label{tab:availability}
+\begin{tabular}{lllll}
+\hline
+Resource & GitHub & PyPI & Zenodo concept DOI & License \\
+\hline
+pyomnigraph      & \href{https://github.com/WolfgangFahl/pyomnigraph}{GitHub}      & \href{https://pypi.org/project/pyomnigraph/}{PyPI}  & \href{https://doi.org/10.5281/zenodo.21721772}{10.5281/zenodo.21721772} & Apache-2.0 \\
+snapquery        & \href{https://github.com/WolfgangFahl/snapquery}{GitHub}        & \href{https://pypi.org/project/snapquery/}{PyPI}    & \href{https://doi.org/10.5281/zenodo.17802424}{10.5281/zenodo.17802424} & Apache-2.0 \\
+pyLoDStorage     & \href{https://github.com/WolfgangFahl/pyLoDStorage}{GitHub}     & \href{https://pypi.org/project/pyLodStorage/}{PyPI} & \href{https://doi.org/10.5281/zenodo.17805335}{10.5281/zenodo.17805335} & Apache-2.0 \\
+nicescholia      & \href{https://github.com/WolfgangFahl/nicescholia}{GitHub}      & \href{https://pypi.org/project/nicescholia/}{PyPI}  & \href{https://doi.org/10.5281/zenodo.17967779}{10.5281/zenodo.17967779} & Apache-2.0 \\
+velorail         & \href{https://github.com/WolfgangFahl/velorail}{GitHub}         & \href{https://pypi.org/project/velorail/}{PyPI}     & \href{https://doi.org/10.5281/zenodo.21722377}{10.5281/zenodo.21722377} & Apache-2.0 \\
+pyomnigraphPaper & \href{https://github.com/WolfgangFahl/pyomnigraphPaper}{GitHub} & --                                                  & \href{https://doi.org/10.5281/zenodo.21735742}{10.5281/zenodo.21735742} & -- \\
+\hline
+\end{tabular}
+\end{table}
 
 \section{Conclusion and Future Work}\label{sec:conclusion}
 As this is a resource paper, we have been pragmatic about the subtle differences between CONSTRUCT and SELECT queries pointed out by Kostylev et al.~\cite{kostylev2015construct}: the shared WHERE clause even led us to name the extraction pattern of our dataset declarations \texttt{select\_pattern}. A formal analysis of the limitations of this pragmatic approach would be beneficial to avoid trial and error for use cases that are out of bounds of our approach.
