@@ -14,5 +14,8 @@ authors:
   - family-names: Decker
     given-names: Stefan
     orcid: "https://orcid.org/0000-0001-6324-7164"
+  - family-names: Mietchen
+    given-names: Daniel
+    orcid: "https://orcid.org/0000-0001-9488-1870"
 repository-code: "https://github.com/WolfgangFahl/pyomnigraphPaper"
 license: CC-BY-4.0
