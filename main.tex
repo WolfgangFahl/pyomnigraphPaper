@@ -535,6 +535,24 @@ QLever      & + & + & +  & +  \\
 \end{tabular}
 \end{table}
 
+The whole setup --- clone, container start, the declarative load scripts and the LLL diagonal --- was replicated on three machines; Table~\ref{tab:machines} shows the latency ranges. The record counts, including the Blazegraph PlaceIdentity defect, are identical on all three machines, so the failure modes are engine properties, not environment artifacts. The 2012-era Intel i5 outperforms the MacBook Pro throughout: the Docker Desktop virtualization layer on macOS costs roughly a factor of five to ten against native Linux containers.
+
+\begin{table}
+\caption{LLL diagonal replication on three machines: median query-only
+latency range across the three \texttt{Count} queries per backend,
+measured 2026-08-01; record counts identical on all machines.}
+\label{tab:machines}
+\begin{tabular}{llrrrr}
+\hline
+Machine & CPU / OS & Blazegraph & Jena & Oxigraph & QLever \\
+\hline
+fixit & 2.4\,GHz 8-core Intel, macOS & 0.18--0.24\,s & 0.22--0.45\,s & 0.013--0.018\,s & 0.079--0.125\,s \\
+noah  & Ryzen 9 16-core, Ubuntu 24.04 & 0.047--0.049\,s & 0.024--0.048\,s & 0.0015--0.0017\,s & 0.018--0.024\,s \\
+arche & i5-3570K 4-core, Ubuntu 22.04 & 0.084--0.100\,s & 0.041--0.083\,s & 0.0028--0.0036\,s & 0.025--0.044\,s \\
+\hline
+\end{tabular}
+\end{table}
+
 \subsection{Subsetting accuracy replication}\label{sec:accuracy}
 The accuracy test of the subsetting survey~\cite{hosseini2023subsetting}
 (its Section~4.4 and Table~5) has been replicated with \texttt{rdfdump}
