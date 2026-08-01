@@ -15,7 +15,19 @@
 hf, % draft only - NOT allowed for CEUR-WS, dropped pre submission per issue #6
 ]{ceurart}
 %\input{wf.tex}
+% define some macros/commands
+% typographical quoting
+\newcommand{\tquote}[1]{``#1''}
+% footnote links
 \newcommand{\footnotelink}[2]{\href{#1}{#2}\footnote{#1}}
+% Wikidata Q-Entity
+\newcommand{\wdq}[2]{\footnotelink{https://www.wikidata.org/wiki/#2}{#1 (#2)}}
+% Wikidata Property
+\newcommand{\wdp}[2]{\footnotelink{https://www.wikidata.org/wiki/Property:#2}{#1 (#2)}}
+% Wikidata Q-Entity link in a table cell
+\newcommand{\wdqTable}[2]{\href{https://www.wikidata.org/wiki/#2}{#1 (#2)}}
+% Wikidata Property link in a table cell
+\newcommand{\wdpTable}[2]{\href{https://www.wikidata.org/wiki/Property:#2}{#1 (#2)}}
 \sloppy
 
 % Minted/listings support (optional)
