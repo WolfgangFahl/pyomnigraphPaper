@@ -173,6 +173,7 @@ Using federated queries on participants of the Linked Open Data Cloud \footnotel
 
 For real-life use cases that operate on small subgraphs only, it should be feasible to operate locally by providing the necessary data \tquote{on the fly}. Unfortunately, to do so, a lot of technical expertise is needed to set up endpoints, collect the subgraph data and finally perform the query. 
 To ease this pain, we introduce pyomnigraph, which mitigates the complexity by using Docker and Python to provide a unified interface to different endpoint technologies in a local environment with limited resources.
+Conceptually, our experiments span four dimensions: the use cases $U$, their named parameterized queries $Q$, the subgraph datasets $D$ and the triple store backends $B$. pyomnigraph materializes the Cartesian product $D \times B$ of the two infrastructure dimensions, so that every query of every use case can be run against every backend.
 
 The contributions of this work are:
 \begin{itemize}
@@ -489,7 +490,8 @@ Listing~\ref{lst:railway-load} shows the \texttt{load.sh} script that loads the 
   caption={Loading the railway use case datasets into all functional pyomnigraph backends},
   label={lst:railway-load}]{examples/railway/load.sh}
 
-Note how calling the command line tools \texttt{rdfdump} and \texttt{omnigraph} in a loop creates a whole matrix of subgraphs versus backends. The \texttt{-s all} option covers the local backends marked working in Table~\ref{tab:backends} (Apache Jena, Blazegraph, Oxigraph, QLever); the Engine column of Table~\ref{tab:subgraphs} refers to the public source endpoints the subgraphs are dumped from.
+Note how calling the command line tools \texttt{rdfdump} and \texttt{omnigraph} in a loop creates a whole matrix of subgraphs versus backends.
+The loop loads every pair of $D \times B$, i.e. $|D| \cdot |B|$ subgraph--backend combinations; Listing~\ref{lst:railway-load} loads $5 \times 4 = 20$ of them for the railway use case. The \texttt{-s all} option covers the local backends marked working in Table~\ref{tab:backends} (Apache Jena, Blazegraph, Oxigraph, QLever); the Engine column of Table~\ref{tab:subgraphs} refers to the public source endpoints the subgraphs are dumped from.
 % Combinations of endpoints; query set; metrics (load time, query latency and
 % throughput); reproducibility. 
 
