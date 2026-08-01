@@ -534,6 +534,10 @@ pyomnigraph is open source under the Apache 2.0 license, developed on \footnotel
 Table~\ref{tab:availability} in Section~\ref{sec:resource} summarizes the resource metadata.
 
 \section{Conclusion and Future Work}\label{sec:conclusion}
+We have presented pyomnigraph as a versatile tool for handling subgraphs of rdf datasets from different sources. The main motivation is the assumption that local federation avoids frustration and is more stable and performant than the remote counterparts. For our trivial examples the performance aspect is negligible. The issues #27 experiment based on ~\cite{hosseini2023subsetting} has shown another frustration that makes us declare this future work: query rot has happened - the instanceof classes have shifted since the 2023 publication.
+
+The agentic AI driven approach to running the experiments has proven to be very effective and efficient. With state of the art models such as Claude Fable the rewriting tasks haven been performed with quite high accuracy. In this work we consider queries and results sets in a black-box style - we are not really interested in the details. The Human In The Loop (HILT) check of the queries per issue has shown that the results are sufficiently trustworthy - again something that might be evaluated in more detail in future work.  
+
 As this is a resource paper, we have been pragmatic about the subtle differences between CONSTRUCT and SELECT queries pointed out by Kostylev et al.~\cite{kostylev2015construct}: the shared WHERE clause even led us to name the extraction pattern of our dataset declarations \texttt{select\_pattern}. A formal analysis of the limitations of this pragmatic approach would be beneficial to avoid trial and error for use cases that are out of bounds of our approach.
 
 The RESTful interface of the architecture (Figure~\ref{fig:architecture}) is future work: it is most interesting for agentic AI work, e.g. as an MCP service backend.
