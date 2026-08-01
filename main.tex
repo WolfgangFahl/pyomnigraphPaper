@@ -327,6 +327,19 @@ Section~\ref{sec:evaluation} were run the same agentic way, tracked in issues
 \footnotelink{https://github.com/WolfgangFahl/pyomnigraphPaper/issues/24}{\#24} to
 \footnotelink{https://github.com/WolfgangFahl/pyomnigraphPaper/issues/28}{\#28}.
 
+The reproducible artifacts of this method live in the
+\footnotelink{https://github.com/WolfgangFahl/pyomnigraphPaper/tree/main/examples}{examples folder}
+of the paper repository: one folder per use case declaring its subgraph
+datasets, endpoints and queries in YAML, plus the cross-use-case federated
+folder. Per use case, \texttt{load.sh} dumps the declared subgraphs from their
+public endpoints via \texttt{rdfdump} and uploads them into all functional
+local backends via \texttt{omnigraph}, \texttt{query.sh} reruns the queries
+and writes markdown result files, and \texttt{verify.sh} checks the queries on
+all local backends. The federated queries take their three \texttt{SERVICE}
+legs as late-bound parameters defaulting to the public origin endpoints.
+Record counts always come from the Count companion queries rather than from
+counting result rows.
+
 Table~\ref{tab:subgraphs} shows the subgraph sources for the use cases.
 
 Table~\ref{tab:usecasequeries} tracks the named parameterized queries that we use to demo and benchmark, one row per query and example binding. Each query is defined
