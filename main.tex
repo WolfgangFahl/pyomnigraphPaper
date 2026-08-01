@@ -159,7 +159,7 @@ OpenLink Software (truthy)         & Virtuoso   &  8.1 & 2025-11-01 \\
 \end{table}
 
 % From a single Wikidata copy to your own copies of many RDF sources.
-Using federated queries on participants of the Linked Open Data Cloud \footnotelink{https://lod-cloud.net}{LOD Cloud} is in theory an excellent way to answer queries over diverse data sources. In practice, there are a lot of possible frustrations involved, such as outages of endpoints, incompatibilities of endpoints, awkward syntax and general query rot.
+Using federated queries on participants of the Linked Open Data Cloud \footnotelink{https://lod-cloud.net}{LOD Cloud} is in theory an excellent way to answer queries over diverse data sources. In practice, there are a lot of possible frustrations involved, such as outages of endpoints, incompatibilities of endpoints, awkward syntax and general query rot~\cite{fahl_snapquery_2026}.
 
 For real-life use cases that operate on small subgraphs only, it should be feasible to operate locally by providing the necessary data \tquote{on the fly}. Unfortunately, to do so, a lot of technical expertise is needed to set up endpoints, collect the subgraph data and finally perform the query. 
 To ease this pain, we introduce pyomnigraph, which mitigates the complexity by using Docker and Python to provide a unified interface to different endpoint technologies in a local environment with limited resources.
