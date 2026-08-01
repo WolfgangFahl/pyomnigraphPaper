@@ -337,6 +337,10 @@ local backends via \texttt{omnigraph}, \texttt{query.sh} reruns the queries
 and writes markdown result files, and \texttt{verify.sh} checks the queries on
 all local backends. The federated queries take their three \texttt{SERVICE}
 legs as late-bound parameters defaulting to the public origin endpoints.
+The result file conventions --- including the
+\texttt{-10}/\texttt{-100}/\ldots{} ladder for larger result sets --- are
+documented in the
+\footnotelink{https://github.com/WolfgangFahl/pyomnigraphPaper/blob/main/examples/README.md}{examples README}.
 Record counts always come from the Count companion queries rather than from
 counting result rows.
 
