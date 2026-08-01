@@ -12,7 +12,6 @@
 %
 \documentclass[
 % twocolumn, % NOT allowed for CEUR-WS
-hf, % draft only - NOT allowed for CEUR-WS, dropped pre submission per issue #6
 ]{ceurart}
 %\input{wf.tex}
 % define some macros/commands
@@ -94,9 +93,10 @@ orcid=0000-0001-6324-7164,
 
 %% Abstract (author-provided text).
 \begin{abstract}
-The challenges of federated queries that came up in the following use cases led to the need to be able to work with subgraphs of the RDF graphs and try out different alternative endpoints such as QLever, Virtuoso and others. Wikidata is an example of a very large, crowd-sourced general knowledge graph backed by a worldwide community since 2012. FactGrid has been using the same Wikibase infrastructure as Wikidata since 2017 for historical research projects. GOV (Geschichtliches/Genealogisches Ortsverzeichnis) is an online gazetteer for searching ancient places. Wikidata grew so large that the Blazegraph endpoint powering it was pushed to the 4 terabyte limit and the Wikimedia Foundation therefore decided to split the knowledge graph to host two instances.
+The challenges of federated queries that came up in our use cases led to the need to be able to work with subgraphs of the RDF graphs and try out different alternative endpoints such as QLever and Virtuoso. Wikidata is an example of a very large, crowd-sourced general knowledge graph backed by a worldwide community since 2012. FactGrid has been using the same Wikibase infrastructure as Wikidata since 2017 for historical research projects. GOV (Geschichtliches/Genealogisches Ortsverzeichnis) is an online gazetteer for searching ancient places. Wikidata grew so large that the Blazegraph endpoint powering it was pushed to the 4 terabyte limit and the Wikimedia Foundation therefore decided to split the knowledge graph to host two instances.
 While typical research projects that do such subgraphing and benchmarks roll their own environments, our pyomnigraph, a Python-based open source library, provides a unified infrastructure with a standard set of REST APIs and CLI commands to improve the handling and potentially grow the matrix of subgraphs versus endpoints to work with.
-In this work we report on pyomnigraph usage on seven graphs, four endpoints and three use cases with four example queries each, spanning three different graphs per use case. This opens a multidimensional space for exploring different combinations of federated queries, starting from a natural remote-remote-remote federated query to the possible combinations of local federated queries backed by all endpoints supported by pyomnigraph. We show that typical frustrations of scaling multi-hop federated queries can be quickly surfaced if the subgraphs are locally loaded and federation is applied locally. pyomnigraph is therefore usable for pre-flight checks and benchmarks.  
+In this work we report on pyomnigraph usage on seven graphs, four endpoints and three use cases with four example queries each, spanning three different graphs per use case. This opens a multidimensional space for exploring different combinations of federated queries, starting from a natural remote-remote-remote federated query to the possible combinations of local federated queries backed by all endpoints supported by pyomnigraph. We show that typical frustrations of scaling multi-hop federated queries can be quickly surfaced if the subgraphs are locally loaded and federation is applied locally. pyomnigraph is therefore usable for pre-flight checks and benchmarks.
+
 \end{abstract}
 
 %% Keywords
@@ -117,9 +117,10 @@ In this work we report on pyomnigraph usage on seven graphs, four endpoints and 
 \maketitle
 
 \section{Introduction}\label{sec:introduction}
-Wikidata~\cite{Vrandecic2014} started in 2012 as an effort to back the different multilingual Wikipedia sites with a common set of facts. By the end of the year, 2149719 entities were harvested from existing Wikipedia content, this initial phase ended in February 2013 with 4 million items. As of 2026, over 100 million entities have been curated by a growing worldwide community of contributors. In 2022, we reported on \emph{Getting and Hosting Your Own Copy of Wikidata}~\cite{fahl2022wikidata}. For quite a few use cases, the need for federated queries based on subgraphs of diverse public and internal knowledge graphs has been our motivation to try out different combinations of endpoints and subgraphs. In the case of Wikidata, we have even been forced to do so by the 2025 graph split~\cite{willighagen2026scholia}.
+Wikidata~\cite{Vrandecic2014} started in 2012 as an effort to back the different multilingual Wikipedia sites with a common set of facts. By the end of the year, 2,149,719 entities were harvested from existing Wikipedia content; this initial phase ended in February 2013 with 4 million items. As of 2026, over 100 million entities have been curated by a growing worldwide community of contributors. In 2022, we reported on \emph{Getting and Hosting Your Own Copy of Wikidata}~\cite{fahl2022wikidata}. For quite a few use cases, the need for federated queries based on subgraphs of diverse public and internal knowledge graphs has been our motivation to try out different combinations of endpoints and subgraphs. In the case of Wikidata, we have even been forced to do so by the 2025 graph split~\cite{willighagen2026scholia}.
 
 Public alternatives to the official Wikidata Query Service WDQS are still rare. Our attempts to convince the Wikimedia Foundation to support a public mirror infrastructure have so far been unsuccessful.
+% TODO(authors): cite the public discussion backing this claim or drop the sentence.
 Table~\ref{tab:PublicEndpoints}
 lists the seven public Wikidata endpoints currently configured in
 \footnotelink{https://nicescholia.wikidata.dbis.rwth-aachen.de/api/endpoints}{nicescholia}~\cite{nicescholia} to be watched as potential alternative Scholia backends.
@@ -199,13 +200,13 @@ Two rather different mechanisms are commonly subsumed under the term, and they d
  The first is part of the standard: SPARQL~1.1 provides the \texttt{SERVICE} keyword, which instructs a federated query processor to evaluate a designated part of a query against a designated remote endpoint and to combine the results it returns with those of the remaining parts~\cite{prudhommeaux2013federated}.
  Because the endpoint URLs are written into the query text, the author fixes the distribution in advance and the processor only dispatches what it is told.
  The second is a \emph{federation engine}, a system layer built on top of the standard, which accepts an ordinary SPARQL query carrying no endpoint annotations, together with a catalogue of reachable endpoints, and derives the distribution itself.
- It does so in three stages (source selection and query decomposition, optimization, and execution), and engines differ mainly in how much knowledge the first stage draws on: zero-knowledge probing with \texttt{ASK} queries (FedX), precomputed indices or VoID summaries (SPLENDID, HiBISCuS, CostFed), or runtime adaptivity (ANAPSID)~\cite{heling_federated_2022,hameurlain_selection_2016,saleem_largerdfbench_2018}.
+ It does so in three stages (source selection and query decomposition, optimization, and execution), and engines differ mainly in how much knowledge the first stage draws on: zero-knowledge probing with \texttt{ASK} queries (FedX), precomputed indices or VoID summaries (SPLENDID, HiBISCuS, CostFed), or runtime adaptivity (ANAPSID)~\cite{heling_federated_2022,vidal_selection_2016,saleem_largerdfbench_2018}.
  Throughout, the decisive optimization is the detection of \emph{exclusive groups}, subqueries answerable by a single endpoint, which collapse many requests into one.
  The sources of a federation need not even be full SPARQL endpoints: interfaces of more restricted expressivity, such as triple pattern fragments, give rise to \emph{heterogeneous} federations~\cite{heling_federated_2022}.
  It is the automatic derivation of the distribution, rather than the delegation mechanism itself, that the results discussed below call into question.
 \paragraph{Benchmarks}
-Performance is assessed with benchmarks: FedBench has long been the reference~\cite{hutchison_benchmarking_2012}, LargeRDFBench scales it to a billion triples with complex and large-data queries~\cite{saleem_largerdfbench_2018}, FedShop scales the number of participating endpoints from 20 to 200~\cite{payne_fedshop_2023}, QFed generates query sets dynamically for specialized systems~\cite{rakhmawati_qfed_2014}, FQCEB targets cardinality estimation~\cite{xu_evaluation_2023}, and FKGQA extends the setting to federated question answering~\cite{dobriy_agentic_2026}.
- FedBench alone, however, cannot expose the problem at hand: all of its queries decompose into at most three subqueries, so every engine behaves alike on it~\cite{hameurlain_selection_2016}, and with a mean of 4.3 triple patterns and runtimes of roughly two seconds its results do not extrapolate to the Data Web~\cite{saleem_largerdfbench_2018}.
+Performance is assessed with benchmarks: FedBench has long been the reference~\cite{montoya_benchmarking_2012}, LargeRDFBench scales it to a billion triples with complex and large-data queries~\cite{saleem_largerdfbench_2018}, FedShop scales the number of participating endpoints from 20 to 200~\cite{dang_fedshop_2023}, QFed generates query sets dynamically for specialized systems~\cite{rakhmawati_qfed_2014}, FQCEB targets cardinality estimation~\cite{xu_evaluation_2023}, and FKGQA extends the setting to federated question answering~\cite{dobriy_agentic_2026}.
+ FedBench alone, however, cannot expose the problem at hand: all of its queries decompose into at most three subqueries, so every engine behaves alike on it~\cite{vidal_selection_2016}, and with a mean of 4.3 triple patterns and runtimes of roughly two seconds its results do not extrapolate to the Data Web~\cite{saleem_largerdfbench_2018}.
 
 \paragraph{Alternative tooling}
 An obvious alternative to pyomnigraph is the hand-rolled setup: benchmark and evaluation projects routinely build their own Docker compose files, store-specific loaders and engine control scripts, and the prevailing answer to the question of the best tooling tends to be \tquote{my own}. Even the triple store authors themselves maintain per-engine control tooling rather than a cross-engine toolchain. pyomnigraph replaces this per-project fragmentation with one declarative subgraphs-versus-backends matrix; the direct feedback we received from triple store authors on this approach is tracked in our repositories.
@@ -268,7 +269,7 @@ Blazegraph   & working  & high performance, easy setup \\
 Oxigraph     & working  & Rust-based, embedded, fast \\
 QLever       & working  & extremely fast queries \\
 GraphDB      & disabled & license required (free version available) \\
-MillenniumDB & disabled & import-first workflow, Property Graph + RDF \\
+MillenniumDB & disabled & import-first workflow, Property Graph + RDF~\cite{vrgoc2023millenniumdb} \\
 Virtuoso     & disabled & robust, standards compliant$\ddag$ \\
 Stardog      & planned  & license required \\
 \hline
@@ -307,22 +308,22 @@ toolchain --- see the loop usage in Listing~\ref{lst:railway-load}.
 
 \section{Use Cases and Data Sources}\label{sec:datasources}
 %The use cases for our experiments are motivated by the eat your own dog food approach.
-Three real life use cases are the basis for our demonstration and evaluation: papers and authors (scholarly), historical locations for genealogy research, and railway journey planning. 
+Three real-life use cases are the basis for our demonstration and evaluation: papers and authors (scholarly), historical locations for genealogy research, and railway journey planning. 
 The choice of use cases is deliberately from the authors' own experience to make sure
 the Human In The Loop (HITL) checks of our method are properly grounded.
 
 For each use case, we know the information needs, and concrete example queries are sourced from
 the repositories backing the use cases. The examples thus can be checked issue by issue. For example, the journey from Bordeaux via Irún and later back from Palencia to Donostia has actually been done by the main author. The abstraction is then done by applying named parameterized queries.
 
-\subsection{scholarly - authors and papers}
+\subsection{Scholarly: Authors and Papers}
 This is the main research topic as per our \footnotelink{https://cr.bitplan.com}{cr.bitplan.com} research wiki. The queries are partially overlapping with prior work from Scholia~\cite{nielsen2017scholia} and the Semantic Publishing Challenge~\cite{Lange2014}. The scholarly data source is dblp~\cite{Ley2009}.
 Queries: the papers of an author, the papers of all coauthors of a given paper, the papers of all authors of a given scientific event, the papers of all authors of a given institution.
-\subsection{historical locations}
+\subsection{Historical Locations}
 For the historical location gazetteer GOV~\cite{zedlitz2014modelling}, a \footnotelink{https://gov-wiki.genealogy.net/index.php?title=List\_of\_Queries}{List of Queries}
 has been curated, which needs to be extended by references to FactGrid and Wikidata. 
 The cooperation partners here are Jesper Zedlitz and Christopher Ernestus of \footnotelink{https://www.compgen.de/}{CompGen e.V.}, a German non-profit association for genealogy research, and Olaf Simons et al. of \footnotelink{https://database.factgrid.de/}{FactGrid}~\cite{factgrid}.
-\subsection{railway journey planning}
-This use case is inspired by our \footnotelink{https://github.com/WolfgangFahl/velorail}{velorail} work as presented at the Wikimedia Hackathon 2025 closing showcase~\cite{wmhack2025showcase} together with the main author's wife Maria Fahl. The content of \footnotelink{https://ebike.bitplan.com}{ebike.bitplan.com} and \footnotelink{https://ebike.bitplan.com/index.php/Category:Spain2025}{ebike39.bitplan.com}  for our northern spain 2025 e-bike trip is based on queries generated by the explore capability of the velorail system. 
+\subsection{Railway Journey Planning}
+This use case is inspired by our \footnotelink{https://github.com/WolfgangFahl/velorail}{velorail} work as presented at the Wikimedia Hackathon 2025 closing showcase~\cite{wmhack2025showcase} together with the main author's wife Maria Fahl. The content of \footnotelink{https://ebike.bitplan.com}{ebike.bitplan.com} and \footnotelink{https://ebike.bitplan.com/index.php/Category:Spain2025}{ebike39.bitplan.com} for our northern Spain 2025 e-bike trip is based on queries generated by the explore capability of the velorail system.
 
 \subsection{Method}\label{sec:method}
 Our query development is issue driven in the
@@ -552,7 +553,7 @@ arche & i5-3570K 4-core, Ubuntu 22.04 & 0.084--0.100\,s & 0.041--0.083\,s & 0.00
 \end{tabular}
 \end{table}
 
-\subsection{Subsetting accuracy replication}\label{sec:accuracy}
+\subsection{Subsetting Accuracy Replication}\label{sec:accuracy}
 The accuracy test of the subsetting survey~\cite{hosseini2023subsetting}
 (its Section~4.4 and Table~5) has been replicated with \texttt{rdfdump}
 against a live endpoint instead of a full dump, tracked in the
@@ -604,13 +605,13 @@ pyomnigraph is open source under the Apache 2.0 license, developed on \footnotel
 Table~\ref{tab:availability} in Section~\ref{sec:resource} summarizes the resource metadata.
 
 \section{Conclusion and Future Work}\label{sec:conclusion}
-We have presented pyomnigraph as a versatile tool for handling subgraphs of RDF datasets from different sources. The main motivation is the assumption that local federation avoids frustration and for non trivial use cases is more stable and performant than its remote counterparts. For our trivial examples the performance aspect is negligible.
+We have presented pyomnigraph as a versatile tool for handling subgraphs of RDF datasets from different sources. The main motivation is the assumption that local federation avoids frustration and, for non-trivial use cases, is more stable and performant than its remote counterparts. For our trivial examples the performance aspect is negligible.
 
 The subsetting accuracy replication of Section~\ref{sec:accuracy} confirms that a live SPARQL server is sufficient for the CONSTRUCT-based extraction --- the local counts reproduce the endpoint counts exactly. The same experiment surfaced another frustration: query rot has happened --- the \texttt{instance of} classes of two of the four surveyed life-science classes have shifted since the 2023 publication.
 
 As this is a resource paper, we have been pragmatic about the subtle differences between CONSTRUCT and SELECT queries pointed out by Kostylev et al.~\cite{kostylev2015construct}: the shared WHERE clause even led us to name the extraction pattern of our dataset declarations \texttt{select\_pattern}.
 
-The agentic AI driven approach to running the experiments has proven to be very effective and efficient. With state of the art models the rewriting tasks have been performed with quite high accuracy. In this work we consider queries and result sets in a black-box style --- we are not really interested in the details. The Human In The Loop (HITL) check of the queries per issue has shown that the results are sufficiently trustworthy.
+The agentic AI driven approach to running the experiments has proven to be very effective and efficient. With state of the art models the rewriting tasks have been performed with quite high accuracy. In this work we consider queries and result sets in a black-box style --- we are not really interested in the details. The HITL check of the queries per issue has shown that the results are sufficiently trustworthy.
 
 \paragraph{Future work}
 The replication of the remaining three classes of the accuracy test is
