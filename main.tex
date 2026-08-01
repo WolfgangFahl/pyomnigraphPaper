@@ -111,7 +111,7 @@ In this work, we report on pyomnigraph usage on seven graphs, four endpoints and
   RDF triple store \sep
   federated SPARQL \sep
   benchmark \sep
-  PyOmniGraph
+  pyomnigraph
 \end{keywords}
 
 \maketitle
@@ -216,7 +216,7 @@ An obvious alternative to pyomnigraph is the hand-rolled setup: benchmark and ev
 
 \section{The pyomnigraph Resource}\label{sec:resource}
 pyomnigraph~\cite{pyomnigraph} provides a unified Python interface for multiple graph databases. The software is open source under Apache 2.0 license and hosted on GitHub.
-Figure~\ref{fig:architecture} shows the architecture in one panel: the \texttt{omnigraph} and \texttt{rdfdump} command line interfaces and the planned REST API (future work, see Section~\ref{sec:conclusion}) share the unified Python API, which manages the triple store backends as Docker containers; \texttt{rdfdump} pulls subgraph dumps from public SPARQL endpoints based on CONSTRUCT query declarations\footnote{Which by our method we derive from standard SELECT queries with the help of AI and known limitations as per the conclusion section.}.
+Figure~\ref{fig:architecture} shows the architecture in one panel: the \texttt{omnigraph} and \texttt{rdfdump} command line interfaces and the planned REST API (future work, see Section~\ref{sec:conclusion}) share the unified Python API, which manages the triple store backends as Docker containers; \texttt{rdfdump} pulls subgraph dumps from public SPARQL endpoints based on CONSTRUCT query declarations\footnote{We derive these from standard SELECT queries with the help of AI; known limitations are discussed in the conclusion section.}.
 
 \begin{figure}
 \centering
@@ -487,7 +487,7 @@ Note how calling the command line tools \texttt{rdfdump} and \texttt{omnigraph} 
 % Results across store and endpoint combinations.
 By applying the matrix approach of Section~\ref{sec:benchmark}, we obtain interesting results on performance and failure cases. We then do a comparison of remote-remote-remote versus local-local-local federated queries across all possible combinations.
 
-Federation works cleanly for the remote-remote-remote and local-local-local  placements on three of the four backends, with a set of specific failure modes which we collected in the
+Federation works cleanly for the remote-remote-remote and local-local-local placements on three of the four backends, with a set of specific failure modes which we collected in the
 \footnotelink{https://github.com/WolfgangFahl/pyomnigraphPaper/issues/16}{failure cases issue}
 of our paper repository. The $4^3 = 64$ off-diagonal grid is feasible for the executors Apache Jena, Oxigraph and QLever per the pair matrix --- roughly a 10-minute run on a MacBook Pro 2.4 GHz 8-core with 32 GB of RAM; structural failures have been found with Blazegraph as reported in our GitHub repository.
 
@@ -611,7 +611,7 @@ The subsetting accuracy replication of Section~\ref{sec:accuracy} confirms that 
 
 As this is a resource paper, we have been pragmatic about the subtle differences between CONSTRUCT and SELECT queries pointed out by Kostylev et al.~\cite{kostylev2015construct}: the shared WHERE clause even led us to name the extraction pattern of our dataset declarations \texttt{select\_pattern}.
 
-The agentic AI driven approach to running the experiments has proven to be very effective and efficient. With state of the art models the rewriting tasks have been performed with quite high accuracy. In this work we consider queries and result sets in a black-box style --- we are not really interested in the details. The HITL check of the queries per issue has shown that the results are sufficiently trustworthy.
+The agentic AI driven approach to running the experiments has proven to be very effective and efficient. With state-of-the-art models the rewriting tasks have been performed with quite high accuracy. In this work we consider queries and result sets in a black-box style --- we are not really interested in the details. The HITL check of the queries per issue has shown that the results are sufficiently trustworthy.
 
 \paragraph{Future work}
 The replication of the remaining three classes of the accuracy test is
