@@ -1,0 +1,102 @@
+<http://www.wikidata.org/entity/Q801991> <http://schema.org/dateModified> "2025-10-09T12:29:06Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<http://www.wikidata.org/entity/Q801991> <http://schema.org/description> "Euskal Herriko eta Frantziako burdinbidea"@eu .
+<http://www.wikidata.org/entity/Q801991> <http://schema.org/description> "franzÃ¶sische zur spanischen Grenze fÃ¼hrende Bahnstrecke"@de .
+<http://www.wikidata.org/entity/Q801991> <http://schema.org/description> "ligne de chemin de fer franÃ§aise"@fr .
+<http://www.wikidata.org/entity/Q801991> <http://schema.org/description> "linia kolejowa we Francji"@pl .
+<http://www.wikidata.org/entity/Q801991> <http://schema.org/description> "railway line"@en .
+<http://www.wikidata.org/entity/Q801991> <http://schema.org/description> "spoorlijn in Frankrijk"@nl .
+<http://www.wikidata.org/entity/Q801991> <http://schema.org/description> "vasÃºtvonal FranciaorszÃ¡gban Ã©s SpanyolorszÃ¡gban"@hu .
+<http://www.wikidata.org/entity/Q801991> <http://schema.org/description> "Ð·Ð°Ð»ÑÐ·Ð½Ð¸ÑÐ½Ð° Ð»ÑÐ½ÑÑ"@uk .
+<http://www.wikidata.org/entity/Q801991> <http://schema.org/description> "Ø®Ø· Ø³ÙØ© Ø­Ø¯ÙØ¯ ÙÙ ÙØ±ÙØ³Ø§"@ar .
+<http://www.wikidata.org/entity/Q801991> <http://schema.org/version> 2414316225 .
+<http://www.wikidata.org/entity/Q801991> <http://wikiba.se/ontology#identifiers> 4 .
+<http://www.wikidata.org/entity/Q801991> <http://wikiba.se/ontology#sitelinks> 10 .
+<http://www.wikidata.org/entity/Q801991> <http://wikiba.se/ontology#statements> 30 .
+<http://www.wikidata.org/entity/Q801991> <http://www.w3.org/2000/01/rdf-schema#label> "Bahnstrecke BordeauxâIrun"@de .
+<http://www.wikidata.org/entity/Q801991> <http://www.w3.org/2000/01/rdf-schema#label> "BordeauxâIrun railway"@en .
+<http://www.wikidata.org/entity/Q801991> <http://www.w3.org/2000/01/rdf-schema#label> "BordeauxâIrun-vasÃºtvonal"@hu .
+<http://www.wikidata.org/entity/Q801991> <http://www.w3.org/2000/01/rdf-schema#label> "Bordele â Irun burdinbidea"@eu .
+<http://www.wikidata.org/entity/Q801991> <http://www.w3.org/2000/01/rdf-schema#label> "ferrovia Bordeaux-Irun"@it .
+<http://www.wikidata.org/entity/Q801991> <http://www.w3.org/2000/01/rdf-schema#label> "ligne de Bordeaux Ã  Irun"@fr .
+<http://www.wikidata.org/entity/Q801991> <http://www.w3.org/2000/01/rdf-schema#label> "LÃ­nea Burdeos-IrÃºn"@es .
+<http://www.wikidata.org/entity/Q801991> <http://www.w3.org/2000/01/rdf-schema#label> "lÃ­nia Bordeus-Irun"@ca .
+<http://www.wikidata.org/entity/Q801991> <http://www.w3.org/2000/01/rdf-schema#label> "linia kolejowa Bordeaux â Irun"@pl .
+<http://www.wikidata.org/entity/Q801991> <http://www.w3.org/2000/01/rdf-schema#label> "Linio Bordeaux-St-Jean - Irun"@eo .
+<http://www.wikidata.org/entity/Q801991> <http://www.w3.org/2000/01/rdf-schema#label> "spoorlijn Bordeaux - Irun"@nl .
+<http://www.wikidata.org/entity/Q801991> <http://www.w3.org/2000/01/rdf-schema#label> "ãã«ãã¼ï¼ã¤ã«ã³ç·"@ja .
+<http://www.wikidata.org/entity/Q801991> <http://www.w3.org/2000/01/rdf-schema#label> "æ³¢å°å¤ï¼ä¼ä¼¦éè·¯"@zh .
+<http://www.wikidata.org/entity/Q801991> <http://www.w3.org/2000/01/rdf-schema#label> "æ³¢å°å¤ï¼ä¼ä¼¦éè·¯"@zh-hans .
+<http://www.wikidata.org/entity/Q801991> <http://www.w3.org/2000/01/rdf-schema#label> "æ³¢å°å¤-ä¼æµéè·¯"@zh-cn .
+<http://www.wikidata.org/entity/Q801991> <http://www.w3.org/2000/01/rdf-schema#label> "æ³¢ç¾å¤-ä¼æ¸¾éµè·¯"@zh-hant .
+<http://www.wikidata.org/entity/Q801991> <http://www.w3.org/2004/02/skos/core#altLabel> "ligne Bordeaux - Irun"@fr .
+<http://www.wikidata.org/entity/Q801991> <http://www.w3.org/2004/02/skos/core#altLabel> "Linea Burdeos-Irun"@es .
+<http://www.wikidata.org/entity/Q801991> <http://www.w3.org/2004/02/skos/core#altLabel> "linia kolejowa Bordeaux - Irun"@pl .
+<http://www.wikidata.org/entity/Q801991> <http://www.w3.org/2004/02/skos/core#altLabel> "ãã«ãã¼ï¼ãµã³ï¼ã¸ã£ã³-ã¤ã«ã³ç·"@ja .
+<http://www.wikidata.org/entity/Q801991> <http://www.w3.org/2004/02/skos/core#altLabel> "æ³¢å°å¤ï¼ä¼ä¼¦éè·¯"@zh-cn .
+<http://www.wikidata.org/entity/Q801991> <http://www.w3.org/2004/02/skos/core#altLabel> "æ³¢å°å¤ï¼ä¼æµéè·¯"@zh .
+<http://www.wikidata.org/entity/Q801991> <http://www.w3.org/2004/02/skos/core#altLabel> "æ³¢å°å¤ï¼ä¼æµéè·¯"@zh-cn .
+<http://www.wikidata.org/entity/Q801991> <http://www.w3.org/2004/02/skos/core#altLabel> "æ³¢å°å¤ï¼ä¼æµéè·¯"@zh-hans .
+<http://www.wikidata.org/entity/Q801991> <http://www.w3.org/2004/02/skos/core#altLabel> "æ³¢ç¾å¤ï¼ä¼å«éµè·¯"@zh-hant .
+<http://www.wikidata.org/entity/Q801991> <http://www.w3.org/2004/02/skos/core#altLabel> "æ³¢ç¾å¤ï¼ä¼æ¸¾éµè·¯"@zh-hant .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/direct-normalized/P2581> <http://babelnet.org/rdf/s02472232n> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/direct-normalized/P402> <https://www.openstreetmap.org/relation/1852360> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/direct/P1064> <http://www.wikidata.org/entity/Q1999572> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/direct/P127> <http://www.wikidata.org/entity/Q1071978> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/direct/P137> <http://www.wikidata.org/entity/Q1071978> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/direct/P137> <http://www.wikidata.org/entity/Q13646> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/direct/P137> <http://www.wikidata.org/entity/Q21605526> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/direct/P137> <http://www.wikidata.org/entity/Q2990097> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/direct/P137> <http://www.wikidata.org/entity/Q378181> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/direct/P15> <http://commons.wikimedia.org/wiki/Special:FilePath/655000%20-%20Ligne%20de%20Bordeaux-Saint-Jean%20%C3%A0%20Irun.png> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/direct/P1619> "1841-01-01T00:00:00Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/direct/P1671> "655 000" .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/direct/P17> <http://www.wikidata.org/entity/Q142> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/direct/P17> <http://www.wikidata.org/entity/Q29> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/direct/P18> <http://commons.wikimedia.org/wiki/Special:FilePath/Gare%20de%20Gu%C3%A9thary%20%2864%29.JPG> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/direct/P2043> 235.0 .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/direct/P242> <http://commons.wikimedia.org/wiki/Special:FilePath/Ligne%20Bordeaux%20-%20Irun.svg> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/direct/P2581> "02472232n" .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/direct/P2595> 10.0 .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/direct/P2789> <http://www.wikidata.org/entity/Q3239394> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q728937> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/direct/P361> <http://www.wikidata.org/entity/Q13646> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/direct/P373> "Ligne de Bordeaux-Saint-Jean Ã  Irun" .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/direct/P3858> <http://www.wikidata.org/entity/Q6723073> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/direct/P3896> <http://commons.wikimedia.org/data/main/Data:SNCF+655+000+line.map> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/direct/P402> "1852360" .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/direct/P454> "10000408" .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/direct/P559> <http://www.wikidata.org/entity/Q3095803> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/direct/P559> <http://www.wikidata.org/entity/Q800564> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/direct/P646> "/m/0gjd65x" .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/direct/P910> <http://www.wikidata.org/entity/Q26240665> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/direct/P930> <http://www.wikidata.org/entity/Q21253457> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/P1064> <http://www.wikidata.org/entity/statement/Q801991-079C2B13-57A9-4F76-925F-AB9E6261B429> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/P127> <http://www.wikidata.org/entity/statement/Q801991-C0D099E4-6AA4-46C8-8E4F-712C3D94D066> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/P137> <http://www.wikidata.org/entity/statement/Q801991-2AEAAF27-E867-40A8-BB7A-7124643E8DDC> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/P137> <http://www.wikidata.org/entity/statement/Q801991-47dd22e9-4789-8041-e20a-a45cd423c0a2> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/P137> <http://www.wikidata.org/entity/statement/Q801991-4b2a8c71-499a-95c6-7ec7-4bcd39877b59> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/P137> <http://www.wikidata.org/entity/statement/Q801991-6bd8e88b-4463-4f5c-591d-363d3366314d> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/P137> <http://www.wikidata.org/entity/statement/Q801991-cf79094f-4f54-93b3-6115-0bb1e678b7f2> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/P15> <http://www.wikidata.org/entity/statement/Q801991-B27D5CAC-28F9-4962-B90D-9FDF5863EAF7> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/P1619> <http://www.wikidata.org/entity/statement/Q801991-7013C378-29D4-430C-B4A9-8B8FCD40D0BE> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/P1671> <http://www.wikidata.org/entity/statement/Q801991-09184C6B-E9D9-4C10-AD7A-22C87B333B41> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/P17> <http://www.wikidata.org/entity/statement/Q801991-11CC87A8-BEFA-4235-B16E-5E09C7297D26> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/P17> <http://www.wikidata.org/entity/statement/Q801991-4c264ea0-40c1-ac2d-d33c-008f92e12ece> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/P18> <http://www.wikidata.org/entity/statement/Q801991-0954E39D-42E7-4636-A1E2-B52B82B86E44> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/P2043> <http://www.wikidata.org/entity/statement/Q801991-F16BDEF2-90F3-48AB-A2FA-BB8DFCFEA2AD> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/P242> <http://www.wikidata.org/entity/statement/Q801991-EF0FFAC3-7008-4ADF-80B0-A7C758AB692E> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/P2581> <http://www.wikidata.org/entity/statement/Q801991-BD9349A3-7D5E-4E11-BE13-7CBCD9A3B684> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/P2595> <http://www.wikidata.org/entity/statement/Q801991-CCA4C6D7-C0F1-4055-8A3D-3D0B85C941E5> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/P2789> <http://www.wikidata.org/entity/statement/Q801991-26dfd483-432e-dfee-4c3f-2f4922d00894> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/P31> <http://www.wikidata.org/entity/statement/Q801991-E8AC7CDB-4ABF-42AC-BC26-229D8E67E46D> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/P361> <http://www.wikidata.org/entity/statement/Q801991-4ABDA1EF-C0F8-4328-AD99-E81910AE93A4> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/P373> <http://www.wikidata.org/entity/statement/Q801991-8924FEAB-BD95-4C69-A733-B955E29AE5E9> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/P3858> <http://www.wikidata.org/entity/statement/Q801991-abd233ca-4740-c7a1-f2df-66da878f3539> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/P3896> <http://www.wikidata.org/entity/statement/Q801991-1348e0fb-4c08-e96e-ea81-c5ad5e24b009> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/P402> <http://www.wikidata.org/entity/statement/Q801991-7a96a2f5-4dad-6ff2-af29-68c817a99f1f> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/P454> <http://www.wikidata.org/entity/statement/Q801991-658B2649-6A6F-4D7D-99CA-CF0BD99FA6BF> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/P559> <http://www.wikidata.org/entity/statement/Q801991-10098894-0BE1-4B8A-86AA-CF9B77D207AF> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/P559> <http://www.wikidata.org/entity/statement/Q801991-cf888b8d-4eb2-2801-9ceb-335e1131f44f> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/P646> <http://www.wikidata.org/entity/statement/Q801991-4622A809-E46C-4AE7-949B-A4EF0A9A6456> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/P910> <http://www.wikidata.org/entity/statement/Q801991-736FAF7E-7176-44A7-A851-ACE4994A2E74> .
+<http://www.wikidata.org/entity/Q801991> <http://www.wikidata.org/prop/P930> <http://www.wikidata.org/entity/statement/Q801991-47486e8e-468a-d32a-54d4-a53031f6e926> .
