@@ -44,7 +44,7 @@ Uses the official CEUR-WS `ceurart` 1-column class. Do not use the
 
 ## Method
 
-Query development is issue driven as explained in the
+Query development is issue driven with agentic AI support as explained in the
 [query workflow issue](https://github.com/WolfgangFahl/pyomnigraphPaper/issues/2).
 
 Main issues are generally dictated, derived sub-issues with query details might be AI generated.
