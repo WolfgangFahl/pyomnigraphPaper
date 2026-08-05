@@ -9,11 +9,14 @@ This repository holds a **scientific paper** targeting CEUR-WS.
    `build: auto-update PDF [skip ci]` commits). Do not chmod or run any
    build script.
 
-1. AI assistance is limited to **spelling/grammar** and **formatting/build
-   tooling** (LaTeX, Makefile, bibliography formatting, repository chores).
-2. AI must **NOT** generate, rewrite or contribute **scientific content,
-   arguments, prose, the abstract, or the paper title**. Those are authored
-   by the human co-authors.
+1. AI assistance is limited to **spelling/grammar**, **formatting/build
+   tooling** (LaTeX, Makefile, bibliography formatting, repository chores) and
+   the agentic work that is explicitly part of the method described in the
+   README.
+2. Everything outside that scope — **scientific content, arguments, prose, the
+   abstract, the paper title** — is authored by the human co-authors. Agent
+   contributions that are part of the method are marked per the provenance
+   notation of the README.
 3. Paper sections in `main.tex` are intentionally left **EMPTY** until the
    authors write them. Do not fill them with generated text.
 4. Only **verified** bibliographic metadata belongs in `references.bib`.
